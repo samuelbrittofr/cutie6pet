@@ -1,13 +1,13 @@
-import { Thermometer, Award, Camera, Heart } from "lucide-react";
+import { Scissors, Award, Heart, Shield } from "lucide-react";
 import { motion, useInView } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 import heroImage from "@/assets/hero-dogs.jpg";
 
 const stats = [
-  { label: "Climate Controlled", percentage: 100, icon: Thermometer },
-  { label: "Certified Staff", percentage: 100, icon: Award },
-  { label: "Daily Photo Updates", percentage: 95, icon: Camera },
-  { label: "Repeat Customers", percentage: 92, icon: Heart },
+  { label: "Gentle Handling", percentage: 100, icon: Heart },
+  { label: "Certified Groomers", percentage: 100, icon: Award },
+  { label: "Pet-Safe Products", percentage: 100, icon: Shield },
+  { label: "Happy Pet Parents", percentage: 98, icon: Scissors },
 ];
 
 const CircularProgress = ({ percentage, icon: Icon, label, delay }: {
@@ -57,26 +57,8 @@ const CircularProgress = ({ percentage, icon: Icon, label, delay }: {
     >
       <div className="relative" style={{ width: size, height: size }}>
         <svg width={size} height={size} className="-rotate-90">
-          <circle
-            cx={size / 2}
-            cy={size / 2}
-            r={radius}
-            fill="none"
-            stroke="rgba(255,255,255,0.15)"
-            strokeWidth={strokeWidth}
-          />
-          <circle
-            cx={size / 2}
-            cy={size / 2}
-            r={radius}
-            fill="none"
-            stroke="hsl(16 84% 72%)"
-            strokeWidth={strokeWidth}
-            strokeDasharray={circumference}
-            strokeDashoffset={offset}
-            strokeLinecap="round"
-            className="transition-all duration-100"
-          />
+          <circle cx={size / 2} cy={size / 2} r={radius} fill="none" stroke="rgba(255,255,255,0.15)" strokeWidth={strokeWidth} />
+          <circle cx={size / 2} cy={size / 2} r={radius} fill="none" stroke="hsl(16 84% 72%)" strokeWidth={strokeWidth} strokeDasharray={circumference} strokeDashoffset={offset} strokeLinecap="round" className="transition-all duration-100" />
         </svg>
         <div className="absolute inset-0 flex flex-col items-center justify-center">
           <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center mb-1">
@@ -85,16 +67,13 @@ const CircularProgress = ({ percentage, icon: Icon, label, delay }: {
           <span className="text-lg font-bold text-white">{animatedValue}%</span>
         </div>
       </div>
-      <span className="mt-4 text-sm font-medium text-white/90 uppercase tracking-wider text-center">
-        {label}
-      </span>
+      <span className="mt-4 text-sm font-medium text-white/90 uppercase tracking-wider text-center">{label}</span>
     </motion.div>
   );
 };
 
 const StatsSection = () => (
   <section className="relative overflow-hidden py-24">
-    {/* Background */}
     <div className="absolute inset-0">
       <img src={heroImage} alt="" className="w-full h-full object-cover" aria-hidden="true" />
       <div className="absolute inset-0 bg-brand-deep/85" />
@@ -102,33 +81,21 @@ const StatsSection = () => (
 
     <div className="container relative z-10">
       <div className="flex flex-col lg:flex-row items-center justify-between gap-12 mb-16">
-        <motion.div
-          initial={{ opacity: 0, x: -30 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          className="max-w-lg"
-        >
+        <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="max-w-lg">
           <h2 className="font-display text-3xl md:text-4xl text-white mb-4">
-            Happy to welcome you
+            Your pet deserves
             <br />
-            <span className="font-bold italic">to our circle of friends</span>
+            <span className="font-bold italic">the gentlest care</span>
           </h2>
           <p className="text-white/70 leading-relaxed">
-            Our numbers speak for themselves. Every metric reflects our unwavering commitment to the highest standards of pet care.
+            At Cutie 6 Pet, every grooming session is a pampering experience. We use pet-safe products and gentle techniques loved by fur babies across Bangalore.
           </p>
         </motion.div>
       </div>
 
-      {/* Circular progress stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
         {stats.map((stat, i) => (
-          <CircularProgress
-            key={stat.label}
-            percentage={stat.percentage}
-            icon={stat.icon}
-            label={stat.label}
-            delay={i}
-          />
+          <CircularProgress key={stat.label} percentage={stat.percentage} icon={stat.icon} label={stat.label} delay={i} />
         ))}
       </div>
     </div>

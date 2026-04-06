@@ -1,11 +1,11 @@
-import { MapPin, Heart, Award, Star } from "lucide-react";
+import { MapPin, Heart, Star, Scissors } from "lucide-react";
 import { motion } from "framer-motion";
 
 const badges = [
-  { icon: MapPin, number: "285+", label: "Locations Nationwide" },
-  { icon: Heart, number: "1M+", label: "Happy Pets Served" },
-  { icon: Award, number: "2015", label: "Award-Winning Since" },
-  { icon: Star, number: "4.9/5", label: "Average Rating" },
+  { icon: MapPin, number: "2", label: "Branches in Bangalore" },
+  { icon: Heart, number: "1000+", label: "Happy Pets Groomed" },
+  { icon: Scissors, number: "6+", label: "Grooming Packages" },
+  { icon: Star, number: "4.9/5", label: "Rating on JustDial" },
 ];
 
 const TrustBadges = () => (

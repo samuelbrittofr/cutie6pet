@@ -1,16 +1,14 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, MapPin, Phone } from "lucide-react";
+import { Menu, X, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
 
 const navLinks = [
   { label: "Services", path: "/services" },
-  { label: "Locations", path: "/locations" },
+  { label: "Our Branches", path: "/locations" },
   { label: "About", path: "/about" },
-  { label: "Blog", path: "/blog" },
-  { label: "Franchise", path: "/franchise" },
   { label: "Contact", path: "/contact" },
 ];
 
@@ -40,15 +38,13 @@ const Header = () => {
         <div className="container flex justify-between items-center">
           <div className="flex items-center gap-6">
             <span className="flex items-center gap-1.5">
-              <MapPin className="w-3.5 h-3.5" /> 285+ Locations Nationwide
+              <Phone className="w-3.5 h-3.5" /> 079 4741 9026
             </span>
-            <span className="flex items-center gap-1.5">
-              <Phone className="w-3.5 h-3.5" /> 1-800-555-PETS
-            </span>
+            <span className="text-primary-foreground/60">|</span>
+            <span>cutie6pet@gmail.com</span>
           </div>
           <div className="flex items-center gap-4">
-            <Link to="/login" className="hover:underline">Login</Link>
-            <Link to="/signup" className="hover:underline">Sign Up</Link>
+            <span className="text-primary-foreground/70">Kacharakanahalli & Kammanahalli, Bangalore</span>
           </div>
         </div>
       </div>
@@ -70,7 +66,7 @@ const Header = () => {
               "text-xl md:text-2xl font-display font-bold transition-colors duration-300",
               showTransparent ? "text-white" : "text-foreground"
             )}>
-              Tail<span className="text-accent">Waggers</span>
+              Cutie <span className="text-accent">6 Pet</span>
             </span>
           </Link>
 
@@ -93,18 +89,8 @@ const Header = () => {
           </nav>
 
           <div className="hidden lg:flex items-center gap-3">
-            <Button
-              variant="outline"
-              size="sm"
-              className={cn(
-                showTransparent && "border-white/30 text-white hover:bg-white/10"
-              )}
-              asChild
-            >
-              <Link to="/locations">Find Location</Link>
-            </Button>
             <Button size="sm" className="bg-accent hover:bg-coral-hover text-accent-foreground" asChild>
-              <Link to="/book/meet-greet">Book Now</Link>
+              <Link to="/book">Book Appointment</Link>
             </Button>
           </div>
 
@@ -142,11 +128,8 @@ const Header = () => {
                   </Link>
                 ))}
                 <div className="flex flex-col gap-2 pt-4 border-t border-border mt-2">
-                  <Button variant="outline" asChild>
-                    <Link to="/locations" onClick={() => setMobileOpen(false)}>Find Location</Link>
-                  </Button>
                   <Button className="bg-accent hover:bg-coral-hover text-accent-foreground" asChild>
-                    <Link to="/book/meet-greet" onClick={() => setMobileOpen(false)}>Book Now</Link>
+                    <Link to="/book" onClick={() => setMobileOpen(false)}>Book Appointment</Link>
                   </Button>
                 </div>
               </nav>
