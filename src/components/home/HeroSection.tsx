@@ -2,21 +2,31 @@ import { Link } from "react-router-dom";
 import { Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
-import grooming1 from "@/assets/grooming-1.jpg";
-import grooming2 from "@/assets/grooming-2.jpg";
-import grooming3 from "@/assets/grooming-3.jpg";
-import petDog from "@/assets/pet-dog-grooming.jpg";
-import petCat from "@/assets/pet-cat-grooming.jpg";
-import { useState, useEffect, useCallback } from "react";
+import heroUser1 from "@/assets/hero-user-1.png";
+import heroUser2 from "@/assets/hero-user-2.png";
+import heroUser3 from "@/assets/hero-user-3.png";
+import heroUser4 from "@/assets/hero-user-4.png";
+import heroUser5 from "@/assets/hero-user-5.png";
+import { useState, useEffect, useCallback, useMemo } from "react";
 
-const slides = [{ image: grooming1 }, { image: petDog }, { image: grooming2 }, { image: petCat }, { image: grooming3 }];
+const slideImages = [heroUser1, heroUser2, heroUser3, heroUser4, heroUser5];
+
+const shuffleArray = <T,>(items: T[]) => {
+  const next = [...items];
+  for (let i = next.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [next[i], next[j]] = [next[j], next[i]];
+  }
+  return next;
+};
 
 const HeroSection = () => {
+  const slides = useMemo(() => shuffleArray(slideImages).map((image) => ({ image })), []);
   const [activeSlide, setActiveSlide] = useState(0);
 
   const nextSlide = useCallback(() => {
     setActiveSlide((prev) => (prev + 1) % slides.length);
-  }, []);
+  }, [slides.length]);
 
   useEffect(() => {
     const timer = setInterval(nextSlide, 4000);
