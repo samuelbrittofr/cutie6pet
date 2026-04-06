@@ -1,4 +1,4 @@
-import { Star, Quote } from "lucide-react";
+import { Star, Quote, Heart } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect, useCallback } from "react";
 
@@ -48,7 +48,63 @@ const TestimonialsSection = () => {
   }, [next]);
 
   return (
-    <section className="py-16 bg-muted/50 overflow-hidden">
+    <section className="relative py-16 bg-muted/50 overflow-hidden">
+      <motion.div
+        className="pointer-events-none absolute left-10 top-1/2 hidden -translate-y-1/2 lg:block text-primary/35"
+        animate={{ y: [0, -12, 0], x: [0, 5, 0] }}
+        transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut" }}
+      >
+        <Heart size={28} fill="currentColor" />
+        <Heart size={20} fill="currentColor" className="ml-8 mt-3" />
+        <Heart size={14} fill="currentColor" className="ml-2 mt-2" />
+      </motion.div>
+      <motion.div
+        className="pointer-events-none absolute left-14 top-[28%] hidden -translate-y-1/2 lg:block text-primary/30"
+        animate={{ y: [0, 9, 0], x: [0, 4, 0] }}
+        transition={{ duration: 6.2, repeat: Infinity, ease: "easeInOut" }}
+      >
+        <Heart size={22} fill="currentColor" />
+        <Heart size={16} fill="currentColor" className="ml-6 mt-2" />
+        <Heart size={12} fill="currentColor" className="ml-1 mt-1" />
+      </motion.div>
+      <motion.div
+        className="pointer-events-none absolute left-12 top-[72%] hidden -translate-y-1/2 lg:block text-primary/30"
+        animate={{ y: [0, -9, 0], x: [0, 4, 0] }}
+        transition={{ duration: 6.6, repeat: Infinity, ease: "easeInOut" }}
+      >
+        <Heart size={24} fill="currentColor" />
+        <Heart size={16} fill="currentColor" className="ml-6 mt-2" />
+        <Heart size={12} fill="currentColor" className="ml-1 mt-1" />
+      </motion.div>
+
+      <motion.div
+        className="pointer-events-none absolute right-10 top-1/2 hidden -translate-y-1/2 lg:block text-primary/35"
+        animate={{ y: [0, 12, 0], x: [0, -5, 0] }}
+        transition={{ duration: 5.9, repeat: Infinity, ease: "easeInOut" }}
+      >
+        <Heart size={28} fill="currentColor" />
+        <Heart size={20} fill="currentColor" className="ml-8 mt-3" />
+        <Heart size={14} fill="currentColor" className="ml-2 mt-2" />
+      </motion.div>
+      <motion.div
+        className="pointer-events-none absolute right-14 top-[28%] hidden -translate-y-1/2 lg:block text-primary/30"
+        animate={{ y: [0, -9, 0], x: [0, -4, 0] }}
+        transition={{ duration: 6.4, repeat: Infinity, ease: "easeInOut" }}
+      >
+        <Heart size={22} fill="currentColor" />
+        <Heart size={16} fill="currentColor" className="ml-6 mt-2" />
+        <Heart size={12} fill="currentColor" className="ml-1 mt-1" />
+      </motion.div>
+      <motion.div
+        className="pointer-events-none absolute right-12 top-[72%] hidden -translate-y-1/2 lg:block text-primary/30"
+        animate={{ y: [0, 9, 0], x: [0, -4, 0] }}
+        transition={{ duration: 6.8, repeat: Infinity, ease: "easeInOut" }}
+      >
+        <Heart size={24} fill="currentColor" />
+        <Heart size={16} fill="currentColor" className="ml-6 mt-2" />
+        <Heart size={12} fill="currentColor" className="ml-1 mt-1" />
+      </motion.div>
+
       <div className="container max-w-2xl text-center">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
           <span className="text-primary font-medium text-sm uppercase tracking-wider">Testimonials</span>

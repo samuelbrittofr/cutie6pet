@@ -4,6 +4,7 @@ import { Menu, X, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
+import brandLogo from "@/assets/brand-logo-top-left.png";
 
 const navLinks = [
   { label: "Home", path: "/" },
@@ -40,6 +41,11 @@ const Header = () => {
     >
       <div className="container flex items-center justify-between h-16">
         <Link to="/" className="flex items-center gap-2">
+          <img
+            src={brandLogo}
+            alt="Cutie 6 Pet logo"
+            className="h-9 w-9 rounded-full object-cover border border-border/70"
+          />
           <span className="text-xl font-bold tracking-tight text-foreground">
             Cutie <span className="text-primary">6</span> Pet
           </span>
