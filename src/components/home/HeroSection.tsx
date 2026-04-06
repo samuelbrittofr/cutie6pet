@@ -8,8 +8,13 @@ import heroUser3 from "@/assets/hero-user-3.png";
 import heroUser4 from "@/assets/hero-user-4.png";
 import heroUser5 from "@/assets/hero-user-5.png";
 import { useState, useEffect, useCallback, useMemo } from "react";
+import HeroDoodleSlide from "@/components/home/HeroDoodleSlide";
 
-const slideImages = [heroUser1, heroUser2, heroUser3, heroUser4, heroUser5];
+type HeroSlide = { type: "image"; image: string } | { type: "doodle" };
+
+const slideImages = [heroUser1, heroUser2, heroUser3, heroUser4, heroUser5].map(
+  (image): HeroSlide => ({ type: "image", image }),
+);
 
 const shuffleArray = <T,>(items: T[]) => {
   const next = [...items];
@@ -21,7 +26,10 @@ const shuffleArray = <T,>(items: T[]) => {
 };
 
 const HeroSection = () => {
-  const slides = useMemo(() => shuffleArray(slideImages).map((image) => ({ image })), []);
+  const slides = useMemo(
+    () => shuffleArray<HeroSlide>([...slideImages, { type: "doodle" }]),
+    [],
+  );
   const [activeSlide, setActiveSlide] = useState(0);
 
   const nextSlide = useCallback(() => {
@@ -47,12 +55,16 @@ const HeroSection = () => {
               className="absolute inset-0"
               style={{ zIndex: 1 }}
             >
-              <img
-                src={slide.image}
-                alt="Pet grooming at Cutie 6 Pet"
-                className="w-full h-full object-cover"
-                loading={index === 0 ? "eager" : "lazy"}
-              />
+              {slide.type === "image" ? (
+                <img
+                  src={slide.image}
+                  alt="Pet grooming at Cutie 6 Pet"
+                  className="w-full h-full object-cover"
+                  loading={index === 0 ? "eager" : "lazy"}
+                />
+              ) : (
+                <HeroDoodleSlide />
+              )}
               <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent" />
             </motion.div>
           ) : null,
