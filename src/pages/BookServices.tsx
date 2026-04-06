@@ -282,9 +282,9 @@ const BookServices = () => {
                         initial={{ scale: 0 }}
                         animate={{ scale: 1 }}
                         transition={{ type: "spring", stiffness: 200 }}
-                        className="w-14 h-14 bg-[hsl(142,71%,45%)]/10 rounded-full flex items-center justify-center mx-auto mb-4"
+                        className="w-14 h-14 bg-success/10 rounded-full flex items-center justify-center mx-auto mb-4"
                       >
-                        <Check className="w-7 h-7 text-[hsl(142,71%,45%)]" aria-hidden="true" />
+                        <Check className="w-7 h-7 text-success" aria-hidden="true" />
                       </motion.div>
                       <h3 className="text-lg font-bold text-foreground mb-2">Appointment Requested!</h3>
                       <div className="text-sm text-muted-foreground space-y-1 mb-6 text-left max-w-sm mx-auto">
@@ -298,7 +298,7 @@ const BookServices = () => {
                       </div>
                       <p className="text-sm text-muted-foreground mb-6">Confirm your appointment via WhatsApp:</p>
                       <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                        <Button className="bg-[hsl(142,71%,45%)] hover:bg-[hsl(142,71%,40%)] text-white" asChild>
+                        <Button className="bg-success hover:bg-success/90 text-white" asChild>
                           <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
                             <MessageCircle className="w-4 h-4 mr-2" />
                             Confirm on WhatsApp

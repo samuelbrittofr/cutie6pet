@@ -55,8 +55,8 @@ const Contact = () => {
               <CardContent>
                 {submitted ? (
                   <div className="text-center py-12">
-                    <div className="w-16 h-16 bg-[hsl(142,71%,45%)]/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <Check className="w-8 h-8 text-[hsl(142,71%,45%)]" />
+                    <div className="w-16 h-16 bg-success/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <Check className="w-8 h-8 text-success" />
                     </div>
                     <h3 className="text-xl font-bold mb-2">Message Sent!</h3>
                     <p className="text-muted-foreground">
