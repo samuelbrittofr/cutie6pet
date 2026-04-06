@@ -1,7 +1,44 @@
 import { motion } from "framer-motion";
 
-const HeroDoodleSlide = () => (
-  <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_28%,#ffe4a3_0,#ffd27a_30%,#fbbf24_56%,#f59e0b_100%)]">
+type HeroDoodleSlideProps = {
+  variant: 0 | 1 | 2 | 3;
+};
+
+const themes = [
+  {
+    bg: "bg-[radial-gradient(circle_at_18%_28%,#ffe4a3_0,#ffd27a_30%,#fbbf24_56%,#f59e0b_100%)]",
+    floor: "#fca311",
+    shirt: "#60a5fa",
+    dogBody: "#fffaf0",
+    catBody: "#f5f7ff",
+  },
+  {
+    bg: "bg-[radial-gradient(circle_at_25%_20%,#ffe9cf_0,#ffd6a8_34%,#f7b267_68%,#f79d65_100%)]",
+    floor: "#f59e0b",
+    shirt: "#22c55e",
+    dogBody: "#fff6ea",
+    catBody: "#f6f6ff",
+  },
+  {
+    bg: "bg-[radial-gradient(circle_at_25%_22%,#fff0b8_0,#ffe08a_34%,#facc15_65%,#eab308_100%)]",
+    floor: "#fb923c",
+    shirt: "#a78bfa",
+    dogBody: "#fff9f2",
+    catBody: "#f1f5f9",
+  },
+  {
+    bg: "bg-[radial-gradient(circle_at_24%_25%,#ffe5d0_0,#ffcab0_34%,#fda085_67%,#f97373_100%)]",
+    floor: "#f97316",
+    shirt: "#06b6d4",
+    dogBody: "#fff5ec",
+    catBody: "#f8fafc",
+  },
+] as const;
+
+const HeroDoodleSlide = ({ variant }: HeroDoodleSlideProps) => {
+  const theme = themes[variant];
+  return (
+    <div className={`absolute inset-0 ${theme.bg}`}>
     <motion.div
       className="absolute inset-0"
       animate={{ opacity: [0.95, 1, 0.95] }}
@@ -15,15 +52,15 @@ const HeroDoodleSlide = () => (
       animate={{ y: [0, -8, 0] }}
       transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
     >
-      <rect x="0" y="440" width="1000" height="120" fill="#fca311" />
+      <rect x="0" y="440" width="1000" height="120" fill={theme.floor} />
 
       <g>
         <circle cx="500" cy="240" r="42" fill="#ffe7cf" />
-        <rect x="455" y="280" width="90" height="170" rx="35" fill="#60a5fa" />
+        <rect x="455" y="280" width="90" height="170" rx="35" fill={theme.shirt} />
       </g>
 
       <g>
-        <ellipse cx="300" cy="300" rx="130" ry="120" fill="#fffaf0" />
+        <ellipse cx="300" cy="300" rx="130" ry="120" fill={theme.dogBody} />
         <ellipse cx="210" cy="215" rx="38" ry="68" fill="#f4c7b5" transform="rotate(-20 210 215)" />
         <ellipse cx="390" cy="215" rx="38" ry="68" fill="#f4c7b5" transform="rotate(20 390 215)" />
         <ellipse cx="300" cy="322" rx="66" ry="48" fill="#f5d7a5" />
@@ -54,7 +91,7 @@ const HeroDoodleSlide = () => (
       </g>
 
       <g>
-        <ellipse cx="700" cy="300" rx="122" ry="112" fill="#f5f7ff" />
+        <ellipse cx="700" cy="300" rx="122" ry="112" fill={theme.catBody} />
         <polygon points="620,230 660,165 690,236" fill="#e5e7eb" />
         <polygon points="780,230 740,165 710,236" fill="#e5e7eb" />
         <ellipse cx="700" cy="328" rx="58" ry="42" fill="#f9e2d2" />
@@ -85,6 +122,7 @@ const HeroDoodleSlide = () => (
       </g>
     </motion.svg>
   </div>
-);
+  );
+};
 
 export default HeroDoodleSlide;

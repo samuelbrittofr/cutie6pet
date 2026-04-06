@@ -2,19 +2,17 @@ import { Link } from "react-router-dom";
 import { Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
-import heroUser1 from "@/assets/hero-user-1.png";
-import heroUser2 from "@/assets/hero-user-2.png";
-import heroUser3 from "@/assets/hero-user-3.png";
-import heroUser4 from "@/assets/hero-user-4.png";
-import heroUser5 from "@/assets/hero-user-5.png";
 import { useState, useEffect, useCallback, useMemo } from "react";
 import HeroDoodleSlide from "@/components/home/HeroDoodleSlide";
 
-type HeroSlide = { type: "image"; image: string } | { type: "doodle" };
+type HeroSlide = { type: "doodle"; variant: 0 | 1 | 2 | 3 };
 
-const slideImages = [heroUser1, heroUser2, heroUser3, heroUser4, heroUser5].map(
-  (image): HeroSlide => ({ type: "image", image }),
-);
+const doodleSlides: HeroSlide[] = [
+  { type: "doodle", variant: 0 },
+  { type: "doodle", variant: 1 },
+  { type: "doodle", variant: 2 },
+  { type: "doodle", variant: 3 },
+];
 
 const shuffleArray = <T,>(items: T[]) => {
   const next = [...items];
@@ -26,10 +24,7 @@ const shuffleArray = <T,>(items: T[]) => {
 };
 
 const HeroSection = () => {
-  const slides = useMemo(
-    () => shuffleArray<HeroSlide>([...slideImages, { type: "doodle" }]),
-    [],
-  );
+  const slides = useMemo(() => shuffleArray<HeroSlide>(doodleSlides), []);
   const [activeSlide, setActiveSlide] = useState(0);
 
   const nextSlide = useCallback(() => {
@@ -55,16 +50,7 @@ const HeroSection = () => {
               className="absolute inset-0"
               style={{ zIndex: 1 }}
             >
-              {slide.type === "image" ? (
-                <img
-                  src={slide.image}
-                  alt="Pet grooming at Cutie 6 Pet"
-                  className="w-full h-full object-cover"
-                  loading={index === 0 ? "eager" : "lazy"}
-                />
-              ) : (
-                <HeroDoodleSlide />
-              )}
+              <HeroDoodleSlide variant={slide.variant} />
               <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent" />
             </motion.div>
           ) : null,

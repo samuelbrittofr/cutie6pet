@@ -6,6 +6,7 @@ import PetGallery from "@/components/home/PetGallery";
 import StatsSection from "@/components/home/StatsSection";
 import HowItWorks from "@/components/home/HowItWorks";
 import CTASection from "@/components/home/CTASection";
+import ScrollPetRunner from "@/components/home/ScrollPetRunner";
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -36,6 +37,7 @@ const jsonLd = {
 
 const Index = () => (
   <>
+    <ScrollPetRunner />
     <script
       type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
