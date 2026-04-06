@@ -1,30 +1,24 @@
+import { Suspense, lazy } from "react";
 import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
-import Index from "./pages/Index";
-import Locations from "./pages/Locations";
-import Services from "./pages/Services";
-import Pricing from "./pages/Pricing";
-import BookServices from "./pages/BookServices";
-import About from "./pages/About";
-import Contact from "./pages/Contact";
-import NotFound from "./pages/NotFound";
-
-const queryClient = new QueryClient();
+const Index = lazy(() => import("./pages/Index"));
+const Locations = lazy(() => import("./pages/Locations"));
+const Services = lazy(() => import("./pages/Services"));
+const Pricing = lazy(() => import("./pages/Pricing"));
+const BookServices = lazy(() => import("./pages/BookServices"));
+const About = lazy(() => import("./pages/About"));
+const Contact = lazy(() => import("./pages/Contact"));
+const NotFound = lazy(() => import("./pages/NotFound"));
 
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
+  <BrowserRouter>
+    <Header />
+    <main className="min-h-screen pt-16">
       <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Header />
-        <main className="min-h-screen pt-16">
+      <Suspense fallback={<div className="min-h-[60vh] bg-background" />}>
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/locations" element={<Locations />} />
@@ -35,12 +29,11 @@ const App = () => (
             <Route path="/contact" element={<Contact />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
-        </main>
-        <Footer />
-        <WhatsAppButton />
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
+      </Suspense>
+    </main>
+    <Footer />
+    <WhatsAppButton />
+  </BrowserRouter>
 );
 
 export default App;

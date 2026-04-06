@@ -41,45 +41,72 @@ const BookServices = () => {
   const [step, setStep] = useState(0);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [form, setForm] = useState<FormData>({
-    package: "", date: undefined, time: "", petName: "", petBreed: "", petType: "Dog", ownerName: "", ownerPhone: "", notes: "",
+    package: "",
+    date: undefined,
+    time: "",
+    petName: "",
+    petBreed: "",
+    petType: "Dog",
+    ownerName: "",
+    ownerPhone: "",
+    notes: "",
   });
   const { toast } = useToast();
 
-  const update = (k: keyof FormData, v: any) => {
-    setForm({ ...form, [k]: v });
-    if (errors[k]) {
-      setErrors((prev) => { const next = { ...prev }; delete next[k]; return next; });
+  const update = (key: keyof FormData, value: FormData[keyof FormData]) => {
+    setForm({ ...form, [key]: value });
+    if (errors[key]) {
+      setErrors((prev) => {
+        const next = { ...prev };
+        delete next[key];
+        return next;
+      });
     }
   };
 
   const validateStep = (): boolean => {
-    const e: Record<string, string> = {};
-    if (step === 0 && !form.package) e.package = "Please select a package.";
+    const nextErrors: Record<string, string> = {};
+
+    if (step === 0 && !form.package) nextErrors.package = "Please select a package.";
     if (step === 1) {
-      if (!form.date) e.date = "Please select a date.";
-      if (!form.time) e.time = "Please select a time.";
+      if (!form.date) nextErrors.date = "Please select a date.";
+      if (!form.time) nextErrors.time = "Please select a time.";
     }
     if (step === 2) {
-      if (!form.petName.trim()) e.petName = "Pet name is required.";
-      if (!form.petBreed.trim()) e.petBreed = "Breed is required.";
-      if (!form.ownerName.trim()) e.ownerName = "Your name is required.";
-      if (!form.ownerPhone.trim()) e.ownerPhone = "Phone number is required.";
-      else if (form.ownerPhone.replace(/\D/g, "").length < 10) e.ownerPhone = "Enter a valid phone number.";
+      if (!form.petName.trim()) nextErrors.petName = "Pet name is required.";
+      if (!form.petBreed.trim()) nextErrors.petBreed = "Breed is required.";
+      if (!form.ownerName.trim()) nextErrors.ownerName = "Your name is required.";
+      if (!form.ownerPhone.trim()) nextErrors.ownerPhone = "Phone number is required.";
+      else if (form.ownerPhone.replace(/\D/g, "").length < 10) nextErrors.ownerPhone = "Enter a valid phone number.";
     }
-    setErrors(e);
-    if (Object.keys(e).length > 0) {
-      toast({ title: "Please fix the errors", description: "Some required fields are missing.", variant: "destructive" });
+
+    setErrors(nextErrors);
+
+    if (Object.keys(nextErrors).length > 0) {
+      toast({
+        title: "Please fix the errors",
+        description: "Some required fields are missing.",
+        variant: "destructive",
+      });
       return false;
     }
+
     return true;
   };
 
-  const handleNext = () => { if (validateStep()) setStep(step + 1); };
+  const handleNext = () => {
+    if (validateStep()) setStep(step + 1);
+  };
 
-  const FieldError = ({ field }: { field: string }) => errors[field] ? <p className="text-sm text-destructive mt-1" role="alert">{errors[field]}</p> : null;
+  const FieldError = ({ field }: { field: string }) =>
+    errors[field] ? (
+      <p className="text-sm text-destructive mt-1" role="alert">
+        {errors[field]}
+      </p>
+    ) : null;
 
   const dateStr = form.date ? format(form.date, "PPP") : "";
-  const whatsappMsg = `Hi Cutie 6 Pet! I'd like to confirm my booking:\n\n📋 Package: ${form.package}\n📍 Branch: Kacharakanahalli\n📅 Date: ${dateStr}\n🕐 Time: ${form.time}\n🐾 Pet: ${form.petName} (${form.petBreed})\n👤 Name: ${form.ownerName}\n📱 Phone: ${form.ownerPhone}${form.notes ? `\n📝 Notes: ${form.notes}` : ""}`;
+  const whatsappMsg = `Hi Cutie 6 Pet! I'd like to confirm my booking:\n\nPackage: ${form.package}\nBranch: Kacharakanahalli\nDate: ${dateStr}\nTime: ${form.time}\nPet: ${form.petName} (${form.petBreed})\nName: ${form.ownerName}\nPhone: ${form.ownerPhone}${form.notes ? `\nNotes: ${form.notes}` : ""}`;
   const whatsappUrl = `https://wa.me/919901887525?text=${encodeURIComponent(whatsappMsg)}`;
 
   return (
@@ -97,20 +124,28 @@ const BookServices = () => {
         <div className="container max-w-2xl">
           <div className="mb-8">
             <div className="flex items-center justify-between mb-3">
-              {steps.map((s, i) => (
-                <div key={s} className="flex flex-col items-center flex-1">
-                  <div className={cn(
-                    "w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold mb-1.5 transition-colors",
-                    i < step ? "bg-primary text-primary-foreground" :
-                    i === step ? "bg-primary text-primary-foreground ring-2 ring-primary/30 ring-offset-2" :
-                    "bg-muted text-muted-foreground"
-                  )}>
-                    {i < step ? <Check className="w-4 h-4" /> : i + 1}
+              {steps.map((label, index) => (
+                <div key={label} className="flex flex-col items-center flex-1">
+                  <div
+                    className={cn(
+                      "w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold mb-1.5 transition-colors",
+                      index < step
+                        ? "bg-primary text-primary-foreground"
+                        : index === step
+                          ? "bg-primary text-primary-foreground ring-2 ring-primary/30 ring-offset-2"
+                          : "bg-muted text-muted-foreground",
+                    )}
+                  >
+                    {index < step ? <Check className="w-4 h-4" /> : index + 1}
                   </div>
-                  <span className={cn(
-                    "text-[10px] sm:text-xs text-center leading-tight",
-                    i <= step ? "text-primary font-medium" : "text-muted-foreground"
-                  )}>{s}</span>
+                  <span
+                    className={cn(
+                      "text-[10px] sm:text-xs text-center leading-tight",
+                      index <= step ? "text-primary font-medium" : "text-muted-foreground",
+                    )}
+                  >
+                    {label}
+                  </span>
                 </div>
               ))}
             </div>
@@ -118,34 +153,38 @@ const BookServices = () => {
               <motion.div
                 className="h-full bg-primary rounded-full"
                 initial={{ width: 0 }}
-                animate={{ width: `${((step) / (steps.length - 1)) * 100}%` }}
+                animate={{ width: `${(step / (steps.length - 1)) * 100}%` }}
                 transition={{ duration: 0.3 }}
               />
             </div>
           </div>
 
-          <motion.div
-            key={step}
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.3 }}
-          >
+          <motion.div key={step} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.3 }}>
             <Card className="border shadow-sm">
-              <CardHeader className="pb-4"><CardTitle className="text-lg">{steps[step]}</CardTitle></CardHeader>
+              <CardHeader className="pb-4">
+                <CardTitle className="text-lg">{steps[step]}</CardTitle>
+              </CardHeader>
               <CardContent>
                 <div aria-live="polite">
                   {step === 0 && (
                     <fieldset>
                       <legend className="sr-only">Select a grooming package</legend>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        {groomingPackages.map((p) => (
-                          <button key={p.name} onClick={() => update("package", p.name)} aria-pressed={form.package === p.name}
-                            className={cn("p-4 rounded-lg border text-left transition-all",
-                              form.package === p.name ? "border-primary bg-primary/5 ring-1 ring-primary/30" : "border-border hover:border-muted-foreground/30"
-                            )}>
+                        {groomingPackages.map((pkg) => (
+                          <button
+                            key={pkg.name}
+                            onClick={() => update("package", pkg.name)}
+                            aria-pressed={form.package === pkg.name}
+                            className={cn(
+                              "p-4 rounded-lg border text-left transition-all",
+                              form.package === pkg.name
+                                ? "border-primary bg-primary/5 ring-1 ring-primary/30"
+                                : "border-border hover:border-muted-foreground/30",
+                            )}
+                          >
                             <PawPrint className="w-4 h-4 mb-1 text-primary" aria-hidden="true" />
-                            <p className="text-sm font-medium text-foreground">{p.name}</p>
-                            <p className="text-xs text-muted-foreground">{p.price} · {p.pet}</p>
+                            <p className="text-sm font-medium text-foreground">{pkg.name}</p>
+                            <p className="text-xs text-muted-foreground">{pkg.price} · {pkg.pet}</p>
                           </button>
                         ))}
                       </div>
@@ -171,8 +210,8 @@ const BookServices = () => {
                             <Calendar
                               mode="single"
                               selected={form.date}
-                              onSelect={(d) => update("date", d)}
-                              disabled={(date) => date < new Date(new Date().setHours(0,0,0,0))}
+                              onSelect={(date) => update("date", date)}
+                              disabled={(date) => date < new Date(new Date().setHours(0, 0, 0, 0))}
                               initialFocus
                               className="p-3 pointer-events-auto"
                             />
@@ -183,12 +222,19 @@ const BookServices = () => {
                       <div>
                         <Label className="mb-2 block">Select Time *</Label>
                         <div className="grid grid-cols-4 gap-2" role="group">
-                          {times.map((t) => (
-                            <button key={t} onClick={() => update("time", t)} aria-pressed={form.time === t}
-                              className={cn("py-2.5 px-3 rounded-lg border text-xs font-medium transition-all",
-                                form.time === t ? "border-primary bg-primary/5 ring-1 ring-primary/30 text-primary" : "border-border hover:border-muted-foreground/30 text-foreground"
-                              )}>
-                              {t}
+                          {times.map((time) => (
+                            <button
+                              key={time}
+                              onClick={() => update("time", time)}
+                              aria-pressed={form.time === time}
+                              className={cn(
+                                "py-2.5 px-3 rounded-lg border text-xs font-medium transition-all",
+                                form.time === time
+                                  ? "border-primary bg-primary/5 ring-1 ring-primary/30 text-primary"
+                                  : "border-border hover:border-muted-foreground/30 text-foreground",
+                              )}
+                            >
+                              {time}
                             </button>
                           ))}
                         </div>
@@ -202,30 +248,30 @@ const BookServices = () => {
                       <div className="grid grid-cols-2 gap-4">
                         <div>
                           <Label htmlFor="pet-name-svc">Pet Name *</Label>
-                          <Input id="pet-name-svc" value={form.petName} onChange={(e) => update("petName", e.target.value)} placeholder="e.g. Bruno" aria-invalid={!!errors.petName} />
+                          <Input id="pet-name-svc" value={form.petName} onChange={(event) => update("petName", event.target.value)} placeholder="e.g. Bruno" aria-invalid={!!errors.petName} />
                           <FieldError field="petName" />
                         </div>
                         <div>
                           <Label htmlFor="pet-breed-svc">Breed *</Label>
-                          <Input id="pet-breed-svc" value={form.petBreed} onChange={(e) => update("petBreed", e.target.value)} placeholder="e.g. Labrador" aria-invalid={!!errors.petBreed} />
+                          <Input id="pet-breed-svc" value={form.petBreed} onChange={(event) => update("petBreed", event.target.value)} placeholder="e.g. Labrador" aria-invalid={!!errors.petBreed} />
                           <FieldError field="petBreed" />
                         </div>
                       </div>
                       <div className="grid grid-cols-2 gap-4">
                         <div>
                           <Label htmlFor="owner-name">Your Name *</Label>
-                          <Input id="owner-name" value={form.ownerName} onChange={(e) => update("ownerName", e.target.value)} placeholder="Your full name" aria-invalid={!!errors.ownerName} />
+                          <Input id="owner-name" value={form.ownerName} onChange={(event) => update("ownerName", event.target.value)} placeholder="Your full name" aria-invalid={!!errors.ownerName} />
                           <FieldError field="ownerName" />
                         </div>
                         <div>
                           <Label htmlFor="owner-phone">Phone Number *</Label>
-                          <Input id="owner-phone" type="tel" value={form.ownerPhone} onChange={(e) => update("ownerPhone", e.target.value)} placeholder="+91 98765 43210" aria-invalid={!!errors.ownerPhone} />
+                          <Input id="owner-phone" type="tel" value={form.ownerPhone} onChange={(event) => update("ownerPhone", event.target.value)} placeholder="+91 98765 43210" aria-invalid={!!errors.ownerPhone} />
                           <FieldError field="ownerPhone" />
                         </div>
                       </div>
                       <div>
                         <Label htmlFor="pet-notes-svc">Special Notes</Label>
-                        <Input id="pet-notes-svc" value={form.notes} onChange={(e) => update("notes", e.target.value)} placeholder="Allergies, temperament, special requests..." />
+                        <Input id="pet-notes-svc" value={form.notes} onChange={(event) => update("notes", event.target.value)} placeholder="Allergies, temperament, special requests..." />
                       </div>
                     </div>
                   )}

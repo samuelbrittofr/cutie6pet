@@ -2,7 +2,7 @@ import { MapPin, Heart, Star, Scissors } from "lucide-react";
 import { motion } from "framer-motion";
 
 const badges = [
-  { icon: MapPin, number: "2", label: "Branches in Bangalore" },
+  { icon: MapPin, number: "1", label: "Branch in Bangalore" },
   { icon: Heart, number: "1000+", label: "Happy Pets Groomed" },
   { icon: Scissors, number: "6+", label: "Grooming Packages" },
   { icon: Star, number: "4.9/5", label: "Rating on JustDial" },
@@ -12,13 +12,13 @@ const TrustBadges = () => (
   <section className="py-12 border-b border-border">
     <div className="container">
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-        {badges.map((badge, i) => (
+        {badges.map((badge, index) => (
           <motion.div
             key={badge.label}
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: i * 0.1, duration: 0.4 }}
+            transition={{ delay: index * 0.1, duration: 0.4 }}
             className="text-center"
           >
             <badge.icon className="w-6 h-6 text-primary mx-auto mb-2" />
