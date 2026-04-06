@@ -9,23 +9,21 @@ const badges = [
 ];
 
 const TrustBadges = () => (
-  <section className="relative -mt-16 z-20">
+  <section className="py-12 border-b border-border">
     <div className="container">
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
         {badges.map((badge, i) => (
           <motion.div
             key={badge.label}
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: i * 0.1, duration: 0.5 }}
-            className="bg-card rounded-xl p-6 shadow-card text-center hover:shadow-card-hover transition-shadow duration-300"
+            transition={{ delay: i * 0.1, duration: 0.4 }}
+            className="text-center"
           >
-            <badge.icon className="w-8 h-8 text-primary mx-auto mb-3" />
-            <div className="text-3xl md:text-4xl font-display font-bold text-foreground mb-1">
-              {badge.number}
-            </div>
-            <p className="text-sm text-muted-foreground">{badge.label}</p>
+            <badge.icon className="w-6 h-6 text-primary mx-auto mb-2" />
+            <div className="text-2xl font-bold text-foreground mb-0.5">{badge.number}</div>
+            <p className="text-xs text-muted-foreground">{badge.label}</p>
           </motion.div>
         ))}
       </div>

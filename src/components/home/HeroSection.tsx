@@ -1,16 +1,16 @@
 import { Link } from "react-router-dom";
-import { Scissors, Calendar } from "lucide-react";
+import { Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import heroImage from "@/assets/hero-dogs.jpg";
-import happyDog from "@/assets/happy-dog.jpg";
-import heroGrooming from "@/assets/hero-grooming.jpg";
+import grooming1 from "@/assets/grooming-1.jpg";
+import grooming2 from "@/assets/grooming-2.jpg";
+import grooming3 from "@/assets/grooming-3.jpg";
 import { useState, useEffect, useCallback } from "react";
 
 const slides = [
-  { image: heroImage },
-  { image: happyDog },
-  { image: heroGrooming },
+  { image: grooming1 },
+  { image: grooming2 },
+  { image: grooming3 },
 ];
 
 const HeroSection = () => {
@@ -26,7 +26,7 @@ const HeroSection = () => {
   }, [nextSlide]);
 
   return (
-    <section className="relative min-h-[90vh] flex items-center overflow-hidden">
+    <section className="relative min-h-[80vh] flex items-center overflow-hidden -mt-16 pt-16">
       {slides.map((slide, i) => (
         <motion.div
           key={i}
@@ -38,52 +38,49 @@ const HeroSection = () => {
           <img
             src={slide.image}
             alt="Pet grooming at Cutie 6 Pet"
-            className="w-full h-full object-cover scale-105"
+            className="w-full h-full object-cover"
+            loading={i === 0 ? "eager" : "lazy"}
           />
           <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent" />
         </motion.div>
       ))}
 
       <div className="container relative z-10">
-        <div className="max-w-2xl">
-          <span className="inline-block bg-accent/20 text-accent-foreground backdrop-blur-sm px-4 py-1.5 rounded-full text-sm font-medium mb-6 border border-accent/40 tracking-wider uppercase">
-            🐾 Bangalore's Favourite Pet Grooming Spot
-          </span>
-          <h1 className="text-4xl md:text-5xl lg:text-[clamp(3rem,8vw,5rem)] font-display leading-[1.1] mb-6 text-white">
-            <span className="font-light italic">Where Every Pet's</span>
+        <div className="max-w-xl">
+          <p className="text-sm font-medium text-accent tracking-wide uppercase mb-3">
+            Bangalore's Favourite Pet Grooming Spot
+          </p>
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight mb-4 text-white">
+            Professional Pet Grooming
             <br />
-            <span className="text-accent font-bold">Personality Shines</span>
+            <span className="text-accent">Your Pet Deserves</span>
           </h1>
-          <p className="text-lg md:text-xl text-white/80 mb-8 leading-relaxed max-w-xl">
-            Expert grooming for dogs & cats with love and a gentle touch. From soothing spa baths to stylish trims — your fur baby deserves the best.
+          <p className="text-base text-white/80 mb-8 leading-relaxed max-w-md">
+            Expert grooming for dogs & cats with love and a gentle touch. Two branches in Bangalore.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4">
-            <Button size="lg" className="bg-accent hover:bg-coral-hover text-accent-foreground rounded-full text-base" asChild>
+          <div className="flex flex-col sm:flex-row gap-3">
+            <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground" asChild>
               <Link to="/book">
-                <Calendar className="w-5 h-5 mr-2" />
+                <Calendar className="w-4 h-4 mr-2" />
                 Book Appointment
               </Link>
             </Button>
-            <Button size="lg" variant="outline" className="rounded-full text-base border-white/30 text-white hover:bg-white/10" asChild>
-              <Link to="/services">
-                <Scissors className="w-5 h-5 mr-2" />
-                View Services & Prices
-              </Link>
+            <Button size="lg" variant="outline" className="border-white/30 text-white hover:bg-white/10" asChild>
+              <Link to="/pricing">View Prices</Link>
             </Button>
           </div>
         </div>
       </div>
 
-      {/* Dot navigation */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-10">
         {slides.map((_, i) => (
           <button
             key={i}
             onClick={() => setActiveSlide(i)}
             aria-label={`Go to slide ${i + 1}`}
-            className={`h-3 rounded-full transition-all duration-300 ${
-              activeSlide === i ? "bg-accent w-8" : "bg-white/50 w-3 hover:bg-white/80"
+            className={`h-2 rounded-full transition-all duration-300 ${
+              activeSlide === i ? "bg-accent w-6" : "bg-white/50 w-2 hover:bg-white/80"
             }`}
           />
         ))}
