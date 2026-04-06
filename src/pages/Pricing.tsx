@@ -79,9 +79,7 @@ const PricingCard = ({ pkg, index }: { pkg: Package; index: number }) => (
     viewport={{ once: true }}
     transition={{ delay: index * 0.1 }}
     className={`relative rounded-2xl border p-6 md:p-8 transition-shadow ${
-      pkg.popular
-        ? "border-primary bg-primary/[0.02] shadow-md"
-        : "border-border bg-card shadow-sm"
+      pkg.popular ? "border-primary bg-primary/[0.02] shadow-md" : "border-border bg-card shadow-sm"
     }`}
   >
     {pkg.popular && (
@@ -109,12 +107,13 @@ const PricingCard = ({ pkg, index }: { pkg: Package; index: number }) => (
       {allFeatures.map((feature) => {
         const included = pkg.features.includes(feature);
         return (
-          <li key={feature} className={`flex items-center gap-2.5 text-sm ${included ? "text-foreground" : "text-muted-foreground/50"}`}>
-            {included ? (
-              <Check className="w-4 h-4 text-success shrink-0" />
-            ) : (
-              <X className="w-4 h-4 shrink-0" />
-            )}
+          <li
+            key={feature}
+            className={`flex items-center gap-2.5 text-sm ${
+              included ? "text-foreground" : "text-muted-foreground/50"
+            }`}
+          >
+            {included ? <Check className="w-4 h-4 text-success shrink-0" /> : <X className="w-4 h-4 shrink-0" />}
             {feature}
           </li>
         );
@@ -149,35 +148,28 @@ const Pricing = () => (
       </div>
     </section>
 
-    {/* Dog Packages */}
     <section className="pb-16">
       <div className="container">
-        <h2 className="text-xl font-semibold text-foreground mb-8 flex items-center gap-2">
-          🐕 Dog Grooming
-        </h2>
+        <h2 className="text-xl font-semibold text-foreground mb-8">Dog Grooming</h2>
         <div className="grid md:grid-cols-3 gap-6">
-          {dogPackages.map((pkg, i) => (
-            <PricingCard key={pkg.name} pkg={pkg} index={i} />
+          {dogPackages.map((pkg, index) => (
+            <PricingCard key={pkg.name} pkg={pkg} index={index} />
           ))}
         </div>
       </div>
     </section>
 
-    {/* Cat Packages */}
     <section className="pb-16">
       <div className="container">
-        <h2 className="text-xl font-semibold text-foreground mb-8 flex items-center gap-2">
-          🐈 Cat Grooming
-        </h2>
+        <h2 className="text-xl font-semibold text-foreground mb-8">Cat Grooming</h2>
         <div className="grid md:grid-cols-3 gap-6">
-          {catPackages.map((pkg, i) => (
-            <PricingCard key={pkg.name} pkg={pkg} index={i} />
+          {catPackages.map((pkg, index) => (
+            <PricingCard key={pkg.name} pkg={pkg} index={index} />
           ))}
         </div>
       </div>
     </section>
 
-    {/* Bottom CTA */}
     <section className="py-16 bg-muted">
       <div className="container text-center max-w-lg">
         <Sparkles className="w-8 h-8 text-primary mx-auto mb-4" />
@@ -190,7 +182,11 @@ const Pricing = () => (
             <Link to="/book">Book Appointment</Link>
           </Button>
           <Button variant="outline" asChild>
-            <a href="https://wa.me/919901887525?text=Hey%20Cutie%206%20Pet!%20%F0%9F%90%BE%20I%20need%20help%20choosing%20a%20grooming%20package.%20Could%20you%20guide%20me%3F" target="_blank" rel="noopener noreferrer">
+            <a
+              href="https://wa.me/919901887525?text=Hey%20Cutie%206%20Pet!%20%F0%9F%90%BE%20I%20need%20help%20choosing%20a%20grooming%20package.%20Could%20you%20guide%20me%3F"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               Chat on WhatsApp
             </a>
           </Button>
