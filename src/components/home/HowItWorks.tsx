@@ -1,46 +1,41 @@
-import { Phone, CalendarCheck, Scissors, Heart } from "lucide-react";
+import { Search, CalendarCheck, Scissors, Heart } from "lucide-react";
 import { motion } from "framer-motion";
 
 const steps = [
-  { icon: Phone, title: "Browse Services", description: "Check out our grooming packages and prices for dogs & cats." },
-  { icon: CalendarCheck, title: "Book Online", description: "Pick your preferred date, time, and package — all in a few clicks." },
-  { icon: Scissors, title: "Visit Us", description: "Bring your pet to our Kacharakanahalli or Kammanahalli branch." },
-  { icon: Heart, title: "Happy Pet!", description: "Take home a freshly groomed, happy fur baby. Tails will wag!" },
+  { icon: Search, title: "Browse Services", description: "Check out our grooming packages and prices." },
+  { icon: CalendarCheck, title: "Book Online", description: "Pick your date, time, and package in a few clicks." },
+  { icon: Scissors, title: "Visit Us", description: "Bring your pet to either of our Bangalore branches." },
+  { icon: Heart, title: "Happy Pet!", description: "Take home a freshly groomed, happy fur baby." },
 ];
 
 const HowItWorks = () => (
-  <section className="py-24 bg-muted">
+  <section className="py-16">
     <div className="container">
-      <div className="text-center mb-16">
-        <span className="text-accent font-medium text-sm uppercase tracking-wider">How It Works</span>
-        <h2 className="text-3xl md:text-4xl font-display mt-2">Booking Is Easy</h2>
+      <div className="text-center mb-12">
+        <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-2">How It Works</h2>
+        <p className="text-muted-foreground text-sm">Four simple steps to a happy, groomed pet</p>
       </div>
 
-      <div className="relative">
-        <div className="hidden lg:block absolute top-16 left-0 right-0 h-0.5 bg-accent/20" />
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {steps.map((step, i) => (
-            <motion.div
-              key={step.title}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.2 }}
-              className="text-center relative"
-            >
-              <div className="relative mx-auto mb-6">
-                <div className="w-32 h-32 rounded-full bg-card shadow-lg flex items-center justify-center mx-auto">
-                  <step.icon className="w-12 h-12 text-accent" />
-                </div>
-                <span className="absolute -top-2 -right-2 w-8 h-8 bg-accent text-accent-foreground rounded-full flex items-center justify-center text-sm font-bold">
-                  {i + 1}
-                </span>
-              </div>
-              <h3 className="text-lg font-display font-semibold mb-2">{step.title}</h3>
-              <p className="text-sm text-muted-foreground">{step.description}</p>
-            </motion.div>
-          ))}
-        </div>
+      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        {steps.map((step, i) => (
+          <motion.div
+            key={step.title}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: i * 0.15 }}
+            className="text-center"
+          >
+            <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4 relative">
+              <step.icon className="w-6 h-6 text-primary" />
+              <span className="absolute -top-1 -right-1 w-5 h-5 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-[10px] font-bold">
+                {i + 1}
+              </span>
+            </div>
+            <h3 className="font-semibold text-foreground mb-1">{step.title}</h3>
+            <p className="text-sm text-muted-foreground">{step.description}</p>
+          </motion.div>
+        ))}
       </div>
     </div>
   </section>

@@ -8,61 +8,59 @@ const services = [
     title: "Basic Grooming",
     description: "Bathing, blow-drying, ear cleaning, eye cleaning, nail clipping, and paw cleaning.",
     price: "From ₹1,000",
-    path: "/services",
-    iconBg: "bg-amber-light text-amber",
+    path: "/pricing",
   },
   {
     icon: Scissors,
     title: "Hair Cut Package",
     description: "Full haircut with styling, bathing, blow-drying, ear & eye cleaning, nail clipping, and teeth cleaning.",
-    price: "From ₹1,800",
-    path: "/services",
-    iconBg: "bg-brand-light text-brand-deep",
+    price: "From ₹1,500",
+    path: "/pricing",
   },
   {
     icon: Sparkles,
     title: "Cat Grooming",
-    description: "Specialized grooming for cats — gentle handling, bathing, trimming, and paw care by experienced groomers.",
+    description: "Specialized grooming for cats — gentle handling, bathing, trimming, and paw care.",
     price: "From ₹1,000",
-    path: "/services",
-    iconBg: "bg-success-light text-success",
+    path: "/pricing",
   },
   {
     icon: Heart,
-    title: "Spa Treatments",
-    description: "Pampering spa experiences including de-shedding, teeth cleaning, and specialty treatments.",
-    price: "Custom pricing",
-    path: "/services",
-    iconBg: "bg-secondary text-coral",
+    title: "Full Spa Treatment",
+    description: "Premium pampering with de-shedding, teeth cleaning, and all grooming essentials.",
+    price: "From ₹1,800",
+    path: "/pricing",
   },
 ];
 
 const ServicesSection = () => (
-  <section className="relative z-20 -mt-20 pb-20">
+  <section className="py-16">
     <div className="container">
-      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="text-center mb-10">
+        <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-2">Our Services</h2>
+        <p className="text-muted-foreground text-sm max-w-md mx-auto">Professional grooming for dogs & cats of all breeds</p>
+      </div>
+      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
         {services.map((service, i) => (
           <motion.div
             key={service.title}
-            initial={{ opacity: 0, y: 40 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ delay: i * 0.1, duration: 0.5 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ delay: i * 0.1, duration: 0.4 }}
           >
             <Link
               to={service.path}
-              className="group block bg-card rounded-xl p-8 shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 border border-transparent hover:border-accent/20"
+              className="group block bg-card rounded-xl p-6 border border-border hover:border-primary/20 hover:shadow-md transition-all duration-300"
             >
-              <div className={`w-16 h-16 rounded-xl ${service.iconBg} flex items-center justify-center mb-6 transition-transform duration-300 group-hover:scale-110`}>
-                <service.icon className="w-8 h-8" />
-              </div>
-              <h3 className="text-xl font-display font-semibold mb-3 text-foreground group-hover:text-accent transition-colors">
+              <service.icon className="w-8 h-8 text-primary mb-4" />
+              <h3 className="text-base font-semibold mb-2 text-foreground group-hover:text-primary transition-colors">
                 {service.title}
               </h3>
-              <p className="text-muted-foreground text-sm mb-6 leading-relaxed">{service.description}</p>
+              <p className="text-muted-foreground text-sm mb-4 leading-relaxed">{service.description}</p>
               <div className="flex items-center justify-between">
-                <span className="text-accent font-semibold">{service.price}</span>
-                <ArrowRight className="w-5 h-5 text-accent opacity-0 -translate-x-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0" />
+                <span className="text-primary font-semibold text-sm">{service.price}</span>
+                <ArrowRight className="w-4 h-4 text-primary opacity-0 -translate-x-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0" />
               </div>
             </Link>
           </motion.div>

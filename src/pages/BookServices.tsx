@@ -4,10 +4,14 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Progress } from "@/components/ui/progress";
-import { Check, MapPin, Calendar, PawPrint, ArrowLeft, ArrowRight, User } from "lucide-react";
+import { Check, MapPin, PawPrint, ArrowLeft, ArrowRight, CalendarIcon } from "lucide-react";
 import { motion } from "framer-motion";
 import { useToast } from "@/hooks/use-toast";
+import { format } from "date-fns";
+import { cn } from "@/lib/utils";
 
 const steps = ["Branch", "Package", "Date & Time", "Pet & Owner Info", "Confirmation"];
 
@@ -30,7 +34,7 @@ const times = ["10:00 AM", "11:00 AM", "12:00 PM", "2:00 PM", "3:00 PM", "4:00 P
 type FormData = {
   branch: string;
   package: string;
-  date: string;
+  date: Date | undefined;
   time: string;
   petName: string;
   petBreed: string;
@@ -44,11 +48,11 @@ const BookServices = () => {
   const [step, setStep] = useState(0);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [form, setForm] = useState<FormData>({
-    branch: "", package: "", date: "", time: "", petName: "", petBreed: "", petType: "Dog", ownerName: "", ownerPhone: "", notes: "",
+    branch: "", package: "", date: undefined, time: "", petName: "", petBreed: "", petType: "Dog", ownerName: "", ownerPhone: "", notes: "",
   });
   const { toast } = useToast();
 
-  const update = (k: keyof FormData, v: string) => {
+  const update = (k: keyof FormData, v: any) => {
     setForm({ ...form, [k]: v });
     if (errors[k]) {
       setErrors((prev) => { const next = { ...prev }; delete next[k]; return next; });
@@ -82,26 +86,34 @@ const BookServices = () => {
   const progress = ((step + 1) / steps.length) * 100;
   const FieldError = ({ field }: { field: string }) => errors[field] ? <p className="text-sm text-destructive mt-1" role="alert">{errors[field]}</p> : null;
 
-  const whatsappMsg = `Hi Cutie 6 Pet! I've booked a ${form.package} at your ${form.branch} branch on ${form.date} at ${form.time}. Pet: ${form.petName} (${form.petBreed}). Name: ${form.ownerName}. Phone: ${form.ownerPhone}.${form.notes ? ` Notes: ${form.notes}` : ""}`;
+  const dateStr = form.date ? format(form.date, "PPP") : "";
+  const whatsappMsg = `Hi Cutie 6 Pet! I've booked a ${form.package} at your ${form.branch} branch on ${dateStr} at ${form.time}. Pet: ${form.petName} (${form.petBreed}). Name: ${form.ownerName}. Phone: ${form.ownerPhone}.${form.notes ? ` Notes: ${form.notes}` : ""}`;
   const whatsappUrl = `https://wa.me/917947419026?text=${encodeURIComponent(whatsappMsg)}`;
 
   return (
     <div className="min-h-screen bg-background">
-      <section className="bg-gradient-hero py-12">
+      <section className="py-10 border-b border-border">
         <div className="container">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-            <h1 className="text-3xl md:text-4xl font-bold text-primary-foreground mb-2">Book an Appointment</h1>
-            <p className="text-primary-foreground/80">Schedule a grooming session for your fur baby in just a few steps.</p>
+            <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-1">Book an Appointment</h1>
+            <p className="text-muted-foreground text-sm">Schedule a grooming session in just a few steps.</p>
           </motion.div>
         </div>
       </section>
 
-      <section className="py-12">
+      <section className="py-10">
         <div className="container max-w-2xl">
-          <Progress value={progress} className="h-2 mb-8" aria-label={`Step ${step + 1} of ${steps.length}`} />
+          {/* Step indicators */}
+          <div className="flex items-center justify-between mb-2 text-xs text-muted-foreground">
+            {steps.map((s, i) => (
+              <span key={s} className={cn("hidden sm:block", i <= step ? "text-primary font-medium" : "")}>{s}</span>
+            ))}
+            <span className="sm:hidden text-primary font-medium">Step {step + 1} of {steps.length}</span>
+          </div>
+          <Progress value={progress} className="h-1.5 mb-8" aria-label={`Step ${step + 1} of ${steps.length}`} />
 
-          <Card>
-            <CardHeader><CardTitle>{steps[step]}</CardTitle></CardHeader>
+          <Card className="border shadow-sm">
+            <CardHeader className="pb-4"><CardTitle className="text-lg">{steps[step]}</CardTitle></CardHeader>
             <CardContent>
               <div aria-live="polite">
                 {step === 0 && (
@@ -110,9 +122,11 @@ const BookServices = () => {
                     <div className="grid gap-3">
                       {branches.map((b) => (
                         <button key={b.name} onClick={() => update("branch", b.name)} aria-pressed={form.branch === b.name}
-                          className={`p-4 rounded-lg border text-left transition-all ${form.branch === b.name ? "border-primary bg-brand-light ring-2 ring-primary/20" : "border-border hover:border-primary/50"}`}>
+                          className={cn("p-4 rounded-lg border text-left transition-all",
+                            form.branch === b.name ? "border-primary bg-primary/5 ring-1 ring-primary/30" : "border-border hover:border-muted-foreground/30"
+                          )}>
                           <MapPin className="w-4 h-4 mb-1 text-primary inline mr-2" aria-hidden="true" />
-                          <span className="font-medium">{b.name}</span>
+                          <span className="font-medium text-foreground">{b.name}</span>
                           <p className="text-xs text-muted-foreground mt-1">{b.address}</p>
                         </button>
                       ))}
@@ -127,9 +141,11 @@ const BookServices = () => {
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       {groomingPackages.map((p) => (
                         <button key={p.name} onClick={() => update("package", p.name)} aria-pressed={form.package === p.name}
-                          className={`p-4 rounded-lg border text-left transition-all ${form.package === p.name ? "border-primary bg-brand-light ring-2 ring-primary/20" : "border-border hover:border-primary/50"}`}>
+                          className={cn("p-4 rounded-lg border text-left transition-all",
+                            form.package === p.name ? "border-primary bg-primary/5 ring-1 ring-primary/30" : "border-border hover:border-muted-foreground/30"
+                          )}>
                           <PawPrint className="w-4 h-4 mb-1 text-primary" aria-hidden="true" />
-                          <p className="text-sm font-medium">{p.name}</p>
+                          <p className="text-sm font-medium text-foreground">{p.name}</p>
                           <p className="text-xs text-muted-foreground">{p.price} · {p.pet}</p>
                         </button>
                       ))}
@@ -139,18 +155,40 @@ const BookServices = () => {
                 )}
 
                 {step === 2 && (
-                  <div className="space-y-4">
+                  <div className="space-y-6">
                     <div>
-                      <Label htmlFor="service-date">Date *</Label>
-                      <Input id="service-date" type="date" value={form.date} onChange={(e) => update("date", e.target.value)} min={new Date().toISOString().split("T")[0]} aria-invalid={!!errors.date} />
+                      <Label className="mb-2 block">Select Date *</Label>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <Button
+                            variant="outline"
+                            className={cn("w-full justify-start text-left font-normal", !form.date && "text-muted-foreground")}
+                          >
+                            <CalendarIcon className="mr-2 h-4 w-4" />
+                            {form.date ? format(form.date, "PPP") : "Pick a date"}
+                          </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                          <Calendar
+                            mode="single"
+                            selected={form.date}
+                            onSelect={(d) => update("date", d)}
+                            disabled={(date) => date < new Date(new Date().setHours(0,0,0,0))}
+                            initialFocus
+                            className="p-3 pointer-events-auto"
+                          />
+                        </PopoverContent>
+                      </Popover>
                       <FieldError field="date" />
                     </div>
                     <div>
-                      <Label id="time-label">Time *</Label>
-                      <div className="grid grid-cols-4 gap-2 mt-2" role="group" aria-labelledby="time-label">
+                      <Label className="mb-2 block">Select Time *</Label>
+                      <div className="grid grid-cols-4 gap-2" role="group">
                         {times.map((t) => (
                           <button key={t} onClick={() => update("time", t)} aria-pressed={form.time === t}
-                            className={`py-2 px-3 rounded-lg border text-xs transition-all ${form.time === t ? "border-primary bg-brand-light ring-2 ring-primary/20" : "border-border hover:border-primary/50"}`}>
+                            className={cn("py-2.5 px-3 rounded-lg border text-xs font-medium transition-all",
+                              form.time === t ? "border-primary bg-primary/5 ring-1 ring-primary/30 text-primary" : "border-border hover:border-muted-foreground/30 text-foreground"
+                            )}>
                             {t}
                           </button>
                         ))}
@@ -194,26 +232,26 @@ const BookServices = () => {
                 )}
 
                 {step === 4 && (
-                  <div className="text-center py-8" role="status">
-                    <div className="w-16 h-16 bg-success/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <Check className="w-8 h-8 text-success" aria-hidden="true" />
+                  <div className="text-center py-6" role="status">
+                    <div className="w-14 h-14 bg-success/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <Check className="w-7 h-7 text-success" aria-hidden="true" />
                     </div>
-                    <h3 className="text-xl font-bold mb-2">Appointment Requested! 🎉</h3>
+                    <h3 className="text-lg font-bold text-foreground mb-2">Appointment Requested!</h3>
                     <div className="text-sm text-muted-foreground space-y-1 mb-6">
                       <p><strong>Package:</strong> {form.package}</p>
                       <p><strong>Branch:</strong> {form.branch}</p>
-                      <p><strong>Date:</strong> {form.date} at {form.time}</p>
+                      <p><strong>Date:</strong> {dateStr} at {form.time}</p>
                       <p><strong>Pet:</strong> {form.petName} ({form.petBreed})</p>
                       <p><strong>Name:</strong> {form.ownerName}</p>
                       <p><strong>Phone:</strong> {form.ownerPhone}</p>
                       {form.notes && <p><strong>Notes:</strong> {form.notes}</p>}
                     </div>
-                    <p className="text-sm text-muted-foreground mb-6">Please confirm your appointment by sending us a WhatsApp message:</p>
+                    <p className="text-sm text-muted-foreground mb-6">Confirm your appointment via WhatsApp:</p>
                     <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                      <Button className="rounded-full bg-[hsl(142_70%_45%)] hover:bg-[hsl(142_70%_40%)] text-white" asChild>
+                      <Button className="bg-success hover:bg-success/90 text-primary-foreground" asChild>
                         <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">Confirm on WhatsApp</a>
                       </Button>
-                      <Button variant="outline" className="rounded-full" asChild>
+                      <Button variant="outline" asChild>
                         <Link to="/">Back to Home</Link>
                       </Button>
                     </div>
@@ -223,11 +261,11 @@ const BookServices = () => {
 
               {step < 4 && (
                 <div className="flex justify-between mt-8">
-                  <Button variant="outline" onClick={() => { setErrors({}); setStep(Math.max(0, step - 1)); }} disabled={step === 0} aria-label="Go back to previous step">
-                    <ArrowLeft className="w-4 h-4 mr-1" aria-hidden="true" /> Back
+                  <Button variant="outline" onClick={() => { setErrors({}); setStep(Math.max(0, step - 1)); }} disabled={step === 0}>
+                    <ArrowLeft className="w-4 h-4 mr-1" /> Back
                   </Button>
-                  <Button onClick={handleNext} aria-label={step === 3 ? "Confirm booking" : "Go to next step"}>
-                    {step === 3 ? "Confirm" : "Next"} <ArrowRight className="w-4 h-4 ml-1" aria-hidden="true" />
+                  <Button onClick={handleNext}>
+                    {step === 3 ? "Confirm" : "Next"} <ArrowRight className="w-4 h-4 ml-1" />
                   </Button>
                 </div>
               )}

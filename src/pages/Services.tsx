@@ -2,41 +2,38 @@ import { Link } from "react-router-dom";
 import { Scissors, Bath, Sparkles, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
+import grooming4 from "@/assets/grooming-4.jpg";
+import grooming5 from "@/assets/grooming-5.jpg";
+import grooming6 from "@/assets/grooming-6.jpg";
 
 const packages = [
   {
-    icon: Bath, title: "Small Breed Package", slug: "small-breed", price: "₹1,000",
-    color: "bg-amber-light text-amber",
+    icon: Bath, title: "Small Breed Package", price: "₹1,000", image: grooming4,
     desc: "Complete grooming for small breed dogs — bathing, blow-drying, ear & eye cleaning, nail clipping, and paw cleaning.",
     features: ["Bathing", "Blow-Drying", "Ear Cleaning", "Eye Cleaning", "Nail Clipping", "Paw Cleaning"],
   },
   {
-    icon: Bath, title: "Large Breed Package", slug: "large-breed", price: "₹1,250",
-    color: "bg-brand-light text-brand-deep",
+    icon: Bath, title: "Large Breed Package", price: "₹1,250", image: grooming5,
     desc: "Full grooming for large breed dogs including teeth cleaning, combing/brushing, and all basic grooming essentials.",
     features: ["Bathing", "Blow-Drying", "Combing/Brushing", "Ear Cleaning", "Eye Cleaning", "Nail Clipping", "Paw Cleaning", "Teeth Cleaning"],
   },
   {
-    icon: Scissors, title: "Hair Cut Package", slug: "haircut", price: "₹1,800",
-    color: "bg-success-light text-success",
+    icon: Scissors, title: "Hair Cut Package", price: "₹1,800", image: grooming6,
     desc: "Premium package with full hair styling, haircut, bathing, and complete grooming for a show-ready look.",
     features: ["Hair Styling", "Bathing", "Blow-Drying", "Ear Cleaning", "Eye Cleaning", "Nail Clipping", "Paw Cleaning", "Teeth Cleaning"],
   },
   {
-    icon: Sparkles, title: "Cat Basic Grooming", slug: "cat-basic", price: "₹1,000",
-    color: "bg-amber-light text-amber",
+    icon: Sparkles, title: "Cat Basic Grooming", price: "₹1,000", image: grooming4,
     desc: "Gentle grooming for cats — bathing, blow-drying, ear & eye cleaning, nail clipping, and paw cleaning.",
     features: ["Bathing", "Blow-Drying", "Ear Cleaning", "Eye Cleaning", "Nail Clipping", "Paw Cleaning"],
   },
   {
-    icon: Scissors, title: "Cat Zero Cut Package", slug: "cat-zero-cut", price: "₹1,800",
-    color: "bg-brand-light text-brand-deep",
+    icon: Scissors, title: "Cat Zero Cut Package", price: "₹1,800", image: grooming5,
     desc: "Full cat grooming with trimming, bathing, and all grooming essentials for a neat, clean look.",
     features: ["Haircut/Trimming", "Bathing", "Blow-Drying", "Ear Cleaning", "Eye Cleaning", "Nail Clipping", "Paw Cleaning"],
   },
   {
-    icon: Scissors, title: "Cat Hair Cut Package", slug: "cat-haircut", price: "₹1,500",
-    color: "bg-success-light text-success",
+    icon: Scissors, title: "Cat Hair Cut Package", price: "₹1,500", image: grooming6,
     desc: "Premium cat grooming with hair styling, bathing, and complete care for your feline friend.",
     features: ["Hair Styling", "Bathing", "Blow-Drying", "Ear Cleaning", "Eye Cleaning", "Nail Clipping", "Paw Cleaning"],
   },
@@ -44,34 +41,33 @@ const packages = [
 
 const Services = () => (
   <div className="min-h-screen bg-background">
-    <section className="bg-gradient-hero py-16 md:py-24">
+    <section className="py-12 border-b border-border">
       <div className="container text-center">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-          <h1 className="text-3xl md:text-5xl font-bold text-primary-foreground mb-4">Our Grooming Packages</h1>
-          <p className="text-primary-foreground/80 text-lg max-w-2xl mx-auto">Professional grooming for dogs & cats. Every package includes love, patience, and a gentle touch.</p>
+          <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-2">Our Grooming Packages</h1>
+          <p className="text-muted-foreground text-sm max-w-lg mx-auto">Professional grooming for dogs & cats. Every package includes love, patience, and a gentle touch.</p>
         </motion.div>
       </div>
     </section>
 
-    <section className="py-16">
-      <div className="container space-y-12">
+    <section className="py-12">
+      <div className="container space-y-8">
         {packages.map((s, i) => (
-          <motion.div key={s.slug} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }}>
-            <div className={`bg-card rounded-xl shadow-card p-8 md:p-10 flex flex-col md:flex-row gap-8 ${i % 2 === 1 ? "md:flex-row-reverse" : ""}`}>
+          <motion.div key={s.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }}>
+            <div className="bg-card rounded-xl border border-border p-6 md:p-8 flex flex-col md:flex-row gap-6">
+              <img src={s.image} alt={s.title} className="w-full md:w-48 h-40 md:h-auto object-cover rounded-lg shrink-0" loading="lazy" />
               <div className="flex-1">
-                <div className={`w-14 h-14 rounded-xl ${s.color} flex items-center justify-center mb-4`}><s.icon className="w-7 h-7" /></div>
-                <h2 className="text-2xl font-bold mb-2">{s.title}</h2>
-                <p className="text-primary font-semibold mb-4">{s.price}</p>
-                <p className="text-muted-foreground mb-6 leading-relaxed">{s.desc}</p>
-                <Button className="rounded-full" asChild><Link to="/book">Book This Package</Link></Button>
-              </div>
-              <div className="flex-1">
-                <h4 className="font-semibold mb-3">What's Included</h4>
-                <ul className="space-y-2">
+                <h2 className="text-xl font-bold text-foreground mb-1">{s.title}</h2>
+                <p className="text-primary font-semibold mb-3">{s.price}</p>
+                <p className="text-muted-foreground text-sm mb-4 leading-relaxed">{s.desc}</p>
+                <div className="flex flex-wrap gap-2 mb-5">
                   {s.features.map((f) => (
-                    <li key={f} className="flex items-center gap-2 text-sm"><Check className="w-4 h-4 text-success shrink-0" />{f}</li>
+                    <span key={f} className="inline-flex items-center gap-1 text-xs bg-muted text-muted-foreground px-2.5 py-1 rounded-full">
+                      <Check className="w-3 h-3 text-success" />{f}
+                    </span>
                   ))}
-                </ul>
+                </div>
+                <Button size="sm" asChild><Link to="/book">Book This Package</Link></Button>
               </div>
             </div>
           </motion.div>
