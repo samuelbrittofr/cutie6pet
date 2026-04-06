@@ -1,6 +1,8 @@
-import { Heart, Shield, Sparkles, Award, PawPrint } from "lucide-react";
+import { Heart, Shield, Sparkles, Award, PawPrint, Star } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { motion } from "framer-motion";
+import shopExterior from "@/assets/shop-exterior.jpg";
+import grooming1 from "@/assets/grooming-1.jpg";
 
 const values = [
   { icon: Heart, title: "Love & Patience", desc: "Every pet is treated like our own — with patience, love, and a gentle touch." },
@@ -21,32 +23,47 @@ const About = () => (
       </div>
     </section>
 
-    <section className="py-16">
-      <div className="container max-w-3xl text-center">
-        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-          <h2 className="text-2xl md:text-3xl font-bold mb-6">Our Story</h2>
-          <p className="text-muted-foreground leading-relaxed mb-6">
-            At Cutie 6 Pets, we believe every pet has a personality and we're here to help it shine. We're more than just a grooming centre — we're a cosy, happy place where pets are pampered, personalities are polished, and tails leave wagging with joy.
-          </p>
-          <p className="text-muted-foreground leading-relaxed mb-6">
-            From soothing spa baths and stylish trims to paw care and fluff-friendly products, everything we do is designed with your pet's happiness in mind. Our expert groomers treat every visitor like one of our original six — with patience, love, and a gentle touch.
-          </p>
-          <blockquote className="border-l-4 border-primary pl-6 text-left italic text-muted-foreground">
-            "We started Cutie 6 Pet because we wanted a place where our own pets would feel safe, loved, and pampered. That's the standard we hold ourselves to every single day."
-          </blockquote>
-        </motion.div>
+    {/* Our Story - Enhanced */}
+    <section className="py-20">
+      <div className="container max-w-5xl">
+        <div className="grid md:grid-cols-2 gap-12 items-center">
+          <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
+            <span className="text-primary font-medium text-sm uppercase tracking-wider">Our Story</span>
+            <h2 className="text-3xl md:text-4xl font-bold mt-2 mb-6 text-foreground">
+              Where Every Pet's <span className="text-primary">Personality Shines</span>
+            </h2>
+            <p className="text-muted-foreground text-lg leading-relaxed mb-6">
+              At Cutie 6 Pet, we believe every pet has a personality and we're here to help it shine. We're more than just a grooming centre — we're a <strong className="text-foreground">cosy, happy place</strong> where pets are pampered, personalities are polished, and tails leave wagging with joy.
+            </p>
+            <p className="text-muted-foreground leading-relaxed mb-8">
+              From soothing spa baths and stylish trims to paw care and fluff-friendly products, everything we do is designed with your pet's happiness in mind. Our expert groomers treat every visitor like one of our original six — with patience, love, and a gentle touch.
+            </p>
+            <div className="bg-primary/5 border-l-4 border-primary p-5 rounded-r-lg">
+              <p className="italic text-foreground font-medium">
+                "We started Cutie 6 Pet because we wanted a place where our own pets would feel safe, loved, and pampered. That's the standard we hold ourselves to every single day."
+              </p>
+              <p className="text-sm text-primary mt-2 font-semibold">— The Cutie 6 Pet Team</p>
+            </div>
+          </motion.div>
+          <motion.div initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="space-y-4">
+            <img src={shopExterior} alt="Cutie 6 Pet shop" className="rounded-2xl shadow-lg w-full object-cover aspect-[4/3]" loading="lazy" />
+            <img src={grooming1} alt="Pet grooming in action" className="rounded-2xl shadow-lg w-full object-cover aspect-[4/3]" loading="lazy" />
+          </motion.div>
+        </div>
       </div>
     </section>
 
+    {/* Stats */}
     <section className="py-16 bg-secondary">
       <div className="container">
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-8 text-center">
+        <div className="grid grid-cols-3 gap-8 text-center">
           {[
-            { value: "2", label: "Branches in Bangalore" },
-            { value: "1000+", label: "Happy Pets Groomed" },
-            { value: "4.9/5", label: "JustDial Rating" },
+            { value: "1000+", label: "Happy Pets Groomed", icon: PawPrint },
+            { value: "4.9", label: "JustDial Rating", icon: Star },
+            { value: "37+", label: "5-Star Reviews", icon: Heart },
           ].map((s, i) => (
             <motion.div key={s.label} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}>
+              <s.icon className="w-8 h-8 text-primary mx-auto mb-3" />
               <p className="text-3xl md:text-4xl font-bold text-primary">{s.value}</p>
               <p className="text-sm text-muted-foreground mt-1">{s.label}</p>
             </motion.div>
@@ -55,15 +72,19 @@ const About = () => (
       </div>
     </section>
 
+    {/* Values */}
     <section className="py-16">
       <div className="container">
-        <h2 className="text-2xl md:text-3xl font-bold text-center mb-12">What We Stand For</h2>
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-12">
+          <span className="text-primary font-medium text-sm uppercase tracking-wider">Our Values</span>
+          <h2 className="text-2xl md:text-3xl font-bold mt-2">What We Stand For</h2>
+        </motion.div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-6">
           {values.map((v, i) => (
-            <motion.div key={v.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}>
-              <Card className="text-center h-full">
+            <motion.div key={v.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }} whileHover={{ y: -5 }}>
+              <Card className="text-center h-full hover:shadow-md transition-shadow">
                 <CardContent className="pt-6">
-                  <div className="w-12 h-12 bg-brand-light rounded-xl flex items-center justify-center mx-auto mb-4"><v.icon className="w-6 h-6 text-primary" /></div>
+                  <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mx-auto mb-4"><v.icon className="w-6 h-6 text-primary" /></div>
                   <h3 className="font-semibold mb-2">{v.title}</h3>
                   <p className="text-sm text-muted-foreground">{v.desc}</p>
                 </CardContent>

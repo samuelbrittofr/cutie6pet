@@ -6,23 +6,18 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Check, MapPin, PawPrint, ArrowLeft, ArrowRight, CalendarIcon, MessageCircle } from "lucide-react";
+import { Check, PawPrint, ArrowLeft, ArrowRight, CalendarIcon, MessageCircle } from "lucide-react";
 import { motion } from "framer-motion";
 import { useToast } from "@/hooks/use-toast";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 
-const steps = ["Branch", "Package", "Date & Time", "Your Details", "Confirmation"];
-
-const branches = [
-  { name: "Kacharakanahalli", address: "Flat No. 1B-1, Iriss North, 2nd Cross" },
-  { name: "Kammanahalli", address: "Near ABCD Park, Kammanahalli" },
-];
+const steps = ["Package", "Date & Time", "Your Details", "Confirmation"];
 
 const groomingPackages = [
   { name: "Small Breed Package", price: "₹1,000", pet: "Dog" },
   { name: "Large Breed Package", price: "₹1,250", pet: "Dog" },
-  { name: "Hair Cut Package", price: "₹1,800", pet: "Dog" },
+  { name: "Hair Cut Package (Dog)", price: "₹1,800", pet: "Dog" },
   { name: "Cat Basic Grooming", price: "₹1,000", pet: "Cat" },
   { name: "Cat Zero Cut Package", price: "₹1,800", pet: "Cat" },
   { name: "Cat Hair Cut Package", price: "₹1,500", pet: "Cat" },
@@ -31,7 +26,6 @@ const groomingPackages = [
 const times = ["10:00 AM", "11:00 AM", "12:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM"];
 
 type FormData = {
-  branch: string;
   package: string;
   date: Date | undefined;
   time: string;
@@ -47,7 +41,7 @@ const BookServices = () => {
   const [step, setStep] = useState(0);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [form, setForm] = useState<FormData>({
-    branch: "", package: "", date: undefined, time: "", petName: "", petBreed: "", petType: "Dog", ownerName: "", ownerPhone: "", notes: "",
+    package: "", date: undefined, time: "", petName: "", petBreed: "", petType: "Dog", ownerName: "", ownerPhone: "", notes: "",
   });
   const { toast } = useToast();
 
@@ -60,13 +54,12 @@ const BookServices = () => {
 
   const validateStep = (): boolean => {
     const e: Record<string, string> = {};
-    if (step === 0 && !form.branch) e.branch = "Please select a branch.";
-    if (step === 1 && !form.package) e.package = "Please select a package.";
-    if (step === 2) {
+    if (step === 0 && !form.package) e.package = "Please select a package.";
+    if (step === 1) {
       if (!form.date) e.date = "Please select a date.";
       if (!form.time) e.time = "Please select a time.";
     }
-    if (step === 3) {
+    if (step === 2) {
       if (!form.petName.trim()) e.petName = "Pet name is required.";
       if (!form.petBreed.trim()) e.petBreed = "Breed is required.";
       if (!form.ownerName.trim()) e.ownerName = "Your name is required.";
@@ -86,7 +79,7 @@ const BookServices = () => {
   const FieldError = ({ field }: { field: string }) => errors[field] ? <p className="text-sm text-destructive mt-1" role="alert">{errors[field]}</p> : null;
 
   const dateStr = form.date ? format(form.date, "PPP") : "";
-  const whatsappMsg = `Hi Cutie 6 Pet! I'd like to confirm my booking:\n\n📋 Package: ${form.package}\n📍 Branch: ${form.branch}\n📅 Date: ${dateStr}\n🕐 Time: ${form.time}\n🐾 Pet: ${form.petName} (${form.petBreed})\n👤 Name: ${form.ownerName}\n📱 Phone: ${form.ownerPhone}${form.notes ? `\n📝 Notes: ${form.notes}` : ""}`;
+  const whatsappMsg = `Hi Cutie 6 Pet! I'd like to confirm my booking:\n\n📋 Package: ${form.package}\n📍 Branch: Kacharakanahalli\n📅 Date: ${dateStr}\n🕐 Time: ${form.time}\n🐾 Pet: ${form.petName} (${form.petBreed})\n👤 Name: ${form.ownerName}\n📱 Phone: ${form.ownerPhone}${form.notes ? `\n📝 Notes: ${form.notes}` : ""}`;
   const whatsappUrl = `https://wa.me/917947419026?text=${encodeURIComponent(whatsappMsg)}`;
 
   return (
@@ -95,14 +88,13 @@ const BookServices = () => {
         <div className="container">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
             <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-1">Book an Appointment</h1>
-            <p className="text-muted-foreground text-sm">Schedule a grooming session in just a few steps.</p>
+            <p className="text-muted-foreground text-sm">Schedule a grooming session at our Kacharakanahalli branch.</p>
           </motion.div>
         </div>
       </section>
 
       <section className="py-10">
         <div className="container max-w-2xl">
-          {/* Step indicators - properly aligned */}
           <div className="mb-8">
             <div className="flex items-center justify-between mb-3">
               {steps.map((s, i) => (
@@ -122,7 +114,6 @@ const BookServices = () => {
                 </div>
               ))}
             </div>
-            {/* Progress bar aligned under the circles */}
             <div className="h-1 bg-muted rounded-full overflow-hidden">
               <motion.div
                 className="h-full bg-primary rounded-full"
@@ -145,25 +136,6 @@ const BookServices = () => {
                 <div aria-live="polite">
                   {step === 0 && (
                     <fieldset>
-                      <legend className="sr-only">Select a branch</legend>
-                      <div className="grid gap-3">
-                        {branches.map((b) => (
-                          <button key={b.name} onClick={() => update("branch", b.name)} aria-pressed={form.branch === b.name}
-                            className={cn("p-4 rounded-lg border text-left transition-all",
-                              form.branch === b.name ? "border-primary bg-primary/5 ring-1 ring-primary/30" : "border-border hover:border-muted-foreground/30"
-                            )}>
-                            <MapPin className="w-4 h-4 mb-1 text-primary inline mr-2" aria-hidden="true" />
-                            <span className="font-medium text-foreground">{b.name}</span>
-                            <p className="text-xs text-muted-foreground mt-1">{b.address}</p>
-                          </button>
-                        ))}
-                      </div>
-                      <FieldError field="branch" />
-                    </fieldset>
-                  )}
-
-                  {step === 1 && (
-                    <fieldset>
                       <legend className="sr-only">Select a grooming package</legend>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         {groomingPackages.map((p) => (
@@ -181,7 +153,7 @@ const BookServices = () => {
                     </fieldset>
                   )}
 
-                  {step === 2 && (
+                  {step === 1 && (
                     <div className="space-y-6">
                       <div>
                         <Label className="mb-2 block">Select Date *</Label>
@@ -225,7 +197,7 @@ const BookServices = () => {
                     </div>
                   )}
 
-                  {step === 3 && (
+                  {step === 2 && (
                     <div className="space-y-4">
                       <div className="grid grid-cols-2 gap-4">
                         <div>
@@ -258,7 +230,7 @@ const BookServices = () => {
                     </div>
                   )}
 
-                  {step === 4 && (
+                  {step === 3 && (
                     <div className="text-center py-6" role="status">
                       <motion.div
                         initial={{ scale: 0 }}
@@ -271,7 +243,7 @@ const BookServices = () => {
                       <h3 className="text-lg font-bold text-foreground mb-2">Appointment Requested!</h3>
                       <div className="text-sm text-muted-foreground space-y-1 mb-6 text-left max-w-sm mx-auto">
                         <p><strong>Package:</strong> {form.package}</p>
-                        <p><strong>Branch:</strong> {form.branch}</p>
+                        <p><strong>Branch:</strong> Kacharakanahalli</p>
                         <p><strong>Date:</strong> {dateStr} at {form.time}</p>
                         <p><strong>Pet:</strong> {form.petName} ({form.petBreed})</p>
                         <p><strong>Name:</strong> {form.ownerName}</p>
@@ -294,13 +266,13 @@ const BookServices = () => {
                   )}
                 </div>
 
-                {step < 4 && (
+                {step < 3 && (
                   <div className="flex justify-between mt-8">
                     <Button variant="outline" onClick={() => { setErrors({}); setStep(Math.max(0, step - 1)); }} disabled={step === 0}>
                       <ArrowLeft className="w-4 h-4 mr-1" /> Back
                     </Button>
                     <Button onClick={handleNext}>
-                      {step === 3 ? "Confirm" : "Next"} <ArrowRight className="w-4 h-4 ml-1" />
+                      {step === 2 ? "Confirm" : "Next"} <ArrowRight className="w-4 h-4 ml-1" />
                     </Button>
                   </div>
                 )}

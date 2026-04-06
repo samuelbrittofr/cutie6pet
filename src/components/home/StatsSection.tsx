@@ -1,17 +1,16 @@
-import { Heart, Award, Shield, Star } from "lucide-react";
 import { motion } from "framer-motion";
 
 const stats = [
-  { label: "Happy Pets Groomed", value: "1000+", icon: Heart },
-  { label: "JustDial Rating", value: "4.9/5", icon: Star },
-  { label: "Pet-Safe Products", value: "100%", icon: Shield },
-  { label: "Expert Groomers", value: "Certified", icon: Award },
+  { value: "1000+", label: "Happy Pets" },
+  { value: "4.9/5", label: "JustDial Rating" },
+  { value: "37+", label: "5-Star Reviews" },
+  { value: "6+", label: "Expert Groomers" },
 ];
 
 const StatsSection = () => (
-  <section className="py-16 bg-muted">
+  <section className="py-12 bg-primary">
     <div className="container">
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
         {stats.map((stat, i) => (
           <motion.div
             key={stat.label}
@@ -21,9 +20,8 @@ const StatsSection = () => (
             transition={{ delay: i * 0.1 }}
             className="text-center"
           >
-            <stat.icon className="w-6 h-6 text-primary mx-auto mb-3" />
-            <div className="text-2xl md:text-3xl font-bold text-foreground mb-1">{stat.value}</div>
-            <p className="text-sm text-muted-foreground">{stat.label}</p>
+            <p className="text-3xl md:text-4xl font-bold text-primary-foreground">{stat.value}</p>
+            <p className="text-sm text-primary-foreground/70 mt-1">{stat.label}</p>
           </motion.div>
         ))}
       </div>

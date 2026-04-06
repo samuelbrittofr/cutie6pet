@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { MapPin, Phone, Mail, Clock, Check } from "lucide-react";
+import { MapPin, Phone, Mail, Clock, Check, MessageCircle } from "lucide-react";
 import { motion } from "framer-motion";
 
 const WHATSAPP_URL = "https://wa.me/917947419026?text=Hi%20Cutie%206%20Pet!%20I%20have%20a%20question.";
@@ -25,12 +25,31 @@ const Contact = () => {
       <section className="py-16">
         <div className="container grid lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">
+            {/* WhatsApp prominent CTA */}
+            <Card className="mb-6 border-[hsl(142,71%,45%)]/20 bg-[hsl(142,71%,45%)]/5">
+              <CardContent className="pt-6 flex flex-col sm:flex-row items-center gap-4">
+                <div className="w-14 h-14 rounded-full bg-[hsl(142,71%,45%)]/10 flex items-center justify-center shrink-0">
+                  <MessageCircle className="w-7 h-7 text-[hsl(142,71%,45%)]" />
+                </div>
+                <div className="text-center sm:text-left flex-1">
+                  <h3 className="font-semibold text-foreground mb-1">Fastest way to reach us</h3>
+                  <p className="text-sm text-muted-foreground">Get an instant reply on WhatsApp — we usually respond within minutes!</p>
+                </div>
+                <Button className="bg-[hsl(142,71%,45%)] hover:bg-[hsl(142,71%,40%)] text-white shrink-0" asChild>
+                  <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
+                    <MessageCircle className="w-4 h-4 mr-2" />
+                    Chat on WhatsApp
+                  </a>
+                </Button>
+              </CardContent>
+            </Card>
+
             <Card>
               <CardHeader><CardTitle>Send Us a Message</CardTitle></CardHeader>
               <CardContent>
                 {submitted ? (
                   <div className="text-center py-12">
-                    <div className="w-16 h-16 bg-success/10 rounded-full flex items-center justify-center mx-auto mb-4"><Check className="w-8 h-8 text-success" /></div>
+                    <div className="w-16 h-16 bg-[hsl(142,71%,45%)]/10 rounded-full flex items-center justify-center mx-auto mb-4"><Check className="w-8 h-8 text-[hsl(142,71%,45%)]" /></div>
                     <h3 className="text-xl font-bold mb-2">Message Sent!</h3>
                     <p className="text-muted-foreground">We'll get back to you soon. You can also reach us on WhatsApp for a quicker response!</p>
                   </div>
@@ -69,19 +88,9 @@ const Contact = () => {
             <Card>
               <CardContent className="pt-6 space-y-4">
                 <div className="flex items-start gap-3"><MapPin className="w-5 h-5 text-primary shrink-0 mt-0.5" /><div><p className="font-medium text-sm">Kacharakanahalli</p><p className="text-sm text-muted-foreground">Flat No. 1B-1, Iriss North, No.14, 2nd Cross, Kacharakanahalli, Bengaluru 560084</p></div></div>
-                <div className="flex items-start gap-3"><MapPin className="w-5 h-5 text-primary shrink-0 mt-0.5" /><div><p className="font-medium text-sm">Kammanahalli</p><p className="text-sm text-muted-foreground">Near ABCD Park, Kammanahalli, Bengaluru</p></div></div>
                 <div className="flex items-start gap-3"><Phone className="w-5 h-5 text-primary shrink-0 mt-0.5" /><div><p className="font-medium text-sm">Phone</p><p className="text-sm text-muted-foreground">079 4741 9026</p></div></div>
                 <div className="flex items-start gap-3"><Mail className="w-5 h-5 text-primary shrink-0 mt-0.5" /><div><p className="font-medium text-sm">Email</p><p className="text-sm text-muted-foreground">cutie6pet@gmail.com</p></div></div>
                 <div className="flex items-start gap-3"><Clock className="w-5 h-5 text-primary shrink-0 mt-0.5" /><div><p className="font-medium text-sm">Hours</p><p className="text-sm text-muted-foreground">10:00 AM – 8:00 PM<br />Open all days</p></div></div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardContent className="pt-6 text-center">
-                <p className="text-sm text-muted-foreground mb-3">Prefer a quicker response?</p>
-                <Button className="rounded-full bg-[hsl(142_70%_45%)] hover:bg-[hsl(142_70%_40%)] text-white" asChild>
-                  <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">Chat on WhatsApp</a>
-                </Button>
               </CardContent>
             </Card>
           </div>
