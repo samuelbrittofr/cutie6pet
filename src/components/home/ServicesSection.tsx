@@ -1,10 +1,10 @@
 import { Scissors, Bath, Sparkles, Heart, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import petDog from "@/assets/pet-dog-grooming.jpg";
-import petCat from "@/assets/pet-cat-grooming.jpg";
-import petPom from "@/assets/pet-pomeranian.jpg";
-import petLab from "@/assets/pet-labrador.jpg";
+import flatDogSmall from "@/assets/flat-dog-small.png";
+import flatDogLarge from "@/assets/flat-dog-large.png";
+import flatCatBasic from "@/assets/flat-cat-basic.png";
+import flatCatHaircut from "@/assets/flat-cat-haircut.png";
 
 const services = [
   {
@@ -13,7 +13,8 @@ const services = [
     description: "Bathing, blow-drying, ear cleaning, eye cleaning, nail clipping, and paw cleaning.",
     price: "From ₹1,000",
     path: "/pricing",
-    image: petDog,
+    image: flatDogSmall,
+    emoji: "🛁",
   },
   {
     icon: Scissors,
@@ -21,7 +22,8 @@ const services = [
     description: "Full haircut with styling, bathing, blow-drying, ear & eye cleaning, nail clipping, and teeth cleaning.",
     price: "From ₹1,500",
     path: "/pricing",
-    image: petLab,
+    image: flatDogLarge,
+    emoji: "✂️",
   },
   {
     icon: Sparkles,
@@ -29,7 +31,8 @@ const services = [
     description: "Specialized grooming for cats — gentle handling, bathing, trimming, and paw care.",
     price: "From ₹1,000",
     path: "/pricing",
-    image: petCat,
+    image: flatCatBasic,
+    emoji: "🐱",
   },
   {
     icon: Heart,
@@ -37,7 +40,8 @@ const services = [
     description: "Premium pampering with de-shedding, teeth cleaning, and all grooming essentials.",
     price: "From ₹1,800",
     path: "/pricing",
-    image: petPom,
+    image: flatCatHaircut,
+    emoji: "💖",
   },
 ];
 
@@ -66,10 +70,12 @@ const ServicesSection = () => (
           >
             <Link
               to={service.path}
-              className="group block bg-card rounded-xl overflow-hidden border border-border hover:border-primary/20 hover:shadow-lg transition-all duration-300"
+              className="group block bg-card rounded-xl overflow-hidden border border-border hover:border-primary/20 hover:shadow-lg transition-all duration-300 relative"
             >
-              <div className="h-40 overflow-hidden">
-                <img src={service.image} alt={service.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" loading="lazy" />
+              {/* Emoji overlay */}
+              <span className="absolute top-3 right-3 z-10 text-2xl drop-shadow-md">{service.emoji}</span>
+              <div className="h-40 overflow-hidden bg-gradient-to-br from-primary/5 to-accent/5 flex items-center justify-center">
+                <img src={service.image} alt={service.title} className="w-32 h-32 object-contain transition-transform duration-500 group-hover:scale-110" loading="lazy" />
               </div>
               <div className="p-5">
                 <service.icon className="w-6 h-6 text-primary mb-3" />
