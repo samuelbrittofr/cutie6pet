@@ -38,16 +38,16 @@ const HeroSection = () => {
 
   return (
     <section className="relative min-h-[80vh] flex items-center overflow-hidden -mt-16 pt-16">
-      <AnimatePresence initial={false}>
+      <AnimatePresence initial={false} mode="wait">
         {slides.map((slide, index) =>
           activeSlide === index ? (
             <motion.div
               key={index}
-              initial={{ opacity: 0, scale: 1.1 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 1.2, ease: "easeInOut" }}
-              className="absolute inset-0"
+              initial={{ opacity: 0, scale: 1.03, y: 14, filter: "blur(10px)" }}
+              animate={{ opacity: 1, scale: 1, y: 0, filter: "blur(0px)" }}
+              exit={{ opacity: 0, scale: 0.99, y: -10, filter: "blur(6px)" }}
+              transition={{ duration: 0.95, ease: [0.22, 1, 0.36, 1] }}
+              className="absolute inset-0 will-change-transform"
               style={{ zIndex: 1 }}
             >
               <HeroDoodleSlide variant={slide.variant} />

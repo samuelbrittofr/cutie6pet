@@ -35,8 +35,68 @@ const themes = [
   },
 ] as const;
 
+const moods = [
+  {
+    floatY: [0, -8, 0],
+    floatDuration: 4.5,
+    blinkDogDuration: 4.8,
+    blinkCatDuration: 4.4,
+    dogEyeXLeft: [268, 273, 269],
+    dogEyeXRight: [332, 338, 333],
+    catEyeXLeft: [669, 664, 668],
+    catEyeXRight: [731, 724, 730],
+    dogSmile: ["M278 334 Q300 352 322 334", "M278 336 Q300 346 322 336", "M278 334 Q300 352 322 334"],
+    catSmile: ["M680 336 Q700 352 720 336", "M680 338 Q700 344 720 338", "M680 336 Q700 352 720 336"],
+    blushDog: [0.35, 0.75, 0.35],
+    blushCat: [0.4, 0.8, 0.4],
+  },
+  {
+    floatY: [0, -4, 2, 0],
+    floatDuration: 5.2,
+    blinkDogDuration: 3.9,
+    blinkCatDuration: 5.2,
+    dogEyeXLeft: [268, 262, 270, 268],
+    dogEyeXRight: [332, 326, 334, 332],
+    catEyeXLeft: [669, 676, 668, 669],
+    catEyeXRight: [731, 738, 730, 731],
+    dogSmile: ["M278 336 Q300 346 322 336", "M278 332 Q300 360 322 332", "M278 336 Q300 346 322 336"],
+    catSmile: ["M680 338 Q700 344 720 338", "M680 333 Q700 358 720 333", "M680 338 Q700 344 720 338"],
+    blushDog: [0.25, 0.9, 0.25],
+    blushCat: [0.25, 0.85, 0.25],
+  },
+  {
+    floatY: [0, -10, 0, -5, 0],
+    floatDuration: 4,
+    blinkDogDuration: 3.4,
+    blinkCatDuration: 3.6,
+    dogEyeXLeft: [268, 276, 268, 262, 268],
+    dogEyeXRight: [332, 340, 332, 324, 332],
+    catEyeXLeft: [669, 661, 669, 677, 669],
+    catEyeXRight: [731, 723, 731, 739, 731],
+    dogSmile: ["M278 334 Q300 352 322 334", "M278 340 Q300 340 322 340", "M278 334 Q300 352 322 334"],
+    catSmile: ["M680 336 Q700 352 720 336", "M680 341 Q700 339 720 341", "M680 336 Q700 352 720 336"],
+    blushDog: [0.5, 0.95, 0.5],
+    blushCat: [0.45, 0.9, 0.45],
+  },
+  {
+    floatY: [0, -6, 0],
+    floatDuration: 6,
+    blinkDogDuration: 5.6,
+    blinkCatDuration: 5.4,
+    dogEyeXLeft: [268, 264, 268],
+    dogEyeXRight: [332, 328, 332],
+    catEyeXLeft: [669, 673, 669],
+    catEyeXRight: [731, 735, 731],
+    dogSmile: ["M278 336 Q300 346 322 336", "M278 333 Q300 355 322 333", "M278 336 Q300 346 322 336"],
+    catSmile: ["M680 338 Q700 344 720 338", "M680 334 Q700 354 720 334", "M680 338 Q700 344 720 338"],
+    blushDog: [0.2, 0.6, 0.2],
+    blushCat: [0.25, 0.65, 0.25],
+  },
+] as const;
+
 const HeroDoodleSlide = ({ variant }: HeroDoodleSlideProps) => {
   const theme = themes[variant];
+  const mood = moods[variant];
   return (
     <div className={`absolute inset-0 ${theme.bg}`}>
     <motion.div
@@ -49,8 +109,8 @@ const HeroDoodleSlide = ({ variant }: HeroDoodleSlideProps) => {
       viewBox="0 0 1000 560"
       className="w-full h-full"
       aria-label="Cute doodle dog and cat looking at their human"
-      animate={{ y: [0, -8, 0] }}
-      transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
+      animate={{ y: mood.floatY }}
+      transition={{ duration: mood.floatDuration, repeat: Infinity, ease: "easeInOut" }}
     >
       <rect x="0" y="440" width="1000" height="120" fill={theme.floor} />
 
@@ -68,14 +128,14 @@ const HeroDoodleSlide = ({ variant }: HeroDoodleSlideProps) => {
         <circle cx="340" cy="285" r="23" fill="#ffffff" />
         <motion.g
           animate={{ scaleY: [1, 1, 0.12, 1, 1] }}
-          transition={{ duration: 4.8, repeat: Infinity, repeatDelay: 1.2 }}
+          transition={{ duration: mood.blinkDogDuration, repeat: Infinity, repeatDelay: 1.1 }}
           style={{ transformOrigin: "300px 285px" }}
         >
           <circle cx="260" cy="285" r="23" fill="#ffffff" />
           <circle cx="340" cy="285" r="23" fill="#ffffff" />
         </motion.g>
-        <motion.circle cx="268" cy="287" r="8" fill="#111827" animate={{ cx: [268, 273, 269] }} transition={{ duration: 2.4, repeat: Infinity }} />
-        <motion.circle cx="332" cy="287" r="8" fill="#111827" animate={{ cx: [332, 338, 333] }} transition={{ duration: 2.4, repeat: Infinity }} />
+        <motion.circle cx="268" cy="287" r="8" fill="#111827" animate={{ cx: mood.dogEyeXLeft }} transition={{ duration: 2.6, repeat: Infinity }} />
+        <motion.circle cx="332" cy="287" r="8" fill="#111827" animate={{ cx: mood.dogEyeXRight }} transition={{ duration: 2.6, repeat: Infinity }} />
         <ellipse cx="300" cy="314" rx="10" ry="8" fill="#111827" />
         <motion.path
           d="M278 334 Q300 352 322 334"
@@ -83,11 +143,11 @@ const HeroDoodleSlide = ({ variant }: HeroDoodleSlideProps) => {
           stroke="#111827"
           strokeWidth="6"
           strokeLinecap="round"
-          animate={{ d: ["M278 334 Q300 352 322 334", "M278 336 Q300 346 322 336", "M278 334 Q300 352 322 334"] }}
+          animate={{ d: mood.dogSmile }}
           transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut" }}
         />
-        <motion.circle cx="235" cy="323" r="10" fill="#fb7185" animate={{ opacity: [0.35, 0.75, 0.35] }} transition={{ duration: 1.8, repeat: Infinity }} />
-        <motion.circle cx="365" cy="323" r="10" fill="#fb7185" animate={{ opacity: [0.35, 0.75, 0.35] }} transition={{ duration: 1.8, repeat: Infinity }} />
+        <motion.circle cx="235" cy="323" r="10" fill="#fb7185" animate={{ opacity: mood.blushDog }} transition={{ duration: 1.8, repeat: Infinity }} />
+        <motion.circle cx="365" cy="323" r="10" fill="#fb7185" animate={{ opacity: mood.blushDog }} transition={{ duration: 1.8, repeat: Infinity }} />
       </g>
 
       <g>
@@ -99,14 +159,14 @@ const HeroDoodleSlide = ({ variant }: HeroDoodleSlideProps) => {
         <circle cx="738" cy="286" r="21" fill="#ffffff" />
         <motion.g
           animate={{ scaleY: [1, 1, 0.08, 1, 1] }}
-          transition={{ duration: 4.4, repeat: Infinity, repeatDelay: 1 }}
+          transition={{ duration: mood.blinkCatDuration, repeat: Infinity, repeatDelay: 1 }}
           style={{ transformOrigin: "700px 286px" }}
         >
           <circle cx="662" cy="286" r="21" fill="#ffffff" />
           <circle cx="738" cy="286" r="21" fill="#ffffff" />
         </motion.g>
-        <motion.circle cx="669" cy="288" r="7" fill="#111827" animate={{ cx: [669, 664, 668] }} transition={{ duration: 2.2, repeat: Infinity }} />
-        <motion.circle cx="731" cy="288" r="7" fill="#111827" animate={{ cx: [731, 724, 730] }} transition={{ duration: 2.2, repeat: Infinity }} />
+        <motion.circle cx="669" cy="288" r="7" fill="#111827" animate={{ cx: mood.catEyeXLeft }} transition={{ duration: 2.3, repeat: Infinity }} />
+        <motion.circle cx="731" cy="288" r="7" fill="#111827" animate={{ cx: mood.catEyeXRight }} transition={{ duration: 2.3, repeat: Infinity }} />
         <polygon points="700,308 688,320 712,320" fill="#f97316" />
         <motion.path
           d="M680 336 Q700 352 720 336"
@@ -114,11 +174,11 @@ const HeroDoodleSlide = ({ variant }: HeroDoodleSlideProps) => {
           stroke="#111827"
           strokeWidth="6"
           strokeLinecap="round"
-          animate={{ d: ["M680 336 Q700 352 720 336", "M680 338 Q700 344 720 338", "M680 336 Q700 352 720 336"] }}
+          animate={{ d: mood.catSmile }}
           transition={{ duration: 2.6, repeat: Infinity, ease: "easeInOut" }}
         />
-        <motion.circle cx="638" cy="323" r="9" fill="#fb7185" animate={{ opacity: [0.4, 0.8, 0.4] }} transition={{ duration: 1.7, repeat: Infinity }} />
-        <motion.circle cx="762" cy="323" r="9" fill="#fb7185" animate={{ opacity: [0.4, 0.8, 0.4] }} transition={{ duration: 1.7, repeat: Infinity }} />
+        <motion.circle cx="638" cy="323" r="9" fill="#fb7185" animate={{ opacity: mood.blushCat }} transition={{ duration: 1.7, repeat: Infinity }} />
+        <motion.circle cx="762" cy="323" r="9" fill="#fb7185" animate={{ opacity: mood.blushCat }} transition={{ duration: 1.7, repeat: Infinity }} />
       </g>
     </motion.svg>
   </div>
