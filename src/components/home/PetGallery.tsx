@@ -1,18 +1,12 @@
 import { motion } from "framer-motion";
-import petDog from "@/assets/pet-dog-grooming.jpg";
-import petCat from "@/assets/pet-cat-grooming.jpg";
-import petPom from "@/assets/pet-pomeranian.jpg";
-import petLab from "@/assets/pet-labrador.jpg";
-import grooming4 from "@/assets/grooming-4.jpg";
-import grooming5 from "@/assets/grooming-5.jpg";
+import gallery1 from "@/assets/hero-user-1.png";
+import gallery2 from "@/assets/hero-user-2.png";
+import gallery3 from "@/assets/hero-user-4.png";
 
 const images = [
-  { src: petPom, alt: "Freshly groomed Pomeranian" },
-  { src: petDog, alt: "Golden Retriever grooming" },
-  { src: grooming4, alt: "Pet grooming at Cutie 6 Pet" },
-  { src: petCat, alt: "Cat grooming session" },
-  { src: petLab, alt: "Happy Labrador after grooming" },
-  { src: grooming5, alt: "Professional pet care" },
+  { src: gallery1, alt: "Freshly groomed Shih Tzu at Cutie 6 Pet" },
+  { src: gallery2, alt: "Happy customer with groomed puppy at Cutie 6 Pet" },
+  { src: gallery3, alt: "Adorable dog after grooming session at Cutie 6 Pet" },
 ];
 
 const PetGallery = () => (
@@ -25,7 +19,7 @@ const PetGallery = () => (
           <p className="text-muted-foreground text-sm mt-2">See some of the adorable pets we've groomed</p>
         </motion.div>
       </div>
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
         {images.map((img, i) => (
           <motion.div
             key={i}
