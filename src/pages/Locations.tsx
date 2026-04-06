@@ -7,7 +7,7 @@ import shopExterior from "@/assets/shop-exterior.jpg";
 const location = {
   name: "Kacharakanahalli Branch",
   address: "Flat No. 1B-1, Iriss North, No.14, 2nd Cross, Kacharakanahalli, Bengaluru 560084",
-  phone: "079 4741 9026",
+  phone: "+91 99018 87525",
   email: "cutie6pet@gmail.com",
   hours: "10:00 AM – 8:00 PM (All days)",
   rating: 4.9,

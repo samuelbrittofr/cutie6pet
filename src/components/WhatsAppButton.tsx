@@ -1,7 +1,7 @@
 import { MessageCircle } from "lucide-react";
 import { motion } from "framer-motion";
 
-const WHATSAPP_URL = "https://wa.me/917947419026?text=Hi%20Cutie%206%20Pet!%20I%27d%20like%20to%20book%20a%20grooming%20appointment%20for%20my%20pet.%20%F0%9F%90%BE";
+const WHATSAPP_URL = "https://wa.me/919901887525?text=Hey%20Cutie%206%20Pet!%20%F0%9F%90%BE%20I%27d%20like%20to%20enquire%20about%20your%20pet%20grooming%20services.%20Could%20you%20help%20me%20with%20the%20details%3F";
 
 const WhatsAppButton = () => (
   <motion.a

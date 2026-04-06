@@ -80,7 +80,7 @@ const BookServices = () => {
 
   const dateStr = form.date ? format(form.date, "PPP") : "";
   const whatsappMsg = `Hi Cutie 6 Pet! I'd like to confirm my booking:\n\n📋 Package: ${form.package}\n📍 Branch: Kacharakanahalli\n📅 Date: ${dateStr}\n🕐 Time: ${form.time}\n🐾 Pet: ${form.petName} (${form.petBreed})\n👤 Name: ${form.ownerName}\n📱 Phone: ${form.ownerPhone}${form.notes ? `\n📝 Notes: ${form.notes}` : ""}`;
-  const whatsappUrl = `https://wa.me/917947419026?text=${encodeURIComponent(whatsappMsg)}`;
+  const whatsappUrl = `https://wa.me/919901887525?text=${encodeURIComponent(whatsappMsg)}`;
 
   return (
     <div className="min-h-screen bg-background">
