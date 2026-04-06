@@ -1,38 +1,38 @@
-import { Sun, Moon, Scissors, GraduationCap, ArrowRight } from "lucide-react";
+import { Scissors, Bath, Sparkles, Heart, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 
 const services = [
   {
-    icon: Sun,
-    title: "Daycare",
-    description: "Open-play socialization with trained staff supervision in climate-controlled playrooms.",
-    price: "From $38/day",
-    path: "/services/daycare",
+    icon: Bath,
+    title: "Basic Grooming",
+    description: "Bathing, blow-drying, ear cleaning, eye cleaning, nail clipping, and paw cleaning.",
+    price: "From ₹1,000",
+    path: "/services",
     iconBg: "bg-amber-light text-amber",
   },
   {
-    icon: Moon,
-    title: "Boarding",
-    description: "Overnight stays in private suites with included playtime and daily photo updates.",
-    price: "From $65/night",
-    path: "/services/boarding",
+    icon: Scissors,
+    title: "Hair Cut Package",
+    description: "Full haircut with styling, bathing, blow-drying, ear & eye cleaning, nail clipping, and teeth cleaning.",
+    price: "From ₹1,800",
+    path: "/services",
     iconBg: "bg-brand-light text-brand-deep",
   },
   {
-    icon: Scissors,
-    title: "Spa & Grooming",
-    description: "Full-service grooming from certified groomers — baths, haircuts, and specialty treatments.",
-    price: "From $45",
-    path: "/services/grooming",
+    icon: Sparkles,
+    title: "Cat Grooming",
+    description: "Specialized grooming for cats — gentle handling, bathing, trimming, and paw care by experienced groomers.",
+    price: "From ₹1,000",
+    path: "/services",
     iconBg: "bg-success-light text-success",
   },
   {
-    icon: GraduationCap,
-    title: "Training",
-    description: "Professional obedience and behavior programs with certified trainers.",
-    price: "From $100/hr",
-    path: "/services/training",
+    icon: Heart,
+    title: "Spa Treatments",
+    description: "Pampering spa experiences including de-shedding, teeth cleaning, and specialty treatments.",
+    price: "Custom pricing",
+    path: "/services",
     iconBg: "bg-secondary text-coral",
   },
 ];

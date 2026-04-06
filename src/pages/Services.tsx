@@ -1,32 +1,44 @@
 import { Link } from "react-router-dom";
-import { Sun, Moon, Scissors, GraduationCap, Check } from "lucide-react";
+import { Scissors, Bath, Sparkles, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 
-const services = [
+const packages = [
   {
-    icon: Sun, title: "Daycare", slug: "daycare", price: "From $38/day",
+    icon: Bath, title: "Small Breed Package", slug: "small-breed", price: "₹1,000",
     color: "bg-amber-light text-amber",
-    desc: "Open-play socialization with trained staff supervision in climate-controlled playrooms. Perfect for high-energy pups who love to play.",
-    features: ["Supervised open play", "Indoor & outdoor areas", "Webcam access", "Flexible scheduling", "Report cards"],
+    desc: "Complete grooming for small breed dogs — bathing, blow-drying, ear & eye cleaning, nail clipping, and paw cleaning.",
+    features: ["Bathing", "Blow-Drying", "Ear Cleaning", "Eye Cleaning", "Nail Clipping", "Paw Cleaning"],
   },
   {
-    icon: Moon, title: "Boarding", slug: "boarding", price: "From $65/night",
+    icon: Bath, title: "Large Breed Package", slug: "large-breed", price: "₹1,250",
     color: "bg-brand-light text-brand-deep",
-    desc: "Overnight stays in private suites with included playtime and daily photo updates. Your pet will feel right at home.",
-    features: ["Private suites", "Daily photo updates", "Included playtime", "Medication administration", "Late checkout available"],
+    desc: "Full grooming for large breed dogs including teeth cleaning, combing/brushing, and all basic grooming essentials.",
+    features: ["Bathing", "Blow-Drying", "Combing/Brushing", "Ear Cleaning", "Eye Cleaning", "Nail Clipping", "Paw Cleaning", "Teeth Cleaning"],
   },
   {
-    icon: Scissors, title: "Spa & Grooming", slug: "grooming", price: "From $45",
+    icon: Scissors, title: "Hair Cut Package", slug: "haircut", price: "₹1,800",
     color: "bg-success-light text-success",
-    desc: "Full-service grooming from certified groomers — baths, haircuts, nail trims, and specialty spa treatments.",
-    features: ["Certified groomers", "Breed-specific cuts", "De-shedding treatments", "Nail trim & filing", "Teeth brushing"],
+    desc: "Premium package with full hair styling, haircut, bathing, and complete grooming for a show-ready look.",
+    features: ["Hair Styling", "Bathing", "Blow-Drying", "Ear Cleaning", "Eye Cleaning", "Nail Clipping", "Paw Cleaning", "Teeth Cleaning"],
   },
   {
-    icon: GraduationCap, title: "Training", slug: "training", price: "From $100/hr",
-    color: "bg-secondary text-coral",
-    desc: "Professional obedience and behavior programs with certified trainers. From puppy basics to advanced skills.",
-    features: ["1-on-1 sessions", "Group classes", "Puppy kindergarten", "Behavior modification", "CGC prep"],
+    icon: Sparkles, title: "Cat Basic Grooming", slug: "cat-basic", price: "₹1,000",
+    color: "bg-amber-light text-amber",
+    desc: "Gentle grooming for cats — bathing, blow-drying, ear & eye cleaning, nail clipping, and paw cleaning.",
+    features: ["Bathing", "Blow-Drying", "Ear Cleaning", "Eye Cleaning", "Nail Clipping", "Paw Cleaning"],
+  },
+  {
+    icon: Scissors, title: "Cat Zero Cut Package", slug: "cat-zero-cut", price: "₹1,800",
+    color: "bg-brand-light text-brand-deep",
+    desc: "Full cat grooming with trimming, bathing, and all grooming essentials for a neat, clean look.",
+    features: ["Haircut/Trimming", "Bathing", "Blow-Drying", "Ear Cleaning", "Eye Cleaning", "Nail Clipping", "Paw Cleaning"],
+  },
+  {
+    icon: Scissors, title: "Cat Hair Cut Package", slug: "cat-haircut", price: "₹1,500",
+    color: "bg-success-light text-success",
+    desc: "Premium cat grooming with hair styling, bathing, and complete care for your feline friend.",
+    features: ["Hair Styling", "Bathing", "Blow-Drying", "Ear Cleaning", "Eye Cleaning", "Nail Clipping", "Paw Cleaning"],
   },
 ];
 
@@ -35,15 +47,15 @@ const Services = () => (
     <section className="bg-gradient-hero py-16 md:py-24">
       <div className="container text-center">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-          <h1 className="text-3xl md:text-5xl font-bold text-primary-foreground mb-4">Our Services</h1>
-          <p className="text-primary-foreground/80 text-lg max-w-2xl mx-auto">Everything your furry friend needs under one roof — from daily play to overnight stays and full spa treatments.</p>
+          <h1 className="text-3xl md:text-5xl font-bold text-primary-foreground mb-4">Our Grooming Packages</h1>
+          <p className="text-primary-foreground/80 text-lg max-w-2xl mx-auto">Professional grooming for dogs & cats. Every package includes love, patience, and a gentle touch.</p>
         </motion.div>
       </div>
     </section>
 
     <section className="py-16">
       <div className="container space-y-12">
-        {services.map((s, i) => (
+        {packages.map((s, i) => (
           <motion.div key={s.slug} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }}>
             <div className={`bg-card rounded-xl shadow-card p-8 md:p-10 flex flex-col md:flex-row gap-8 ${i % 2 === 1 ? "md:flex-row-reverse" : ""}`}>
               <div className="flex-1">
@@ -51,10 +63,7 @@ const Services = () => (
                 <h2 className="text-2xl font-bold mb-2">{s.title}</h2>
                 <p className="text-primary font-semibold mb-4">{s.price}</p>
                 <p className="text-muted-foreground mb-6 leading-relaxed">{s.desc}</p>
-                <div className="flex gap-3">
-                  <Button className="rounded-full" asChild><Link to={`/services/${s.slug}`}>Learn More</Link></Button>
-                  <Button variant="outline" className="rounded-full" asChild><Link to="/locations">Find Location</Link></Button>
-                </div>
+                <Button className="rounded-full" asChild><Link to="/book">Book This Package</Link></Button>
               </div>
               <div className="flex-1">
                 <h4 className="font-semibold mb-3">What's Included</h4>
