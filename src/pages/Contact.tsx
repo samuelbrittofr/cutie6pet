@@ -88,7 +88,7 @@ const Contact = () => {
             <Card>
               <CardContent className="pt-6 space-y-4">
                 <div className="flex items-start gap-3"><MapPin className="w-5 h-5 text-primary shrink-0 mt-0.5" /><div><p className="font-medium text-sm">Kacharakanahalli</p><p className="text-sm text-muted-foreground">Flat No. 1B-1, Iriss North, No.14, 2nd Cross, Kacharakanahalli, Bengaluru 560084</p></div></div>
-                <div className="flex items-start gap-3"><Phone className="w-5 h-5 text-primary shrink-0 mt-0.5" /><div><p className="font-medium text-sm">Phone</p><p className="text-sm text-muted-foreground">079 4741 9026</p></div></div>
+                <div className="flex items-start gap-3"><Phone className="w-5 h-5 text-primary shrink-0 mt-0.5" /><div><p className="font-medium text-sm">Phone</p><div className="flex items-start gap-3"><Phone className="w-5 h-5 text-primary shrink-0 mt-0.5" /><div><p className="font-medium text-sm">Phone</p><p className="text-sm text-muted-foreground">+91 99018 87525</p></div></div></div></div>
                 <div className="flex items-start gap-3"><Mail className="w-5 h-5 text-primary shrink-0 mt-0.5" /><div><p className="font-medium text-sm">Email</p><p className="text-sm text-muted-foreground">cutie6pet@gmail.com</p></div></div>
                 <div className="flex items-start gap-3"><Clock className="w-5 h-5 text-primary shrink-0 mt-0.5" /><div><p className="font-medium text-sm">Hours</p><p className="text-sm text-muted-foreground">10:00 AM – 8:00 PM<br />Open all days</p></div></div>
               </CardContent>

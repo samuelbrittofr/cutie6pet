@@ -190,7 +190,7 @@ const Pricing = () => (
             <Link to="/book">Book Appointment</Link>
           </Button>
           <Button variant="outline" asChild>
-            <a href="https://wa.me/917947419026?text=Hi!%20I%20need%20help%20choosing%20a%20grooming%20package." target="_blank" rel="noopener noreferrer">
+            <a href="https://wa.me/919901887525?text=Hey%20Cutie%206%20Pet!%20%F0%9F%90%BE%20I%20need%20help%20choosing%20a%20grooming%20package.%20Could%20you%20guide%20me%3F" target="_blank" rel="noopener noreferrer">
               Chat on WhatsApp
             </a>
           </Button>

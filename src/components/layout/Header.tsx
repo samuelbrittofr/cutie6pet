@@ -63,8 +63,8 @@ const Header = () => {
         </nav>
 
         <div className="hidden lg:flex items-center gap-3">
-          <a href="tel:07947419026" className="text-sm text-muted-foreground hover:text-foreground flex items-center gap-1.5 transition-colors">
-            <Phone className="w-3.5 h-3.5" /> 079 4741 9026
+          <a href="tel:+919901887525" className="text-sm text-muted-foreground hover:text-foreground flex items-center gap-1.5 transition-colors">
+            <Phone className="w-3.5 h-3.5" /> +91 99018 87525
           </a>
           <Button size="sm" className="bg-primary hover:bg-primary/90 text-primary-foreground" asChild>
             <Link to="/book">Book Now</Link>

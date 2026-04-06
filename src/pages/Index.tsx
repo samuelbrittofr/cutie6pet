@@ -13,7 +13,7 @@ const jsonLd = {
   "name": "Cutie 6 Pet",
   "description": "Professional pet grooming services for dogs and cats in Bangalore",
   "url": "https://cutie6pet.com",
-  "telephone": "+917947419026",
+  "telephone": "+919901887525",
   "email": "cutie6pet@gmail.com",
   "address": [
     {

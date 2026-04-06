@@ -56,7 +56,7 @@ const Footer = () => (
                 <MapPin className="w-4 h-4 shrink-0 mt-0.5" />
                 Flat No. 1B-1, Iriss North, No.14, 2nd Cross, Kacharakanahalli, Bengaluru 560084
               </p>
-              <p className="flex items-center gap-2"><Phone className="w-4 h-4" /> 079 4741 9026</p>
+              <p className="flex items-center gap-2"><Phone className="w-4 h-4" /> +91 99018 87525</p>
               <p className="flex items-center gap-2"><Mail className="w-4 h-4" /> cutie6pet@gmail.com</p>
             </div>
           </div>
