@@ -1,4 +1,4 @@
-import { Star } from "lucide-react";
+import { Star, Quote } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect, useCallback } from "react";
 
@@ -21,6 +21,18 @@ const testimonials = [
     location: "Bangalore",
     rating: 5,
   },
+  {
+    quote: "Very hygienic place and they use premium products. My Labrador loves going there. The staff is extremely friendly!",
+    name: "Deepak R.",
+    location: "Kacharakanahalli",
+    rating: 5,
+  },
+  {
+    quote: "We've been taking our Persian cat here for months. They're the only ones who handle her without any fuss. Amazing team!",
+    name: "Sneha V.",
+    location: "Kammanahalli",
+    rating: 5,
+  },
 ];
 
 const TestimonialsSection = () => {
@@ -36,19 +48,22 @@ const TestimonialsSection = () => {
   }, [next]);
 
   return (
-    <section className="py-16 overflow-hidden">
+    <section className="py-16 bg-muted/50 overflow-hidden">
       <div className="container max-w-2xl text-center">
-        <span className="text-primary font-medium text-sm uppercase tracking-wider">Testimonials</span>
-        <h2 className="text-2xl md:text-3xl font-bold text-foreground mt-2 mb-10">What Pet Parents Say</h2>
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+          <span className="text-primary font-medium text-sm uppercase tracking-wider">Testimonials</span>
+          <h2 className="text-2xl md:text-3xl font-bold text-foreground mt-2 mb-10">What Pet Parents Say</h2>
+        </motion.div>
 
-        <div className="relative min-h-[200px]">
+        <div className="relative min-h-[220px]">
+          <Quote className="w-10 h-10 text-primary/10 mx-auto mb-4" />
           <AnimatePresence mode="wait">
             <motion.div
               key={activeIndex}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.3 }}
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -50 }}
+              transition={{ duration: 0.4, ease: "easeInOut" }}
             >
               <div className="flex justify-center gap-0.5 mb-4">
                 {[...Array(testimonials[activeIndex].rating)].map((_, i) => (

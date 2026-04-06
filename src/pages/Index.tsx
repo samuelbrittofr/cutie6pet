@@ -1,9 +1,10 @@
 import HeroSection from "@/components/home/HeroSection";
 import TrustBadges from "@/components/home/TrustBadges";
 import ServicesSection from "@/components/home/ServicesSection";
+import TestimonialsSection from "@/components/home/TestimonialsSection";
+import PetGallery from "@/components/home/PetGallery";
 import StatsSection from "@/components/home/StatsSection";
 import HowItWorks from "@/components/home/HowItWorks";
-import TestimonialsSection from "@/components/home/TestimonialsSection";
 import CTASection from "@/components/home/CTASection";
 
 const jsonLd = {
@@ -49,9 +50,10 @@ const Index = () => (
     <HeroSection />
     <TrustBadges />
     <ServicesSection />
+    <TestimonialsSection />
+    <PetGallery />
     <StatsSection />
     <HowItWorks />
-    <TestimonialsSection />
     <CTASection />
   </>
 );
