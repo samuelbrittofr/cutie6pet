@@ -11,6 +11,7 @@ const allFeatures = [
   "Sanitizing",
   "Nail Clipping",
   "Paw Cleaning",
+  "Paw Massaging",
   "Light Haircut",
   "Combing / Brushing",
   "Teeth Cleaning",
@@ -50,6 +51,7 @@ const dogPackages: Package[] = [
       "Sanitizing",
       "Eye Cleaning",
       "Teeth Cleaning",
+      "Paw Massaging",
       "Hygienic Grooming (might charge extra)",
       "Tick Bathing (might charge extra)",
     ],
@@ -65,7 +67,7 @@ const dogPackages: Package[] = [
   {
     name: "Hair Cut Package",
     pet: "Dog",
-    price: 1800,
+    price: 1799,
     originalPrice: 2200,
     popular: true,
     features: [

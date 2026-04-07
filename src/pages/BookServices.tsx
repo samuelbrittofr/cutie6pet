@@ -60,7 +60,7 @@ const groomingPackages: GroomingPackage[] = [
     breedScope: "small",
   },
   { name: "Large Breed", price: "Rs. 1,950", petType: "Dog", breedScope: "large" },
-  { name: "Hair Cut Package", price: "Rs. 1,800", petType: "Dog", breedScope: "all" },
+  { name: "Hair Cut Package", price: "Rs. 1,799", petType: "Dog", breedScope: "all" },
   { name: "Basic Grooming", price: "Rs. 1,000", petType: "Cat", breedScope: "all" },
   { name: "Hair Cut Package", price: "Rs. 1,500", petType: "Cat", breedScope: "all" },
   { name: "Zero Cut Package", price: "Rs. 1,800", petType: "Cat", breedScope: "all" },

@@ -66,7 +66,7 @@ const packages: ServicePackage[] = [
   {
     icon: Scissors,
     title: "Hair Cut Package",
-    price: 1800,
+    price: 1799,
     originalPrice: 2200,
     image: haircutPackage,
     desc: "Premium package with full hair styling, haircut, bathing, and complete grooming for a show-ready look.",
