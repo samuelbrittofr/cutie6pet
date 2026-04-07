@@ -147,7 +147,7 @@ const About = () => (
               <strong className="text-foreground">cosy, happy place</strong> where pets are pampered, personalities are polished, and tails leave wagging with joy.
             </p>
             <p className="text-muted-foreground leading-relaxed mb-8">
-              From soothing spa baths and stylish trims to paw care and fluff-friendly products, everything we do is designed with your pet&apos;s happiness in mind. Our expert groomers treat every visitor like one of our original six - with patience, love, and a gentle touch.
+              From soothing spa baths and stylish trims to paw care and fluff-friendly products, everything we do is designed with your pet&apos;s happiness in mind. Our expert groomers treat every visitor like one of our original two - with patience, love, and a gentle touch.
             </p>
             <div className="bg-primary/5 border-l-4 border-primary p-5 rounded-r-lg">
               <p className="italic text-foreground font-medium">
