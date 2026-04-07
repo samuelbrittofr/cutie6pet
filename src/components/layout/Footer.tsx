@@ -5,12 +5,12 @@ const Footer = () => (
   <footer className="bg-brand-deep text-white">
     <div className="py-16">
       <div className="container">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+        <div className="grid grid-cols-1 gap-12 md:grid-cols-3">
           <div>
-            <Link to="/" className="text-xl font-display font-bold mb-6 block">
+            <Link to="/" className="mb-6 block text-xl font-display font-bold">
               Cutie <span className="text-accent">6 Pet</span>
             </Link>
-            <p className="text-sm text-white/70 mb-6 leading-relaxed">
+            <p className="mb-6 text-sm leading-relaxed text-white/70">
               Bangalore&apos;s favourite pet grooming spot. Where every pet&apos;s personality shines!
             </p>
             <div className="flex gap-3">
@@ -18,27 +18,27 @@ const Footer = () => (
                 href="https://www.instagram.com/cutie6pet/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-accent transition-colors"
+                className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 transition-colors hover:bg-accent"
                 aria-label="Instagram"
               >
-                <Instagram className="w-4 h-4" />
+                <Instagram className="h-4 w-4" />
               </a>
             </div>
           </div>
 
           <div>
-            <h4 className="font-semibold mb-4">Quick Links</h4>
+            <h4 className="mb-4 font-semibold">Quick Links</h4>
             <ul className="space-y-3 text-sm text-white/70">
               {[
                 { label: "Our Services", path: "/services" },
                 { label: "Pricing", path: "/pricing" },
                 { label: "Book Appointment", path: "/book" },
-                { label: "Our Location", path: "/locations" },
+                { label: "Visit Us", path: "/about" },
                 { label: "About Us", path: "/about" },
                 { label: "Contact", path: "/contact" },
               ].map((item) => (
-                <li key={item.path}>
-                  <Link to={item.path} className="hover:text-accent transition-colors">
+                <li key={`${item.path}-${item.label}`}>
+                  <Link to={item.path} className="transition-colors hover:text-accent">
                     {item.label}
                   </Link>
                 </li>
@@ -47,17 +47,17 @@ const Footer = () => (
           </div>
 
           <div>
-            <h4 className="font-semibold mb-4">Our Location</h4>
+            <h4 className="mb-4 font-semibold">Our Location</h4>
             <div className="space-y-3 text-sm text-white/70">
               <p className="flex items-start gap-2">
-                <MapPin className="w-4 h-4 shrink-0 mt-0.5" />
+                <MapPin className="mt-0.5 h-4 w-4 shrink-0" />
                 Flat No. 1B-1, Iriss North, No.14, 2nd Cross, Kacharakanahalli, Bengaluru 560084
               </p>
               <p className="flex items-center gap-2">
-                <Phone className="w-4 h-4" /> +91 99018 87525
+                <Phone className="h-4 w-4" /> +91 99018 87525
               </p>
               <p className="flex items-center gap-2">
-                <Mail className="w-4 h-4" /> cutie6pet@gmail.com
+                <Mail className="h-4 w-4" /> cutie6pet@gmail.com
               </p>
             </div>
           </div>
@@ -66,13 +66,13 @@ const Footer = () => (
     </div>
 
     <div className="border-t border-white/10 py-6">
-      <div className="container flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-white/50">
-        <p>© {new Date().getFullYear()} Cutie 6 Pet. All rights reserved.</p>
+      <div className="container flex flex-col items-center justify-between gap-4 text-sm text-white/50 md:flex-row">
+        <p>&copy; {new Date().getFullYear()} Cutie 6 Pet. All rights reserved.</p>
         <div className="flex gap-6">
-          <a href="#" className="hover:text-accent transition-colors">
+          <a href="#" className="transition-colors hover:text-accent">
             Privacy Policy
           </a>
-          <a href="#" className="hover:text-accent transition-colors">
+          <a href="#" className="transition-colors hover:text-accent">
             Terms of Service
           </a>
         </div>

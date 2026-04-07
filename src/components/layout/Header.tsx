@@ -10,7 +10,6 @@ const navLinks = [
   { label: "Home", path: "/" },
   { label: "Services", path: "/services" },
   { label: "Pricing", path: "/pricing" },
-  { label: "Our Branches", path: "/locations" },
   { label: "About", path: "/about" },
   { label: "Contact", path: "/contact" },
 ];
@@ -39,7 +38,7 @@ const Header = () => {
           : "bg-[hsl(340,100%,96%)]/85 backdrop-blur-sm"
       )}
     >
-      <div className="container flex h-20 items-center gap-4 xl:gap-6">
+      <div className="container grid h-20 grid-cols-[auto,minmax(0,1fr),auto] items-center gap-4 xl:gap-6">
         <Link to="/" className="flex shrink-0 items-center gap-3">
           <div className="flex h-11 w-11 items-center justify-center overflow-hidden rounded-full border border-border/70 bg-card">
             <img
@@ -53,7 +52,7 @@ const Header = () => {
           </span>
         </Link>
 
-        <nav className="hidden min-w-0 flex-1 items-center justify-center gap-4 lg:flex xl:gap-6">
+        <nav className="hidden min-w-0 items-center justify-center gap-4 lg:flex xl:gap-6">
           {navLinks.map((link) => (
             <Link
               key={link.path}
@@ -73,13 +72,12 @@ const Header = () => {
         <div className="hidden shrink-0 items-center gap-2 lg:flex xl:gap-3">
           <a
             href="tel:+919901887525"
-            className="flex items-center gap-1.5 whitespace-nowrap text-sm text-muted-foreground transition-colors hover:text-foreground xl:text-base"
+            className="hidden items-center gap-1.5 whitespace-nowrap text-sm text-muted-foreground transition-colors hover:text-foreground 2xl:flex 2xl:text-base"
           >
             <Phone className="h-4 w-4" />
-            <span className="hidden xl:inline">+91 99018 87525</span>
-            <span className="xl:hidden">Call</span>
+            <span>+91 99018 87525</span>
           </a>
-          <div className="h-7 w-px bg-border/80" />
+          <div className="hidden h-7 w-px bg-border/80 2xl:block" />
           <Button
             variant="outline"
             className="h-11 whitespace-nowrap border-[hsl(342,25%,58%)] px-3 text-sm text-foreground hover:bg-primary/5 hover:text-primary xl:px-4 xl:text-base"
