@@ -1,6 +1,9 @@
-import { Heart, Shield, Sparkles, Award, PawPrint, Star } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { Heart, Shield, Sparkles, Award, PawPrint, Star, MapPin, Phone, Clock, Mail } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import aboutLogo from "@/assets/about-logo.png";
 
 const values = [
@@ -10,6 +13,113 @@ const values = [
   { icon: Award, title: "Top Rated", desc: "4.9/5 rating on JustDial with glowing reviews from happy pet parents." },
   { icon: PawPrint, title: "All Breeds Welcome", desc: "Dogs and cats of all breeds and sizes are welcome at Cutie 6 Pet." },
 ];
+
+const location = {
+  name: "Cutie 6 Pet Hair Grooming Spot",
+  address:
+    "Flat No. 1B-1, Iriss North, No.14, 2nd Cross, Kacharakanahalli, Bengaluru 560084",
+  phone: "+91 99018 87525",
+  email: "cutie6pet@gmail.com",
+  hours: "10:00 AM - 8:00 PM (All days)",
+  rating: 4.9,
+  reviews: 37,
+  mapUrl: "https://maps.google.com/?q=Cutie+6+Pet+Hair+Grooming+Spot+Bangalore",
+  embedUrl:
+    "https://maps.google.com/maps?q=Cutie%206%20Pet%20Hair%20Grooming%20Spot%2C%20Bangalore&z=17&output=embed",
+};
+
+const stats = [
+  { value: 1000, label: "Happy Pets Groomed", icon: PawPrint, suffix: "+" },
+  { value: 4.9, label: "JustDial Rating", icon: Star, decimals: 1 },
+  { value: 37, label: "5-Star Reviews", icon: Heart, suffix: "+" },
+];
+
+const useInView = (threshold = 0.35) => {
+  const ref = useRef<HTMLDivElement | null>(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const node = ref.current;
+    if (!node || visible) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold }
+    );
+
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [threshold, visible]);
+
+  return { ref, visible };
+};
+
+const AnimatedStat = ({
+  value,
+  label,
+  icon: Icon,
+  suffix = "",
+  decimals = 0,
+}: {
+  value: number;
+  label: string;
+  icon: typeof PawPrint;
+  suffix?: string;
+  decimals?: number;
+}) => {
+  const { ref, visible } = useInView();
+  const [displayValue, setDisplayValue] = useState(0);
+
+  useEffect(() => {
+    if (!visible) return;
+
+    const duration = 1800;
+    let startTime: number | null = null;
+    let frameId = 0;
+
+    const animate = (timestamp: number) => {
+      if (startTime === null) startTime = timestamp;
+
+      const elapsed = timestamp - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setDisplayValue(value * eased);
+
+      if (progress < 1) {
+        frameId = window.requestAnimationFrame(animate);
+      } else {
+        setDisplayValue(value);
+      }
+    };
+
+    frameId = window.requestAnimationFrame(animate);
+    return () => window.cancelAnimationFrame(frameId);
+  }, [value, visible]);
+
+  const formatted = decimals > 0 ? displayValue.toFixed(decimals) : Math.round(displayValue).toLocaleString();
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      className="text-center"
+    >
+      <Icon className="mx-auto mb-3 h-8 w-8 text-primary" />
+      <p className="text-3xl font-bold text-primary md:text-4xl">
+        {formatted}
+        {suffix}
+      </p>
+      <p className="mt-1 text-sm text-muted-foreground">{label}</p>
+    </motion.div>
+  );
+};
 
 const About = () => (
   <div className="min-h-screen bg-background">
@@ -60,17 +170,9 @@ const About = () => (
 
     <section className="py-16 bg-secondary">
       <div className="container">
-        <div className="grid grid-cols-3 gap-8 text-center">
-          {[
-            { value: "1000+", label: "Happy Pets Groomed", icon: PawPrint },
-            { value: "4.9", label: "JustDial Rating", icon: Star },
-            { value: "37+", label: "5-Star Reviews", icon: Heart },
-          ].map((stat, index) => (
-            <motion.div key={stat.label} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: index * 0.1 }}>
-              <stat.icon className="w-8 h-8 text-primary mx-auto mb-3" />
-              <p className="text-3xl md:text-4xl font-bold text-primary">{stat.value}</p>
-              <p className="text-sm text-muted-foreground mt-1">{stat.label}</p>
-            </motion.div>
+        <div className="grid grid-cols-1 gap-8 text-center sm:grid-cols-3">
+          {stats.map((stat) => (
+            <AnimatedStat key={stat.label} {...stat} />
           ))}
         </div>
       </div>
@@ -96,6 +198,100 @@ const About = () => (
               </Card>
             </motion.div>
           ))}
+        </div>
+      </div>
+    </section>
+
+    <section className="border-t border-border bg-secondary/50 py-16">
+      <div className="container max-w-5xl">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mb-12 text-center"
+        >
+          <span className="text-primary font-medium text-sm uppercase tracking-wider">Visit Us</span>
+          <h2 className="mt-2 text-2xl font-bold md:text-3xl">Our Bangalore Grooming Studio</h2>
+          <p className="mx-auto mt-3 max-w-2xl text-muted-foreground">
+            We currently welcome pets at one cosy branch in Kacharakanahalli, with easy directions,
+            all-day service hours, and a warm space made for dogs and cats.
+          </p>
+        </motion.div>
+
+        <div className="grid gap-8 lg:grid-cols-[1.05fr,1fr]">
+          <motion.div
+            initial={{ opacity: 0, x: -24 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="rounded-2xl border border-border bg-card p-8 shadow-sm"
+          >
+            <div className="mb-6 flex items-start gap-5">
+              <img
+                src={aboutLogo}
+                alt="Cutie 6 Pet logo"
+                className="h-20 w-20 shrink-0 rounded-xl object-cover"
+                loading="lazy"
+              />
+              <div>
+                <h3 className="text-xl font-bold text-foreground md:text-2xl">{location.name}</h3>
+                <span className="mt-1 flex items-center gap-1 text-base font-medium text-amber">
+                  <Star className="h-4 w-4 fill-current" />
+                  {location.rating} ({location.reviews} reviews)
+                </span>
+              </div>
+            </div>
+
+            <div className="mb-8 space-y-3 text-base text-muted-foreground">
+              <p className="flex items-start gap-2">
+                <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-primary" />
+                {location.address}
+              </p>
+              <p className="flex items-center gap-2">
+                <Phone className="h-5 w-5 text-primary" />
+                {location.phone}
+              </p>
+              <p className="flex items-center gap-2">
+                <Mail className="h-5 w-5 text-primary" />
+                {location.email}
+              </p>
+              <p className="flex items-center gap-2">
+                <Clock className="h-5 w-5 text-primary" />
+                {location.hours}
+              </p>
+            </div>
+
+            <div className="flex flex-wrap gap-3">
+              <Button asChild>
+                <Link to="/book">Book Appointment</Link>
+              </Button>
+              <Button variant="outline" asChild>
+                <a href={location.mapUrl} target="_blank" rel="noopener noreferrer">
+                  Get Directions
+                </a>
+              </Button>
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, x: 24 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm"
+          >
+            <div className="border-b border-border px-6 py-4">
+              <h3 className="text-lg font-semibold text-foreground">Find Us on the Map</h3>
+              <p className="text-sm text-muted-foreground">
+                View our exact branch location before you visit.
+              </p>
+            </div>
+            <iframe
+              title="Cutie 6 Pet location map"
+              src={location.embedUrl}
+              className="h-[360px] w-full border-0"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
+          </motion.div>
         </div>
       </div>
     </section>
