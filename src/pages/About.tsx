@@ -1,8 +1,7 @@
 import { Heart, Shield, Sparkles, Award, PawPrint, Star } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { motion } from "framer-motion";
-import shopExterior from "@/assets/shop-exterior.jpg";
-import grooming1 from "@/assets/grooming-1.jpg";
+import aboutLogo from "@/assets/about-logo.png";
 
 const values = [
   { icon: Heart, title: "Love & Patience", desc: "Every pet is treated like our own - with patience, love, and a gentle touch." },
@@ -47,9 +46,13 @@ const About = () => (
               <p className="text-sm text-primary mt-2 font-semibold">- The Cutie 6 Pet Team</p>
             </div>
           </motion.div>
-          <motion.div initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="space-y-4">
-            <img src={shopExterior} alt="Cutie 6 Pet shop" className="rounded-2xl shadow-lg w-full object-cover aspect-[4/3]" loading="lazy" />
-            <img src={grooming1} alt="Pet grooming in action" className="rounded-2xl shadow-lg w-full object-cover aspect-[4/3]" loading="lazy" />
+          <motion.div initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
+            <img
+              src={aboutLogo}
+              alt="Cutie 6 Pet logo"
+              className="rounded-2xl shadow-lg w-full object-contain bg-black p-4 aspect-[4/3]"
+              loading="lazy"
+            />
           </motion.div>
         </div>
       </div>
