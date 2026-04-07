@@ -39,14 +39,14 @@ const Header = () => {
           : "bg-card/80 backdrop-blur-sm"
       )}
     >
-      <div className="container flex items-center justify-between h-16">
+      <div className="container flex items-center justify-between h-20">
         <Link to="/" className="flex items-center gap-2">
           <img
             src={brandLogo}
             alt="Cutie 6 Pet logo"
-            className="h-9 w-9 rounded-full object-cover border border-border/70"
+            className="h-11 w-11 rounded-full object-cover border border-border/70"
           />
-          <span className="text-xl font-bold tracking-tight text-foreground">
+          <span className="text-2xl font-bold tracking-tight text-foreground">
             Cutie <span className="text-primary">6</span> Pet
           </span>
         </Link>
@@ -57,7 +57,7 @@ const Header = () => {
               key={link.path}
               to={link.path}
               className={cn(
-                "text-sm font-medium transition-colors hover:text-primary",
+                "text-base font-medium transition-colors hover:text-primary",
                 location.pathname === link.path
                   ? "text-primary"
                   : "text-muted-foreground"
@@ -69,10 +69,10 @@ const Header = () => {
         </nav>
 
         <div className="hidden lg:flex items-center gap-3">
-          <a href="tel:+919901887525" className="text-sm text-muted-foreground hover:text-foreground flex items-center gap-1.5 transition-colors">
-            <Phone className="w-3.5 h-3.5" /> +91 99018 87525
+          <a href="tel:+919901887525" className="text-base text-muted-foreground hover:text-foreground flex items-center gap-1.5 transition-colors">
+            <Phone className="w-4 h-4" /> +91 99018 87525
           </a>
-          <Button size="sm" className="bg-primary hover:bg-primary/90 text-primary-foreground" asChild>
+          <Button className="h-11 px-5 text-base bg-primary hover:bg-primary/90 text-primary-foreground" asChild>
             <Link to="/book">Book Now</Link>
           </Button>
         </div>
