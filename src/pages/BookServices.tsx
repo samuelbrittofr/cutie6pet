@@ -315,17 +315,24 @@ const BookServices = () => {
     ) : null;
 
   const dateStr = form.date ? format(form.date, "PPP") : "";
-  const whatsappMsg = `Hi Cutie 6 Pet! I'd like to confirm my booking:
+  const whatsappLines = [
+    "Hi Cutie 6 Pet! I'd like to confirm my booking:",
+    "",
+    `Package: ${form.package}`,
+    `Pet Type: ${form.petType}`,
+    "Branch: Kacharakanahalli",
+    `Date: ${dateStr}`,
+    `Time: ${form.time}`,
+    `Pet: ${form.petName} (${form.petBreed})`,
+    `Name: ${form.ownerName}`,
+    `Phone: ${form.ownerPhone}`,
+  ];
 
-\u{1F43E} Package: ${form.package}
-\u{1F436} Pet Type: ${form.petType}
-\u{1F4CD} Branch: Kacharakanahalli
-\u{1F4C5} Date: ${dateStr}
-\u{1F552} Time: ${form.time}
-\u{1F415} Pet: ${form.petName} (${form.petBreed})
-\u{1F9D1} Name: ${form.ownerName}
-\u260E Phone: ${form.ownerPhone}${form.notes ? `
-\u2728 Notes: ${form.notes}` : ""}`;
+  if (form.notes) {
+    whatsappLines.push(`Notes: ${form.notes}`);
+  }
+
+  const whatsappMsg = whatsappLines.join("\n");
   const whatsappUrl = `https://wa.me/919901887525?text=${encodeURIComponent(whatsappMsg)}`;
 
   return (
@@ -651,7 +658,7 @@ const BookServices = () => {
                       <p className="mb-2 text-sm text-muted-foreground">
                         Continue by confirming your appointment on WhatsApp.
                       </p>
-                      <p className="mb-6 text-sm text-muted-foreground">
+                      <p className="mb-6 text-sm font-semibold text-foreground">
                         Your booking will only be considered valid once it is confirmed on WhatsApp.
                       </p>
                       <div className="flex flex-col justify-center gap-3 sm:flex-row">
