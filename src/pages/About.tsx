@@ -1,9 +1,13 @@
 import { useEffect, useRef, useState } from "react";
-import { Heart, Shield, Sparkles, Award, PawPrint, Star, MapPin, Phone, Clock, Mail } from "lucide-react";
+import { Heart, Shield, Sparkles, Award, PawPrint, Star, MapPin, Phone, Clock, Mail, Instagram, ExternalLink } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import grooming1 from "@/assets/grooming-1.jpg";
+import grooming2 from "@/assets/grooming-2.jpg";
+import grooming3 from "@/assets/grooming-3.jpg";
+import grooming4 from "@/assets/grooming-4.jpg";
 
 const values = [
   { icon: Heart, title: "Love & Patience", desc: "Every pet is treated like our own - with patience, love, and a gentle touch." },
@@ -26,6 +30,15 @@ const location = {
   embedUrl:
     "https://maps.google.com/maps?q=Cutie%206%20Pet%20Hair%20Grooming%20Spot%2C%20Bangalore&z=17&output=embed",
 };
+
+const instagramUrl = "https://www.instagram.com/cutie6pet/";
+
+const instagramPosts = [
+  { image: grooming1, caption: "Fresh trims and happy tails from the studio." },
+  { image: grooming2, caption: "Pampered pets enjoying a gentle grooming session." },
+  { image: grooming3, caption: "Clean coats, tidy paws, and lots of care." },
+  { image: grooming4, caption: "A peek into everyday Cutie 6 Pet moments." },
+];
 
 const stats = [
   { value: 1000, label: "Happy Pets Groomed", icon: PawPrint, suffix: "+" },
@@ -267,6 +280,80 @@ const About = () => (
                 </CardContent>
               </Card>
             </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section className="border-t border-border bg-secondary/50 py-16">
+      <div className="container max-w-6xl">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mb-10 text-center"
+        >
+          <span className="text-primary font-medium text-sm uppercase tracking-wider">Instagram</span>
+          <h2 className="mt-2 text-2xl font-bold md:text-3xl">See More from Cutie 6 Pet</h2>
+          <p className="mx-auto mt-3 max-w-2xl text-muted-foreground">
+            Follow our grooming transformations, happy client moments, and fresh updates on Instagram.
+          </p>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mb-8 rounded-2xl border border-border bg-card p-6 shadow-sm"
+        >
+          <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
+            <div className="flex items-center gap-4">
+              <div className="flex h-14 w-14 items-center justify-center rounded-full bg-primary/10 text-primary">
+                <Instagram className="h-7 w-7" />
+              </div>
+              <div>
+                <p className="text-lg font-semibold text-foreground">@cutie6pet</p>
+                <p className="text-sm text-muted-foreground">
+                  Real grooming moments, pet makeovers, and daily studio updates.
+                </p>
+              </div>
+            </div>
+
+            <Button asChild className="w-full md:w-auto">
+              <a href={instagramUrl} target="_blank" rel="noopener noreferrer">
+                Follow on Instagram
+                <ExternalLink className="ml-2 h-4 w-4" />
+              </a>
+            </Button>
+          </div>
+        </motion.div>
+
+        <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
+          {instagramPosts.map((post, index) => (
+            <motion.a
+              key={post.caption}
+              href={instagramUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.08 }}
+              className="group overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-all hover:-translate-y-1 hover:shadow-md"
+            >
+              <div className="aspect-square overflow-hidden bg-muted">
+                <img
+                  src={post.image}
+                  alt={post.caption}
+                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  loading="lazy"
+                />
+              </div>
+              <div className="flex items-start gap-3 p-4">
+                <Instagram className="mt-0.5 h-5 w-5 shrink-0 text-primary" />
+                <p className="text-sm leading-relaxed text-muted-foreground">{post.caption}</p>
+              </div>
+            </motion.a>
           ))}
         </div>
       </div>
