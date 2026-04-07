@@ -28,15 +28,43 @@ import { cn } from "@/lib/utils";
 
 const steps = ["Package", "Date & Time", "Your Details", "Confirmation"];
 
-const groomingPackages = [
+type PetType = "Dog" | "Cat";
+type BreedScope = "all" | "small" | "large";
+
+type GroomingPackage = {
+  name: string;
+  price: string;
+  petType: PetType;
+  breedScope: BreedScope;
+};
+
+type FormData = {
+  package: string;
+  date: Date | undefined;
+  time: string;
+  petName: string;
+  petBreed: string;
+  petBreedChoice: string;
+  petType: PetType;
+  ownerName: string;
+  ownerPhone: string;
+  notes: string;
+};
+
+const groomingPackages: GroomingPackage[] = [
   { name: "Small Breed", price: "Rs. 1,200", petType: "Dog", breedScope: "small" },
-  { name: "Lottery Small Dog Package", price: "Rs. 1,450", petType: "Dog", breedScope: "small" },
+  {
+    name: "Lottery Small Dog Package",
+    price: "Rs. 1,450",
+    petType: "Dog",
+    breedScope: "small",
+  },
   { name: "Large Breed", price: "Rs. 1,950", petType: "Dog", breedScope: "large" },
   { name: "Hair Cut Package", price: "Rs. 1,800", petType: "Dog", breedScope: "all" },
   { name: "Basic Grooming", price: "Rs. 1,000", petType: "Cat", breedScope: "all" },
   { name: "Hair Cut Package", price: "Rs. 1,500", petType: "Cat", breedScope: "all" },
   { name: "Zero Cut Package", price: "Rs. 1,800", petType: "Cat", breedScope: "all" },
-] as const;
+];
 
 const allDogBreeds = [
   "Labrador",
@@ -144,22 +172,6 @@ const times = [
 
 const lettersOnlyPattern = /^[A-Za-z\s]+$/;
 
-type PetType = "Dog" | "Cat";
-type BreedScope = "all" | "small" | "large";
-
-type FormData = {
-  package: string;
-  date: Date | undefined;
-  time: string;
-  petName: string;
-  petBreed: string;
-  petBreedChoice: string;
-  petType: PetType;
-  ownerName: string;
-  ownerPhone: string;
-  notes: string;
-};
-
 const sanitizeLettersOnly = (value: string) =>
   value.replace(/[^A-Za-z\s]/g, "").replace(/\s{2,}/g, " ").trimStart();
 
@@ -222,6 +234,8 @@ const BookServices = () => {
 
     return "Choose your dog's breed from the dropdown. If you don't see it, select Other.";
   }, [form.petType, selectedPackage]);
+  const dogPackages = groomingPackages.filter((pkg) => pkg.petType === "Dog");
+  const catPackages = groomingPackages.filter((pkg) => pkg.petType === "Cat");
 
   const update = <K extends keyof FormData>(key: K, value: FormData[K]) => {
     setForm((current) => ({ ...current, [key]: value }));
@@ -383,36 +397,51 @@ const BookServices = () => {
                   {step === 0 && (
                     <fieldset>
                       <legend className="sr-only">Select a grooming package</legend>
-                      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                        {groomingPackages.map((pkg) => {
-                          const isSelected =
-                            form.package === pkg.name && form.petType === pkg.petType;
-
-                          return (
-                            <button
-                              key={`${pkg.petType}-${pkg.name}`}
-                              onClick={() => {
-                                update("package", pkg.name);
-                                update("petType", pkg.petType);
-                                update("petBreed", "");
-                                update("petBreedChoice", "");
-                              }}
-                              aria-pressed={isSelected}
-                              className={cn(
-                                "rounded-lg border p-4 text-left transition-all",
-                                isSelected
-                                  ? "border-primary bg-primary/5 ring-1 ring-primary/30"
-                                  : "border-border hover:border-muted-foreground/30",
-                              )}
-                            >
-                              <PawPrint className="mb-1 h-4 w-4 text-primary" aria-hidden="true" />
-                              <p className="text-sm font-medium text-foreground">{pkg.name}</p>
+                      <div className="space-y-6">
+                        {[
+                          { title: "Dog Grooming", packages: dogPackages },
+                          { title: "Cat Grooming", packages: catPackages },
+                        ].map((group) => (
+                          <div key={group.title} className="space-y-3">
+                            <div>
+                              <h3 className="text-sm font-semibold text-foreground">{group.title}</h3>
                               <p className="text-xs text-muted-foreground">
-                                {pkg.price} · {pkg.petType}
+                                Pick the right package so the breed list and pricing stay accurate.
                               </p>
-                            </button>
-                          );
-                        })}
+                            </div>
+                            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                              {group.packages.map((pkg) => {
+                                const isSelected =
+                                  form.package === pkg.name && form.petType === pkg.petType;
+
+                                return (
+                                  <button
+                                    key={`${pkg.petType}-${pkg.name}`}
+                                    onClick={() => {
+                                      update("package", pkg.name);
+                                      update("petType", pkg.petType);
+                                      update("petBreed", "");
+                                      update("petBreedChoice", "");
+                                    }}
+                                    aria-pressed={isSelected}
+                                    className={cn(
+                                      "rounded-lg border p-4 text-left transition-all",
+                                      isSelected
+                                        ? "border-primary bg-primary/5 ring-1 ring-primary/30"
+                                        : "border-border hover:border-muted-foreground/30",
+                                    )}
+                                  >
+                                    <PawPrint className="mb-1 h-4 w-4 text-primary" aria-hidden="true" />
+                                    <p className="text-sm font-medium text-foreground">{pkg.name}</p>
+                                    <p className="text-xs text-muted-foreground">
+                                      {pkg.price} · {pkg.petType}
+                                    </p>
+                                  </button>
+                                );
+                              })}
+                            </div>
+                          </div>
+                        ))}
                       </div>
                       <FieldError field="package" />
                     </fieldset>
@@ -447,8 +476,7 @@ const BookServices = () => {
                           </PopoverContent>
                         </Popover>
                         <p className="mt-2 text-xs text-muted-foreground">
-                          Appointments can be booked from today up to{" "}
-                          {format(maxBookingDate, "PPP")}.
+                          Appointments can be booked from today up to {format(maxBookingDate, "PPP")}.
                         </p>
                         <FieldError field="date" />
                       </div>
@@ -651,8 +679,7 @@ const BookServices = () => {
                       <ArrowLeft className="mr-1 h-4 w-4" /> Back
                     </Button>
                     <Button onClick={handleNext}>
-                      {step === 2 ? "Confirm" : "Next"}{" "}
-                      <ArrowRight className="ml-1 h-4 w-4" />
+                      {step === 2 ? "Confirm" : "Next"} <ArrowRight className="ml-1 h-4 w-4" />
                     </Button>
                   </div>
                 )}
