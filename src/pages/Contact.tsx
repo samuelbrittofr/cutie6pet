@@ -7,7 +7,7 @@ import { MapPin, Phone, Mail, Clock, Check, MessageCircle } from "lucide-react";
 import { motion } from "framer-motion";
 
 const WHATSAPP_URL =
-  "https://wa.me/919901887525?text=Hey%20Cutie%206%20Pet!%20%F0%9F%90%BE%20I%27d%20like%20to%20enquire%20about%20your%20pet%20grooming%20services.%20Could%20you%20help%20me%20with%20the%20details%3F";
+  "https://wa.me/919901887525?text=Hey%20Cutie%206%20Pet!%20I%27d%20like%20to%20enquire%20about%20your%20pet%20grooming%20services.%20Could%20you%20help%20me%20with%20the%20details%3F";
 
 const Contact = () => {
   const [submitted, setSubmitted] = useState(false);
