@@ -6,42 +6,59 @@ import flatDogLarge from "@/assets/flat-dog-large.png";
 import flatCatBasic from "@/assets/flat-cat-basic.png";
 import flatCatHaircut from "@/assets/flat-cat-haircut.png";
 
-const services = [
+type Service = {
+  icon: typeof Bath;
+  title: string;
+  description: string;
+  price: number;
+  originalPrice?: number;
+  discountBadge?: string;
+  path: string;
+  image: string;
+  emoji: string;
+};
+
+const services: Service[] = [
   {
     icon: Bath,
     title: "Basic Grooming",
     description: "Bathing, blow-drying, ear cleaning, eye cleaning, nail clipping, and paw cleaning.",
-    price: "From ₹1,000",
+    price: 1200,
+    originalPrice: 1500,
+    discountBadge: "20% OFF",
     path: "/pricing",
     image: flatDogSmall,
-    emoji: "🛁",
+    emoji: "??",
   },
   {
     icon: Scissors,
     title: "Hair Cut Package",
     description: "Full haircut with styling, bathing, blow-drying, ear and eye cleaning, nail clipping, and teeth cleaning.",
-    price: "From ₹1,500",
+    price: 1800,
+    originalPrice: 2200,
     path: "/pricing",
     image: flatDogLarge,
-    emoji: "✂️",
+    emoji: "??",
   },
   {
     icon: Sparkles,
     title: "Cat Grooming",
     description: "Specialized grooming for cats - gentle handling, bathing, trimming, and paw care.",
-    price: "From ₹1,000",
+    price: 1000,
     path: "/pricing",
     image: flatCatBasic,
-    emoji: "🐱",
+    emoji: "??",
   },
   {
     icon: Heart,
-    title: "Full Spa Treatment",
-    description: "Premium pampering with de-shedding, teeth cleaning, and all grooming essentials.",
-    price: "From ₹1,800",
+    title: "Large Breed Grooming",
+    description: "Complete care for large dogs with bathing, blow-drying, brushing, and full hygiene essentials.",
+    price: 1950,
+    originalPrice: 2500,
+    discountBadge: "22% OFF",
     path: "/pricing",
     image: flatCatHaircut,
-    emoji: "💖",
+    emoji: "??",
   },
 ];
 
@@ -74,6 +91,11 @@ const ServicesSection = () => (
               to={service.path}
               className="group block bg-card rounded-xl overflow-hidden border border-border hover:border-primary/20 hover:shadow-lg transition-all duration-300 relative"
             >
+              {service.discountBadge && (
+                <span className="absolute top-3 left-3 z-10 bg-amber text-amber-foreground text-[10px] font-bold px-2 py-1 rounded-full shadow-sm">
+                  {service.discountBadge}
+                </span>
+              )}
               <span className="absolute top-3 right-3 z-10 text-2xl drop-shadow-md">{service.emoji}</span>
               <div className="h-40 overflow-hidden bg-gradient-to-br from-primary/5 to-accent/5 flex items-center justify-center">
                 <img
@@ -92,7 +114,18 @@ const ServicesSection = () => (
                   {service.description}
                 </p>
                 <div className="flex items-center justify-between">
-                  <span className="text-primary font-semibold text-sm">{service.price}</span>
+                  <div className="flex flex-col">
+                    <span className="text-primary font-semibold text-sm">
+                      From {"\u20B9"}
+                      {service.price.toLocaleString("en-IN")}
+                    </span>
+                    {service.originalPrice && (
+                      <span className="text-xs text-muted-foreground line-through">
+                        {"\u20B9"}
+                        {service.originalPrice.toLocaleString("en-IN")}
+                      </span>
+                    )}
+                  </div>
                   <ArrowRight className="w-4 h-4 text-primary opacity-0 -translate-x-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0" />
                 </div>
               </div>

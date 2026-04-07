@@ -8,11 +8,15 @@ const allFeatures = [
   "Blow-Drying",
   "Ear Cleaning",
   "Eye Cleaning",
+  "Sanitizing",
   "Nail Clipping",
   "Paw Cleaning",
+  "Light Haircut",
   "Combing / Brushing",
   "Teeth Cleaning",
   "Hair Styling / Cut",
+  "Hygienic Grooming (might charge extra)",
+  "Tick Bathing (might charge extra)",
 ];
 
 type Package = {
@@ -20,6 +24,7 @@ type Package = {
   pet: string;
   price: number;
   originalPrice?: number;
+  discountBadge?: string;
   popular?: boolean;
   features: string[];
 };
@@ -28,15 +33,33 @@ const dogPackages: Package[] = [
   {
     name: "Small Breed",
     pet: "Dog",
-    price: 1000,
+    price: 1200,
+    originalPrice: 1500,
+    discountBadge: "20% OFF",
     features: ["Bathing", "Blow-Drying", "Ear Cleaning", "Eye Cleaning", "Nail Clipping", "Paw Cleaning"],
+  },
+  {
+    name: "Lottery Small Dog Package",
+    pet: "Dog",
+    price: 1450,
+    features: [
+      "Light Haircut",
+      "Bathing",
+      "Blow-Drying",
+      "Nail Clipping",
+      "Sanitizing",
+      "Eye Cleaning",
+      "Teeth Cleaning",
+      "Hygienic Grooming (might charge extra)",
+      "Tick Bathing (might charge extra)",
+    ],
   },
   {
     name: "Large Breed",
     pet: "Dog",
-    price: 1250,
-    originalPrice: 1500,
-    popular: true,
+    price: 1950,
+    originalPrice: 2500,
+    discountBadge: "22% OFF",
     features: ["Bathing", "Blow-Drying", "Ear Cleaning", "Eye Cleaning", "Nail Clipping", "Paw Cleaning", "Combing / Brushing", "Teeth Cleaning"],
   },
   {
@@ -44,7 +67,20 @@ const dogPackages: Package[] = [
     pet: "Dog",
     price: 1800,
     originalPrice: 2200,
-    features: ["Bathing", "Blow-Drying", "Ear Cleaning", "Eye Cleaning", "Nail Clipping", "Paw Cleaning", "Combing / Brushing", "Teeth Cleaning", "Hair Styling / Cut"],
+    popular: true,
+    features: [
+      "Bathing",
+      "Blow-Drying",
+      "Ear Cleaning",
+      "Eye Cleaning",
+      "Nail Clipping",
+      "Paw Cleaning",
+      "Combing / Brushing",
+      "Teeth Cleaning",
+      "Hair Styling / Cut",
+      "Hygienic Grooming (might charge extra)",
+      "Tick Bathing (might charge extra)",
+    ],
   },
 ];
 
@@ -82,6 +118,12 @@ const PricingCard = ({ pkg, index }: { pkg: Package; index: number }) => (
       pkg.popular ? "border-primary bg-primary/[0.02] shadow-md" : "border-border bg-card shadow-sm"
     }`}
   >
+    {pkg.discountBadge && (
+      <span className="absolute -top-3 right-4 bg-amber text-amber-foreground text-xs font-bold px-3 py-1 rounded-full shadow-sm">
+        {pkg.discountBadge}
+      </span>
+    )}
+
     {pkg.popular && (
       <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground text-xs font-semibold px-4 py-1 rounded-full flex items-center gap-1">
         <Star className="w-3 h-3 fill-current" /> Most Popular
@@ -151,7 +193,7 @@ const Pricing = () => (
     <section className="pb-16">
       <div className="container">
         <h2 className="text-xl font-semibold text-foreground mb-8">Dog Grooming</h2>
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
           {dogPackages.map((pkg, index) => (
             <PricingCard key={pkg.name} pkg={pkg} index={index} />
           ))}
