@@ -29,37 +29,102 @@ import { cn } from "@/lib/utils";
 const steps = ["Package", "Date & Time", "Your Details", "Confirmation"];
 
 const groomingPackages = [
-  { name: "Small Breed", price: "Rs. 1,200", petType: "Dog" },
-  { name: "Lottery Small Dog Package", price: "Rs. 1,450", petType: "Dog" },
-  { name: "Large Breed", price: "Rs. 1,950", petType: "Dog" },
-  { name: "Hair Cut Package", price: "Rs. 1,800", petType: "Dog" },
-  { name: "Basic Grooming", price: "Rs. 1,000", petType: "Cat" },
-  { name: "Hair Cut Package", price: "Rs. 1,500", petType: "Cat" },
-  { name: "Zero Cut Package", price: "Rs. 1,800", petType: "Cat" },
+  { name: "Small Breed", price: "Rs. 1,200", petType: "Dog", breedScope: "small" },
+  { name: "Lottery Small Dog Package", price: "Rs. 1,450", petType: "Dog", breedScope: "small" },
+  { name: "Large Breed", price: "Rs. 1,950", petType: "Dog", breedScope: "large" },
+  { name: "Hair Cut Package", price: "Rs. 1,800", petType: "Dog", breedScope: "all" },
+  { name: "Basic Grooming", price: "Rs. 1,000", petType: "Cat", breedScope: "all" },
+  { name: "Hair Cut Package", price: "Rs. 1,500", petType: "Cat", breedScope: "all" },
+  { name: "Zero Cut Package", price: "Rs. 1,800", petType: "Cat", breedScope: "all" },
 ] as const;
 
-const dogBreeds = [
+const allDogBreeds = [
   "Labrador",
   "Golden Retriever",
   "German Shepherd",
+  "Beagle",
+  "Rottweiler",
+  "Shih Tzu",
+  "Pomeranian",
+  "Cocker Spaniel",
+  "Boxer",
+  "Siberian Husky",
   "Pug",
+  "Indie",
+  "Great Dane",
+  "Dachshund",
+  "Doberman",
+  "Tibetan Mastiff",
+  "Rajapalayam",
+  "Poodle",
+  "Basset Hound",
+  "Gaddi Kutta",
+  "Bullmastiff",
+  "Saint Bernard",
+  "Chow Chow",
+  "Border Collie",
+  "Alaskan Malamute",
+  "Kanni",
+  "Jonangi",
+  "Pandikona",
+  "Chippiparai",
+  "Banjara Hound",
+  "Other",
+];
+
+const smallDogBreeds = [
   "Beagle",
   "Shih Tzu",
   "Pomeranian",
+  "Pug",
+  "Dachshund",
+  "Other",
+];
+
+const largeDogBreeds = [
+  "Labrador",
+  "Golden Retriever",
+  "German Shepherd",
   "Rottweiler",
+  "Boxer",
+  "Siberian Husky",
+  "Great Dane",
   "Doberman",
-  "Indie",
+  "Tibetan Mastiff",
+  "Rajapalayam",
+  "Gaddi Kutta",
+  "Bullmastiff",
+  "Saint Bernard",
+  "Chow Chow",
+  "Alaskan Malamute",
   "Other",
 ];
 
 const catBreeds = [
-  "Persian",
-  "Siamese",
+  "Spotted Cat",
+  "Bengal Cat",
+  "Bombay Cat",
   "Maine Coon",
+  "Persian Cat",
+  "Siamese Cat",
+  "Himalayan Cat",
+  "Abyssinian",
+  "Sphynx Cat",
+  "Birman Cat",
+  "Oriental Shorthair",
+  "Turkish Van",
+  "Ragdoll Cat",
+  "Tonkinese Cat",
   "British Shorthair",
-  "Ragdoll",
-  "Bengal",
-  "Indie",
+  "Scottish Fold",
+  "Devon Rex",
+  "Egyptian Mau",
+  "Russian Blue",
+  "Khao Manee",
+  "Balinese",
+  "Cornish Rex",
+  "Singapura",
+  "Manx",
   "Other",
 ];
 
@@ -72,11 +137,15 @@ const times = [
   "4:00 PM",
   "5:00 PM",
   "6:00 PM",
+  "7:00 PM",
+  "8:00 PM",
+  "9:00 PM",
 ];
 
 const lettersOnlyPattern = /^[A-Za-z\s]+$/;
 
 type PetType = "Dog" | "Cat";
+type BreedScope = "all" | "small" | "large";
 
 type FormData = {
   package: string;
@@ -116,10 +185,43 @@ const BookServices = () => {
   const today = startOfDay(new Date());
   const maxBookingDate = startOfDay(addMonths(today, 4));
   const isOtherBreed = form.petBreedChoice === "Other";
-  const breedOptions = useMemo(
-    () => (form.petType === "Cat" ? catBreeds : dogBreeds),
-    [form.petType],
+  const selectedPackage = useMemo(
+    () =>
+      groomingPackages.find(
+        (pkg) => pkg.name === form.package && pkg.petType === form.petType,
+      ),
+    [form.package, form.petType],
   );
+  const breedOptions = useMemo(() => {
+    if (form.petType === "Cat") {
+      return catBreeds;
+    }
+
+    if (selectedPackage?.breedScope === "small") {
+      return smallDogBreeds;
+    }
+
+    if (selectedPackage?.breedScope === "large") {
+      return largeDogBreeds;
+    }
+
+    return allDogBreeds;
+  }, [form.petType, selectedPackage]);
+  const breedHelperText = useMemo(() => {
+    if (form.petType === "Cat") {
+      return "Only cat breeds are shown for cat grooming packages.";
+    }
+
+    if (selectedPackage?.breedScope === "small") {
+      return "This package is only for small dog breeds, so only small-breed options are shown here. If your dog is not listed, please choose the correct package instead.";
+    }
+
+    if (selectedPackage?.breedScope === "large") {
+      return "This package is only for large dog breeds, so only large-breed options are shown here. If your dog is not listed, please choose the correct package instead.";
+    }
+
+    return "Choose your dog's breed from the dropdown. If you don't see it, select Other.";
+  }, [form.petType, selectedPackage]);
 
   const update = <K extends keyof FormData>(key: K, value: FormData[K]) => {
     setForm((current) => ({ ...current, [key]: value }));
@@ -427,6 +529,7 @@ const BookServices = () => {
                             />
                           )}
 
+                          <p className="mt-2 text-xs text-muted-foreground">{breedHelperText}</p>
                           <FieldError field="petBreed" />
                         </div>
                       </div>
