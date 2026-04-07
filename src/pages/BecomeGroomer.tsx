@@ -97,15 +97,19 @@ const BecomeGroomer = () => (
             viewport={{ once: true }}
             transition={{ duration: 0.5, ease: "easeOut" }}
             whileHover={{ y: -4 }}
-            className="relative mx-auto max-w-md overflow-hidden rounded-2xl border border-[hsl(342,35%,70%)]/70 bg-gradient-to-br from-[hsl(342,85%,95%)] via-[hsl(28,100%,93%)] to-[hsl(338,60%,90%)] p-0.5"
+            className="relative mx-auto max-w-md overflow-hidden rounded-2xl border border-[hsl(342,35%,70%)]/60 bg-gradient-to-br from-[hsl(342,85%,95%)] via-[hsl(28,100%,93%)] to-[hsl(338,60%,90%)] p-px"
           >
             <div className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-[hsl(24,96%,66%)]/25 blur-2xl" />
             <div className="pointer-events-none absolute -bottom-12 -left-8 h-36 w-36 rounded-full bg-[hsl(338,70%,62%)]/20 blur-2xl" />
+            <div className="pointer-events-none absolute inset-[4px] rounded-[0.9rem] border border-white/60" />
+            <div className="pointer-events-none absolute inset-[9px] rounded-[0.75rem] border border-white/35 border-dashed" />
+            <div className="pointer-events-none absolute inset-0 opacity-25 [background:repeating-linear-gradient(135deg,rgba(255,255,255,0.35)_0,rgba(255,255,255,0.35)_2px,transparent_2px,transparent_10px)]" />
+            <div className="pointer-events-none absolute left-1/2 top-2 h-16 w-40 -translate-x-1/2 rounded-full bg-white/45 blur-xl" />
             <div className="pointer-events-none absolute inset-0 opacity-35 [background:radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.55),transparent_40%),radial-gradient(circle_at_80%_70%,rgba(255,255,255,0.4),transparent_35%)]" />
             <motion.img
               src={groomingCoachSuresh}
               alt="Grooming Coach Mr Suresh S"
-              className="relative z-10 w-full rounded-xl border border-white/60 object-cover shadow-[0_10px_24px_hsl(336_35%_30%/0.18)]"
+              className="relative z-10 w-full rounded-xl border border-white/45 object-cover shadow-[0_12px_28px_hsl(336_35%_30%/0.22)]"
               loading="lazy"
               whileHover={{ scale: 1.02 }}
               transition={{ type: "spring", stiffness: 220, damping: 18 }}
@@ -116,7 +120,7 @@ const BecomeGroomer = () => (
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2, duration: 0.4 }}
-            className="mt-5 text-center text-3xl font-black tracking-wide text-[hsl(24,96%,42%)] drop-shadow-[0_3px_8px_hsl(24_80%_45%/0.28)] md:text-4xl"
+            className="mt-5 text-center text-3xl font-black tracking-wide text-[hsl(24,45%,24%)] drop-shadow-[0_3px_8px_hsl(24_45%_24%/0.25)] md:text-4xl"
           >
             Mr Suresh S
           </motion.p>
