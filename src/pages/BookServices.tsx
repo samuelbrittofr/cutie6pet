@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -6,10 +6,17 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Check, PawPrint, ArrowLeft, ArrowRight, CalendarIcon, MessageCircle } from "lucide-react";
 import { motion } from "framer-motion";
 import { useToast } from "@/hooks/use-toast";
-import { format } from "date-fns";
+import { addMonths, format, startOfDay } from "date-fns";
 import { cn } from "@/lib/utils";
 
 const steps = ["Package", "Date & Time", "Your Details", "Confirmation"];
@@ -23,6 +30,31 @@ const groomingPackages = [
   { name: "Cat Hair Cut Package", price: "₹1,500", pet: "Cat" },
 ];
 
+const dogBreeds = [
+  "Labrador",
+  "Golden Retriever",
+  "German Shepherd",
+  "Pug",
+  "Beagle",
+  "Shih Tzu",
+  "Pomeranian",
+  "Rottweiler",
+  "Doberman",
+  "Indie",
+  "Other",
+];
+
+const catBreeds = [
+  "Persian",
+  "Siamese",
+  "Maine Coon",
+  "British Shorthair",
+  "Ragdoll",
+  "Bengal",
+  "Indie",
+  "Other",
+];
+
 const times = ["10:00 AM", "11:00 AM", "12:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM"];
 const lettersOnlyPattern = /^[A-Za-z\s]+$/;
 
@@ -32,6 +64,7 @@ type FormData = {
   time: string;
   petName: string;
   petBreed: string;
+  petBreedChoice: string;
   petType: string;
   ownerName: string;
   ownerPhone: string;
@@ -52,12 +85,21 @@ const BookServices = () => {
     time: "",
     petName: "",
     petBreed: "",
+    petBreedChoice: "",
     petType: "Dog",
     ownerName: "",
     ownerPhone: "",
     notes: "",
   });
   const { toast } = useToast();
+
+  const today = startOfDay(new Date());
+  const maxBookingDate = startOfDay(addMonths(today, 4));
+  const isOtherBreed = form.petBreedChoice === "Other";
+  const breedOptions = useMemo(
+    () => (form.package.toLowerCase().includes("cat") ? catBreeds : dogBreeds),
+    [form.package],
+  );
 
   const update = (key: keyof FormData, value: FormData[keyof FormData]) => {
     setForm({ ...form, [key]: value });
@@ -187,7 +229,11 @@ const BookServices = () => {
                         {groomingPackages.map((pkg) => (
                           <button
                             key={pkg.name}
-                            onClick={() => update("package", pkg.name)}
+                            onClick={() => {
+                              update("package", pkg.name);
+                              update("petBreed", "");
+                              update("petBreedChoice", "");
+                            }}
                             aria-pressed={form.package === pkg.name}
                             className={cn(
                               "p-4 rounded-lg border text-left transition-all",
@@ -225,12 +271,15 @@ const BookServices = () => {
                               mode="single"
                               selected={form.date}
                               onSelect={(date) => update("date", date)}
-                              disabled={(date) => date < new Date(new Date().setHours(0, 0, 0, 0))}
+                              disabled={(date) => date < today || date > maxBookingDate}
                               initialFocus
                               className="p-3 pointer-events-auto"
                             />
                           </PopoverContent>
                         </Popover>
+                        <p className="text-xs text-muted-foreground mt-2">
+                          Appointments can be booked from today up to {format(maxBookingDate, "PPP")}.
+                        </p>
                         <FieldError field="date" />
                       </div>
                       <div>
@@ -272,15 +321,40 @@ const BookServices = () => {
                           <FieldError field="petName" />
                         </div>
                         <div>
-                          <Label htmlFor="pet-breed-svc">Breed *</Label>
-                          <Input
-                            id="pet-breed-svc"
-                            value={form.petBreed}
-                            onChange={(event) => update("petBreed", sanitizeLettersOnly(event.target.value))}
-                            placeholder="e.g. Labrador"
-                            aria-invalid={!!errors.petBreed}
-                          />
-                          <FieldError field="petBreed" />
+                          <Label>Breed *</Label>
+                          <Select
+                            value={form.petBreedChoice}
+                            onValueChange={(value) => {
+                              update("petBreedChoice", value);
+                              update("petBreed", value === "Other" ? "" : value);
+                            }}
+                          >
+                            <SelectTrigger className="h-11 rounded-lg border-border bg-background/80 text-foreground shadow-sm">
+                              <SelectValue placeholder="Select your pet's breed" />
+                            </SelectTrigger>
+                            <SelectContent className="rounded-xl border-border bg-popover/95 backdrop-blur-sm shadow-xl">
+                              {breedOptions.map((breed) => (
+                                <SelectItem key={breed} value={breed} className="rounded-lg">
+                                  {breed}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                          {isOtherBreed && (
+                            <Input
+                              className="mt-3"
+                              value={form.petBreed}
+                              onChange={(event) => update("petBreed", sanitizeLettersOnly(event.target.value))}
+                              placeholder="Enter breed"
+                              aria-invalid={!!errors.petBreed}
+                            />
+                          )}
+                          {!isOtherBreed && <FieldError field="petBreed" />}
+                          {isOtherBreed && errors.petBreed ? (
+                            <p className="text-sm text-destructive mt-1" role="alert">
+                              {errors.petBreed}
+                            </p>
+                          ) : null}
                         </div>
                       </div>
                       <div className="grid grid-cols-2 gap-4">
