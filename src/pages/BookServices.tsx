@@ -315,17 +315,35 @@ const BookServices = () => {
     ) : null;
 
   const dateStr = form.date ? format(form.date, "PPP") : "";
-  const whatsappMsg = `Hi Cutie 6 Pet! I'd like to confirm my booking:
+  const whatsappIcons = {
+    package: String.fromCodePoint(0x1f43e),
+    petType: String.fromCodePoint(0x1f436),
+    branch: String.fromCodePoint(0x1f4cd),
+    date: String.fromCodePoint(0x1f4c5),
+    time: String.fromCodePoint(0x1f552),
+    pet: String.fromCodePoint(0x1f415),
+    name: String.fromCodePoint(0x1f9d1),
+    phone: String.fromCodePoint(0x260e),
+    notes: String.fromCodePoint(0x2728),
+  };
+  const whatsappLines = [
+    "Hi Cutie 6 Pet! I'd like to confirm my booking:",
+    "",
+    `${whatsappIcons.package} Package: ${form.package}`,
+    `${whatsappIcons.petType} Pet Type: ${form.petType}`,
+    `${whatsappIcons.branch} Branch: Kacharakanahalli`,
+    `${whatsappIcons.date} Date: ${dateStr}`,
+    `${whatsappIcons.time} Time: ${form.time}`,
+    `${whatsappIcons.pet} Pet: ${form.petName} (${form.petBreed})`,
+    `${whatsappIcons.name} Name: ${form.ownerName}`,
+    `${whatsappIcons.phone} Phone: ${form.ownerPhone}`,
+  ];
 
-\u{1F43E} Package: ${form.package}
-\u{1F436} Pet Type: ${form.petType}
-\u{1F4CD} Branch: Kacharakanahalli
-\u{1F4C5} Date: ${dateStr}
-\u{1F552} Time: ${form.time}
-\u{1F415} Pet: ${form.petName} (${form.petBreed})
-\u{1F9D1} Name: ${form.ownerName}
-\u260E Phone: ${form.ownerPhone}${form.notes ? `
-\u2728 Notes: ${form.notes}` : ""}`;
+  if (form.notes) {
+    whatsappLines.push(`${whatsappIcons.notes} Notes: ${form.notes}`);
+  }
+
+  const whatsappMsg = whatsappLines.join("\n");
   const whatsappUrl = `https://wa.me/919901887525?text=${encodeURIComponent(whatsappMsg)}`;
 
   return (
