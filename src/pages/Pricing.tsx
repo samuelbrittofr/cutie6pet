@@ -116,7 +116,7 @@ const PricingCard = ({ pkg, index }: { pkg: Package; index: number }) => (
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true }}
     transition={{ delay: index * 0.1 }}
-    className={`relative rounded-2xl border p-6 md:p-8 transition-shadow ${
+    className={`relative flex h-full flex-col rounded-2xl border p-6 md:p-8 transition-shadow ${
       pkg.popular ? "border-primary bg-primary/[0.02] shadow-md" : "border-border bg-card shadow-sm"
     }`}
   >
@@ -132,10 +132,12 @@ const PricingCard = ({ pkg, index }: { pkg: Package; index: number }) => (
       </span>
     )}
 
-    <h3 className="text-lg font-semibold text-foreground mb-1">{pkg.name}</h3>
-    <p className="text-xs text-muted-foreground mb-4">{pkg.pet}</p>
+    <div className="mb-4 min-h-[4.5rem]">
+      <h3 className="mb-1 text-lg font-semibold leading-snug text-foreground">{pkg.name}</h3>
+      <p className="text-xs text-muted-foreground">{pkg.pet}</p>
+    </div>
 
-    <div className="flex items-baseline gap-2 mb-6">
+    <div className="mb-6 flex items-baseline gap-2">
       <span className="text-3xl font-bold text-foreground">₹{pkg.price.toLocaleString("en-IN")}</span>
       {pkg.originalPrice && (
         <>
@@ -147,7 +149,7 @@ const PricingCard = ({ pkg, index }: { pkg: Package; index: number }) => (
       )}
     </div>
 
-    <ul className="space-y-2.5 mb-8">
+    <ul className="mb-8 space-y-2.5">
       {allFeatures.map((feature) => {
         const included = pkg.features.includes(feature);
         return (
@@ -165,7 +167,7 @@ const PricingCard = ({ pkg, index }: { pkg: Package; index: number }) => (
     </ul>
 
     <Button
-      className={`w-full rounded-lg ${pkg.popular ? "bg-primary hover:bg-primary/90 text-primary-foreground" : ""}`}
+      className={`mt-auto w-full rounded-lg ${pkg.popular ? "bg-primary hover:bg-primary/90 text-primary-foreground" : ""}`}
       variant={pkg.popular ? "default" : "outline"}
       asChild
     >
