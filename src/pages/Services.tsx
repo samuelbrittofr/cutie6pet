@@ -11,6 +11,7 @@ import lotterySmallDog from "@/assets/lottery-small-dog.jpg";
 import haircutPackage from "@/assets/haircut-package.jpg";
 import catBasicGrooming from "@/assets/cat-basic-grooming.jpg";
 import catHaircutPackage from "@/assets/cat-haircut-package.jpg";
+import catZeroCutPackage from "@/assets/cat-zero-cut-package.jpg";
 
 type ServicePackage = {
   icon: typeof Bath;
@@ -104,7 +105,7 @@ const packages: ServicePackage[] = [
     title: "Cat Zero Cut Package",
     price: 1800,
     originalPrice: 2100,
-    image: grooming5,
+    image: catZeroCutPackage,
     desc: "Full cat grooming with trimming, bathing, and all grooming essentials for a neat, clean look.",
     features: ["Haircut/Trimming", "Bathing", "Blow-Drying", "Ear Cleaning", "Eye Cleaning", "Nail Clipping", "Paw Cleaning"],
   },
