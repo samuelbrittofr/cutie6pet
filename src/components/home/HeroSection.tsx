@@ -12,7 +12,19 @@ const HeroSection = () => {
           src={heroTopPets}
           alt="Cutie 6 Pet hero pets"
           className="h-full w-full max-w-[1400px] object-contain object-center"
+          style={{
+            WebkitMaskImage:
+              "radial-gradient(circle at center, black 58%, transparent 88%), linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 10%, black 88%, transparent 100%)",
+            maskImage:
+              "radial-gradient(circle at center, black 58%, transparent 88%), linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 10%, black 88%, transparent 100%)",
+            WebkitMaskComposite: "source-in",
+            maskComposite: "intersect",
+          }}
         />
+        <div className="absolute inset-y-0 left-0 w-28 bg-gradient-to-r from-[#f3f3f3] via-[#f3f3f3]/75 to-transparent" />
+        <div className="absolute inset-y-0 right-0 w-28 bg-gradient-to-l from-[#f3f3f3] via-[#f3f3f3]/75 to-transparent" />
+        <div className="absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-[#f3f3f3] via-[#f3f3f3]/60 to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#f3f3f3] via-[#f3f3f3]/70 to-transparent" />
         <div className="absolute -left-20 top-20 h-64 w-64 rounded-full bg-[#ffb84d]/40 blur-3xl" />
         <div className="absolute -right-20 bottom-16 h-72 w-72 rounded-full bg-[#5b2ca0]/25 blur-3xl" />
         <motion.div
