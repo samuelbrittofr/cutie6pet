@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Heart, Shield, Sparkles, Award, PawPrint, Star, MapPin, Phone, Clock, Mail, Instagram, ExternalLink } from "lucide-react";
+import { Heart, Shield, Sparkles, Award, PawPrint, Star, MapPin, Phone, Clock, Mail, Instagram, ExternalLink, PlayCircle } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
@@ -38,6 +38,12 @@ const instagramPosts = [
   { image: grooming2, caption: "Pampered pets enjoying a gentle grooming session." },
   { image: grooming3, caption: "Clean coats, tidy paws, and lots of care." },
   { image: grooming4, caption: "A peek into everyday Cutie 6 Pet moments." },
+];
+
+const instagramReels = [
+  { image: grooming2, title: "Gentle grooming in action", description: "A quick look at the calm, pet-friendly care we give in the studio." },
+  { image: grooming3, title: "Fresh trim transformation", description: "See the before-and-after style moments that pet parents love sharing." },
+  { image: grooming4, title: "Happy tails and tidy coats", description: "More of the everyday reel-style moments from Cutie 6 Pet." },
 ];
 
 const stats = [
@@ -135,18 +141,19 @@ const AnimatedStat = ({
 
 const About = () => (
   <div className="min-h-screen bg-background">
-    <section className="bg-gradient-hero py-16 md:py-24">
+    <section className="border-b border-border/70 bg-gradient-hero py-12 md:py-16">
       <div className="container text-center">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
           <h1 className="text-3xl md:text-5xl font-bold text-foreground mb-4">About Cutie 6 Pet</h1>
           <p className="text-foreground/80 text-lg max-w-2xl mx-auto">
             Born in Bangalore out of pure love for furry companions.
           </p>
+          <div className="mx-auto mt-6 h-px w-28 bg-primary/40" />
         </motion.div>
       </div>
     </section>
 
-    <section className="py-20">
+    <section className="py-14 md:py-16">
       <div className="container max-w-5xl">
         <div className="grid gap-12 md:grid-cols-2 md:items-start">
           <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
@@ -280,6 +287,62 @@ const About = () => (
                 </CardContent>
               </Card>
             </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section className="border-t border-border bg-background py-16">
+      <div className="container max-w-6xl">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mb-10 text-center"
+        >
+          <span className="text-primary font-medium text-sm uppercase tracking-wider">Instagram Reels</span>
+          <h2 className="mt-2 text-2xl font-bold md:text-3xl">Watch Cutie 6 Pet in Motion</h2>
+          <p className="mx-auto mt-3 max-w-2xl text-muted-foreground">
+            Catch more grooming moments, transformations, and behind-the-scenes clips on their Instagram page.
+          </p>
+        </motion.div>
+
+        <div className="grid gap-6 md:grid-cols-3">
+          {instagramReels.map((reel, index) => (
+            <motion.a
+              key={reel.title}
+              href={instagramUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.08 }}
+              className="group overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-all hover:-translate-y-1 hover:shadow-md"
+            >
+              <div className="relative aspect-[4/5] overflow-hidden bg-muted">
+                <img
+                  src={reel.image}
+                  alt={reel.title}
+                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent" />
+                <div className="absolute inset-x-0 bottom-0 flex items-center justify-between p-4 text-white">
+                  <div>
+                    <p className="text-sm font-semibold">Instagram Reel</p>
+                    <p className="text-xs text-white/80">@cutie6pet</p>
+                  </div>
+                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm">
+                    <PlayCircle className="h-7 w-7" />
+                  </div>
+                </div>
+              </div>
+              <div className="p-5">
+                <h3 className="text-lg font-semibold text-foreground">{reel.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{reel.description}</p>
+              </div>
+            </motion.a>
           ))}
         </div>
       </div>
