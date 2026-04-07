@@ -13,22 +13,30 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Check, PawPrint, ArrowLeft, ArrowRight, CalendarIcon, MessageCircle } from "lucide-react";
+import {
+  ArrowLeft,
+  ArrowRight,
+  CalendarIcon,
+  Check,
+  MessageCircle,
+  PawPrint,
+} from "lucide-react";
 import { motion } from "framer-motion";
-import { useToast } from "@/hooks/use-toast";
 import { addMonths, format, startOfDay } from "date-fns";
+import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 
 const steps = ["Package", "Date & Time", "Your Details", "Confirmation"];
 
 const groomingPackages = [
-  { name: "Small Breed Package", price: "₹1,000", pet: "Dog" },
-  { name: "Large Breed Package", price: "₹1,250", pet: "Dog" },
-  { name: "Hair Cut Package (Dog)", price: "₹1,800", pet: "Dog" },
-  { name: "Cat Basic Grooming", price: "₹1,000", pet: "Cat" },
-  { name: "Cat Zero Cut Package", price: "₹1,800", pet: "Cat" },
-  { name: "Cat Hair Cut Package", price: "₹1,500", pet: "Cat" },
-];
+  { name: "Small Breed", price: "Rs. 1,200", petType: "Dog" },
+  { name: "Lottery Small Dog Package", price: "Rs. 1,450", petType: "Dog" },
+  { name: "Large Breed", price: "Rs. 1,950", petType: "Dog" },
+  { name: "Hair Cut Package", price: "Rs. 1,800", petType: "Dog" },
+  { name: "Basic Grooming", price: "Rs. 1,000", petType: "Cat" },
+  { name: "Hair Cut Package", price: "Rs. 1,500", petType: "Cat" },
+  { name: "Zero Cut Package", price: "Rs. 1,800", petType: "Cat" },
+] as const;
 
 const dogBreeds = [
   "Labrador",
@@ -55,8 +63,20 @@ const catBreeds = [
   "Other",
 ];
 
-const times = ["10:00 AM", "11:00 AM", "12:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM"];
+const times = [
+  "10:00 AM",
+  "11:00 AM",
+  "12:00 PM",
+  "2:00 PM",
+  "3:00 PM",
+  "4:00 PM",
+  "5:00 PM",
+  "6:00 PM",
+];
+
 const lettersOnlyPattern = /^[A-Za-z\s]+$/;
+
+type PetType = "Dog" | "Cat";
 
 type FormData = {
   package: string;
@@ -65,7 +85,7 @@ type FormData = {
   petName: string;
   petBreed: string;
   petBreedChoice: string;
-  petType: string;
+  petType: PetType;
   ownerName: string;
   ownerPhone: string;
   notes: string;
@@ -97,12 +117,13 @@ const BookServices = () => {
   const maxBookingDate = startOfDay(addMonths(today, 4));
   const isOtherBreed = form.petBreedChoice === "Other";
   const breedOptions = useMemo(
-    () => (form.package.toLowerCase().includes("cat") ? catBreeds : dogBreeds),
-    [form.package],
+    () => (form.petType === "Cat" ? catBreeds : dogBreeds),
+    [form.petType],
   );
 
-  const update = (key: keyof FormData, value: FormData[keyof FormData]) => {
-    setForm({ ...form, [key]: value });
+  const update = <K extends keyof FormData>(key: K, value: FormData[K]) => {
+    setForm((current) => ({ ...current, [key]: value }));
+
     if (errors[key]) {
       setErrors((prev) => {
         const next = { ...prev };
@@ -112,10 +133,12 @@ const BookServices = () => {
     }
   };
 
-  const validateStep = (): boolean => {
+  const validateStep = () => {
     const nextErrors: Record<string, string> = {};
 
-    if (step === 0 && !form.package) nextErrors.package = "Please select a package.";
+    if (step === 0 && !form.package) {
+      nextErrors.package = "Please select a package.";
+    }
 
     if (step === 1) {
       if (!form.date) nextErrors.date = "Please select a date.";
@@ -123,17 +146,29 @@ const BookServices = () => {
     }
 
     if (step === 2) {
-      if (!form.petName.trim()) nextErrors.petName = "Pet name is required.";
-      else if (!lettersOnlyPattern.test(form.petName.trim())) nextErrors.petName = "Pet name should only contain letters.";
+      if (!form.petName.trim()) {
+        nextErrors.petName = "Pet name is required.";
+      } else if (!lettersOnlyPattern.test(form.petName.trim())) {
+        nextErrors.petName = "Pet name should only contain letters.";
+      }
 
-      if (!form.petBreed.trim()) nextErrors.petBreed = "Breed is required.";
-      else if (!lettersOnlyPattern.test(form.petBreed.trim())) nextErrors.petBreed = "Breed should only contain letters.";
+      if (!form.petBreed.trim()) {
+        nextErrors.petBreed = "Breed is required.";
+      } else if (!lettersOnlyPattern.test(form.petBreed.trim())) {
+        nextErrors.petBreed = "Breed should only contain letters.";
+      }
 
-      if (!form.ownerName.trim()) nextErrors.ownerName = "Your name is required.";
-      else if (!lettersOnlyPattern.test(form.ownerName.trim())) nextErrors.ownerName = "Your name should only contain letters.";
+      if (!form.ownerName.trim()) {
+        nextErrors.ownerName = "Your name is required.";
+      } else if (!lettersOnlyPattern.test(form.ownerName.trim())) {
+        nextErrors.ownerName = "Your name should only contain letters.";
+      }
 
-      if (!form.ownerPhone.trim()) nextErrors.ownerPhone = "Phone number is required.";
-      else if (form.ownerPhone.length !== 10) nextErrors.ownerPhone = "Enter a valid 10-digit phone number.";
+      if (!form.ownerPhone.trim()) {
+        nextErrors.ownerPhone = "Phone number is required.";
+      } else if (form.ownerPhone.length !== 10) {
+        nextErrors.ownerPhone = "Enter a valid 10-digit phone number.";
+      }
     }
 
     setErrors(nextErrors);
@@ -151,27 +186,43 @@ const BookServices = () => {
   };
 
   const handleNext = () => {
-    if (validateStep()) setStep(step + 1);
+    if (validateStep()) {
+      setStep((current) => current + 1);
+    }
   };
 
   const FieldError = ({ field }: { field: string }) =>
     errors[field] ? (
-      <p className="text-sm text-destructive mt-1" role="alert">
+      <p className="mt-1 text-sm text-destructive" role="alert">
         {errors[field]}
       </p>
     ) : null;
 
   const dateStr = form.date ? format(form.date, "PPP") : "";
-  const whatsappMsg = `Hi Cutie 6 Pet! I'd like to confirm my booking:\n\n📦 Package: ${form.package}\n📍 Branch: Kacharakanahalli\n📅 Date: ${dateStr}\n⏰ Time: ${form.time}\n🐾 Pet: ${form.petName} (${form.petBreed})\n👤 Name: ${form.ownerName}\n📞 Phone: ${form.ownerPhone}${form.notes ? `\n📝 Notes: ${form.notes}` : ""}`;
+  const whatsappMsg = `Hi Cutie 6 Pet! I'd like to confirm my booking:
+
+📦 Package: ${form.package}
+🐶 Pet Type: ${form.petType}
+📍 Branch: Kacharakanahalli
+📅 Date: ${dateStr}
+⏰ Time: ${form.time}
+🐾 Pet: ${form.petName} (${form.petBreed})
+👤 Name: ${form.ownerName}
+📞 Phone: ${form.ownerPhone}${form.notes ? `
+📝 Notes: ${form.notes}` : ""}`;
   const whatsappUrl = `https://wa.me/919901887525?text=${encodeURIComponent(whatsappMsg)}`;
 
   return (
     <div className="min-h-screen bg-background">
-      <section className="py-10 border-b border-border">
+      <section className="border-b border-border py-10">
         <div className="container">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-            <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-1">Book an Appointment</h1>
-            <p className="text-muted-foreground text-sm">Schedule a grooming session at our Kacharakanahalli branch.</p>
+            <h1 className="mb-1 text-2xl font-bold text-foreground md:text-3xl">
+              Book an Appointment
+            </h1>
+            <p className="text-sm text-muted-foreground">
+              Schedule a grooming session at our Kacharakanahalli branch.
+            </p>
           </motion.div>
         </div>
       </section>
@@ -179,12 +230,12 @@ const BookServices = () => {
       <section className="py-10">
         <div className="container max-w-2xl">
           <div className="mb-8">
-            <div className="flex items-center justify-between mb-3">
+            <div className="mb-3 flex items-center justify-between">
               {steps.map((label, index) => (
-                <div key={label} className="flex flex-col items-center flex-1">
+                <div key={label} className="flex flex-1 flex-col items-center">
                   <div
                     className={cn(
-                      "w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold mb-1.5 transition-colors",
+                      "mb-1.5 flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold transition-colors",
                       index < step
                         ? "bg-primary text-primary-foreground"
                         : index === step
@@ -192,12 +243,12 @@ const BookServices = () => {
                           : "bg-muted text-muted-foreground",
                     )}
                   >
-                    {index < step ? <Check className="w-4 h-4" /> : index + 1}
+                    {index < step ? <Check className="h-4 w-4" /> : index + 1}
                   </div>
                   <span
                     className={cn(
-                      "text-[10px] sm:text-xs text-center leading-tight",
-                      index <= step ? "text-primary font-medium" : "text-muted-foreground",
+                      "text-center text-[10px] leading-tight sm:text-xs",
+                      index <= step ? "font-medium text-primary" : "text-muted-foreground",
                     )}
                   >
                     {label}
@@ -205,9 +256,9 @@ const BookServices = () => {
                 </div>
               ))}
             </div>
-            <div className="h-1 bg-muted rounded-full overflow-hidden">
+            <div className="h-1 overflow-hidden rounded-full bg-muted">
               <motion.div
-                className="h-full bg-primary rounded-full"
+                className="h-full rounded-full bg-primary"
                 initial={{ width: 0 }}
                 animate={{ width: `${(step / (steps.length - 1)) * 100}%` }}
                 transition={{ duration: 0.3 }}
@@ -215,7 +266,12 @@ const BookServices = () => {
             </div>
           </div>
 
-          <motion.div key={step} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.3 }}>
+          <motion.div
+            key={step}
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.3 }}
+          >
             <Card className="border shadow-sm">
               <CardHeader className="pb-4">
                 <CardTitle className="text-lg">{steps[step]}</CardTitle>
@@ -225,28 +281,36 @@ const BookServices = () => {
                   {step === 0 && (
                     <fieldset>
                       <legend className="sr-only">Select a grooming package</legend>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        {groomingPackages.map((pkg) => (
-                          <button
-                            key={pkg.name}
-                            onClick={() => {
-                              update("package", pkg.name);
-                              update("petBreed", "");
-                              update("petBreedChoice", "");
-                            }}
-                            aria-pressed={form.package === pkg.name}
-                            className={cn(
-                              "p-4 rounded-lg border text-left transition-all",
-                              form.package === pkg.name
-                                ? "border-primary bg-primary/5 ring-1 ring-primary/30"
-                                : "border-border hover:border-muted-foreground/30",
-                            )}
-                          >
-                            <PawPrint className="w-4 h-4 mb-1 text-primary" aria-hidden="true" />
-                            <p className="text-sm font-medium text-foreground">{pkg.name}</p>
-                            <p className="text-xs text-muted-foreground">{pkg.price} · {pkg.pet}</p>
-                          </button>
-                        ))}
+                      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                        {groomingPackages.map((pkg) => {
+                          const isSelected =
+                            form.package === pkg.name && form.petType === pkg.petType;
+
+                          return (
+                            <button
+                              key={`${pkg.petType}-${pkg.name}`}
+                              onClick={() => {
+                                update("package", pkg.name);
+                                update("petType", pkg.petType);
+                                update("petBreed", "");
+                                update("petBreedChoice", "");
+                              }}
+                              aria-pressed={isSelected}
+                              className={cn(
+                                "rounded-lg border p-4 text-left transition-all",
+                                isSelected
+                                  ? "border-primary bg-primary/5 ring-1 ring-primary/30"
+                                  : "border-border hover:border-muted-foreground/30",
+                              )}
+                            >
+                              <PawPrint className="mb-1 h-4 w-4 text-primary" aria-hidden="true" />
+                              <p className="text-sm font-medium text-foreground">{pkg.name}</p>
+                              <p className="text-xs text-muted-foreground">
+                                {pkg.price} · {pkg.petType}
+                              </p>
+                            </button>
+                          );
+                        })}
                       </div>
                       <FieldError field="package" />
                     </fieldset>
@@ -260,7 +324,10 @@ const BookServices = () => {
                           <PopoverTrigger asChild>
                             <Button
                               variant="outline"
-                              className={cn("w-full justify-start text-left font-normal", !form.date && "text-muted-foreground")}
+                              className={cn(
+                                "w-full justify-start text-left font-normal",
+                                !form.date && "text-muted-foreground",
+                              )}
                             >
                               <CalendarIcon className="mr-2 h-4 w-4" />
                               {form.date ? format(form.date, "PPP") : "Pick a date"}
@@ -273,15 +340,17 @@ const BookServices = () => {
                               onSelect={(date) => update("date", date)}
                               disabled={(date) => date < today || date > maxBookingDate}
                               initialFocus
-                              className="p-3 pointer-events-auto"
+                              className="pointer-events-auto p-3"
                             />
                           </PopoverContent>
                         </Popover>
-                        <p className="text-xs text-muted-foreground mt-2">
-                          Appointments can be booked from today up to {format(maxBookingDate, "PPP")}.
+                        <p className="mt-2 text-xs text-muted-foreground">
+                          Appointments can be booked from today up to{" "}
+                          {format(maxBookingDate, "PPP")}.
                         </p>
                         <FieldError field="date" />
                       </div>
+
                       <div>
                         <Label className="mb-2 block">Select Time *</Label>
                         <div className="grid grid-cols-4 gap-2" role="group">
@@ -291,10 +360,10 @@ const BookServices = () => {
                               onClick={() => update("time", time)}
                               aria-pressed={form.time === time}
                               className={cn(
-                                "py-2.5 px-3 rounded-lg border text-xs font-medium transition-all",
+                                "rounded-lg border px-3 py-2.5 text-xs font-medium transition-all",
                                 form.time === time
-                                  ? "border-primary bg-primary/5 ring-1 ring-primary/30 text-primary"
-                                  : "border-border hover:border-muted-foreground/30 text-foreground",
+                                  ? "border-primary bg-primary/5 text-primary ring-1 ring-primary/30"
+                                  : "border-border text-foreground hover:border-muted-foreground/30",
                               )}
                             >
                               {time}
@@ -314,12 +383,15 @@ const BookServices = () => {
                           <Input
                             id="pet-name-svc"
                             value={form.petName}
-                            onChange={(event) => update("petName", sanitizeLettersOnly(event.target.value))}
+                            onChange={(event) =>
+                              update("petName", sanitizeLettersOnly(event.target.value))
+                            }
                             placeholder="e.g. Bruno"
                             aria-invalid={!!errors.petName}
                           />
                           <FieldError field="petName" />
                         </div>
+
                         <div>
                           <Label>Breed *</Label>
                           <Select
@@ -330,9 +402,11 @@ const BookServices = () => {
                             }}
                           >
                             <SelectTrigger className="h-11 rounded-lg border-border bg-background/80 text-foreground shadow-sm">
-                              <SelectValue placeholder="Select your pet's breed" />
+                              <SelectValue
+                                placeholder={`Select a ${form.petType.toLowerCase()} breed`}
+                              />
                             </SelectTrigger>
-                            <SelectContent className="rounded-xl border-border bg-popover/95 backdrop-blur-sm shadow-xl">
+                            <SelectContent className="rounded-xl border-border bg-popover/95 shadow-xl backdrop-blur-sm">
                               {breedOptions.map((breed) => (
                                 <SelectItem key={breed} value={breed} className="rounded-lg">
                                   {breed}
@@ -340,35 +414,38 @@ const BookServices = () => {
                               ))}
                             </SelectContent>
                           </Select>
+
                           {isOtherBreed && (
                             <Input
                               className="mt-3"
                               value={form.petBreed}
-                              onChange={(event) => update("petBreed", sanitizeLettersOnly(event.target.value))}
-                              placeholder="Enter breed"
+                              onChange={(event) =>
+                                update("petBreed", sanitizeLettersOnly(event.target.value))
+                              }
+                              placeholder={`Enter your ${form.petType.toLowerCase()}'s breed`}
                               aria-invalid={!!errors.petBreed}
                             />
                           )}
-                          {!isOtherBreed && <FieldError field="petBreed" />}
-                          {isOtherBreed && errors.petBreed ? (
-                            <p className="text-sm text-destructive mt-1" role="alert">
-                              {errors.petBreed}
-                            </p>
-                          ) : null}
+
+                          <FieldError field="petBreed" />
                         </div>
                       </div>
+
                       <div className="grid grid-cols-2 gap-4">
                         <div>
                           <Label htmlFor="owner-name">Your Name *</Label>
                           <Input
                             id="owner-name"
                             value={form.ownerName}
-                            onChange={(event) => update("ownerName", sanitizeLettersOnly(event.target.value))}
+                            onChange={(event) =>
+                              update("ownerName", sanitizeLettersOnly(event.target.value))
+                            }
                             placeholder="Your full name"
                             aria-invalid={!!errors.ownerName}
                           />
                           <FieldError field="ownerName" />
                         </div>
+
                         <div>
                           <Label htmlFor="owner-phone">Phone Number *</Label>
                           <Input
@@ -377,13 +454,16 @@ const BookServices = () => {
                             inputMode="numeric"
                             maxLength={10}
                             value={form.ownerPhone}
-                            onChange={(event) => update("ownerPhone", sanitizePhoneNumber(event.target.value))}
+                            onChange={(event) =>
+                              update("ownerPhone", sanitizePhoneNumber(event.target.value))
+                            }
                             placeholder="9876543210"
                             aria-invalid={!!errors.ownerPhone}
                           />
                           <FieldError field="ownerPhone" />
                         </div>
                       </div>
+
                       <div>
                         <Label htmlFor="pet-notes-svc">Special Notes (optional)</Label>
                         <Input
@@ -397,30 +477,53 @@ const BookServices = () => {
                   )}
 
                   {step === 3 && (
-                    <div className="text-center py-6" role="status">
+                    <div className="py-6 text-center" role="status">
                       <motion.div
                         initial={{ scale: 0 }}
                         animate={{ scale: 1 }}
                         transition={{ type: "spring", stiffness: 200 }}
-                        className="w-14 h-14 bg-success/10 rounded-full flex items-center justify-center mx-auto mb-4"
+                        className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-success/10"
                       >
-                        <Check className="w-7 h-7 text-success" aria-hidden="true" />
+                        <Check className="h-7 w-7 text-success" aria-hidden="true" />
                       </motion.div>
-                      <h3 className="text-lg font-bold text-foreground mb-2">Appointment Requested!</h3>
-                      <div className="text-sm text-muted-foreground space-y-1 mb-6 text-left max-w-sm mx-auto">
-                        <p><strong>Package:</strong> {form.package}</p>
-                        <p><strong>Branch:</strong> Kacharakanahalli</p>
-                        <p><strong>Date:</strong> {dateStr} at {form.time}</p>
-                        <p><strong>Pet:</strong> {form.petName} ({form.petBreed})</p>
-                        <p><strong>Name:</strong> {form.ownerName}</p>
-                        <p><strong>Phone:</strong> {form.ownerPhone}</p>
-                        {form.notes && <p><strong>Notes:</strong> {form.notes}</p>}
+                      <h3 className="mb-2 text-lg font-bold text-foreground">
+                        Appointment Requested!
+                      </h3>
+                      <div className="mx-auto mb-6 max-w-sm space-y-1 text-left text-sm text-muted-foreground">
+                        <p>
+                          <strong>Package:</strong> {form.package}
+                        </p>
+                        <p>
+                          <strong>Pet Type:</strong> {form.petType}
+                        </p>
+                        <p>
+                          <strong>Branch:</strong> Kacharakanahalli
+                        </p>
+                        <p>
+                          <strong>Date:</strong> {dateStr} at {form.time}
+                        </p>
+                        <p>
+                          <strong>Pet:</strong> {form.petName} ({form.petBreed})
+                        </p>
+                        <p>
+                          <strong>Name:</strong> {form.ownerName}
+                        </p>
+                        <p>
+                          <strong>Phone:</strong> {form.ownerPhone}
+                        </p>
+                        {form.notes && (
+                          <p>
+                            <strong>Notes:</strong> {form.notes}
+                          </p>
+                        )}
                       </div>
-                      <p className="text-sm text-muted-foreground mb-6">Confirm your appointment via WhatsApp:</p>
-                      <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                        <Button className="bg-success hover:bg-success/90 text-white" asChild>
+                      <p className="mb-6 text-sm text-muted-foreground">
+                        Confirm your appointment via WhatsApp:
+                      </p>
+                      <div className="flex flex-col justify-center gap-3 sm:flex-row">
+                        <Button className="bg-success text-white hover:bg-success/90" asChild>
                           <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
-                            <MessageCircle className="w-4 h-4 mr-2" />
+                            <MessageCircle className="mr-2 h-4 w-4" />
                             Confirm on WhatsApp
                           </a>
                         </Button>
@@ -433,7 +536,7 @@ const BookServices = () => {
                 </div>
 
                 {step < 3 && (
-                  <div className="flex justify-between mt-8">
+                  <div className="mt-8 flex justify-between">
                     <Button
                       variant="outline"
                       onClick={() => {
@@ -442,10 +545,11 @@ const BookServices = () => {
                       }}
                       disabled={step === 0}
                     >
-                      <ArrowLeft className="w-4 h-4 mr-1" /> Back
+                      <ArrowLeft className="mr-1 h-4 w-4" /> Back
                     </Button>
                     <Button onClick={handleNext}>
-                      {step === 2 ? "Confirm" : "Next"} <ArrowRight className="w-4 h-4 ml-1" />
+                      {step === 2 ? "Confirm" : "Next"}{" "}
+                      <ArrowRight className="ml-1 h-4 w-4" />
                     </Button>
                   </div>
                 )}
