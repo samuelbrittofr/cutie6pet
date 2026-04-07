@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Heart, Shield, Sparkles, Award, PawPrint, Star, MapPin, Phone, Clock, Mail } from "lucide-react";
+import { Heart, Shield, Sparkles, Award, PawPrint, Star, MapPin, Phone, Clock, Mail, Bone, Cat, Dog, Scissors } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
@@ -31,6 +31,35 @@ const stats = [
   { value: 1000, label: "Happy Pets Groomed", icon: PawPrint, suffix: "+" },
   { value: 4.9, label: "JustDial Rating", icon: Star, decimals: 1 },
   { value: 37, label: "5-Star Reviews", icon: Heart, suffix: "+" },
+];
+
+type FloatingIcon = {
+  Icon?: typeof Bone;
+  emoji?: string;
+  top: string;
+  left?: string;
+  right?: string;
+  size: number;
+  delay: number;
+};
+
+const floatingIcons: FloatingIcon[] = [
+  { Icon: Bone, top: "6%", left: "4%", size: 32, delay: 0 },
+  { Icon: Dog, top: "12%", left: "18%", size: 30, delay: 0.2 },
+  { Icon: Cat, top: "9%", right: "8%", size: 30, delay: 0.4 },
+  { Icon: PawPrint, top: "20%", right: "20%", size: 28, delay: 0.6 },
+  { Icon: Bone, top: "30%", left: "10%", size: 34, delay: 0.8 },
+  { Icon: Dog, top: "37%", right: "7%", size: 30, delay: 1.0 },
+  { Icon: Cat, top: "46%", left: "5%", size: 28, delay: 1.2 },
+  { Icon: PawPrint, top: "55%", right: "14%", size: 30, delay: 1.4 },
+  { Icon: Bone, top: "63%", left: "17%", size: 32, delay: 1.6 },
+  { Icon: Dog, top: "70%", right: "5%", size: 32, delay: 1.8 },
+  { Icon: Cat, top: "78%", left: "9%", size: 29, delay: 2.0 },
+  { Icon: PawPrint, top: "85%", right: "21%", size: 28, delay: 2.2 },
+  { Icon: Scissors, top: "24%", left: "30%", size: 29, delay: 2.4 },
+  { Icon: Scissors, top: "66%", right: "31%", size: 28, delay: 2.6 },
+  { emoji: "🪮", top: "42%", left: "28%", size: 25, delay: 2.8 },
+  { emoji: "🪮", top: "81%", right: "12%", size: 24, delay: 3.0 },
 ];
 
 const useInView = (threshold = 0.35) => {
@@ -121,8 +150,26 @@ const AnimatedStat = ({
 };
 
 const About = () => (
-  <div className="min-h-screen bg-background">
-    <section className="bg-gradient-hero py-16 md:py-24">
+  <div className="relative min-h-screen overflow-hidden bg-background">
+    <div className="pointer-events-none absolute inset-0 z-0">
+      {floatingIcons.map((item, index) => (
+        <motion.div
+          key={`${item.Icon?.displayName ?? item.emoji ?? "icon"}-${index}`}
+          className="absolute text-primary/35 drop-shadow-[0_0_10px_hsl(342_42%_56%/0.28)]"
+          style={{ top: item.top, left: item.left, right: item.right }}
+          initial={{ y: 0, rotate: -4, opacity: 0.14 }}
+          animate={{ y: [-10, 12, -10], x: [-4, 6, -4], rotate: [-8, 8, -8], opacity: [0.2, 0.42, 0.2] }}
+          transition={{ duration: 7 + (index % 4), repeat: Infinity, delay: item.delay, ease: "easeInOut" }}
+        >
+          {item.Icon ? (
+            <item.Icon size={item.size} />
+          ) : (
+            <span style={{ fontSize: `${item.size}px`, lineHeight: 1 }}>{item.emoji}</span>
+          )}
+        </motion.div>
+      ))}
+    </div>
+    <section className="relative z-10 bg-gradient-hero py-16 md:py-24">
       <div className="container text-center">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
           <h1 className="text-3xl md:text-5xl font-bold text-foreground mb-4">About Cutie 6 Pet</h1>
@@ -133,7 +180,7 @@ const About = () => (
       </div>
     </section>
 
-    <section className="py-20">
+    <section className="relative z-10 py-20">
       <div className="container max-w-5xl">
         <div className="grid gap-12 md:grid-cols-2 md:items-start">
           <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
@@ -213,7 +260,7 @@ const About = () => (
       </div>
     </section>
 
-    <section className="pb-8">
+    <section className="relative z-10 pb-8">
       <div className="container max-w-5xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -238,7 +285,7 @@ const About = () => (
       </div>
     </section>
 
-    <section className="py-16 bg-secondary">
+    <section className="relative z-10 py-16 bg-secondary">
       <div className="container">
         <div className="grid grid-cols-1 gap-8 text-center sm:grid-cols-3">
           {stats.map((stat) => (
@@ -248,7 +295,7 @@ const About = () => (
       </div>
     </section>
 
-    <section className="py-16">
+    <section className="relative z-10 py-16">
       <div className="container">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-12">
           <span className="text-primary font-medium text-sm uppercase tracking-wider">Our Values</span>
