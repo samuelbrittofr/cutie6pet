@@ -41,11 +41,13 @@ const Header = () => {
     >
       <div className="container flex items-center justify-between h-20">
         <Link to="/" className="flex items-center gap-2">
-          <img
-            src={brandLogo}
-            alt="Cutie 6 Pet logo"
-            className="h-11 w-11 rounded-full object-cover border border-border/70"
-          />
+          <div className="flex h-11 w-11 items-center justify-center overflow-hidden rounded-full border border-border/70 bg-card">
+            <img
+              src={brandLogo}
+              alt="Cutie 6 Pet logo"
+              className="h-full w-full object-contain object-center scale-[1.08]"
+            />
+          </div>
           <span className="text-2xl font-bold tracking-tight text-foreground">
             Cutie <span className="text-primary">6</span> Pet
           </span>
