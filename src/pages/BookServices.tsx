@@ -315,32 +315,21 @@ const BookServices = () => {
     ) : null;
 
   const dateStr = form.date ? format(form.date, "PPP") : "";
-  const whatsappIcons = {
-    package: String.fromCodePoint(0x1f43e),
-    petType: String.fromCodePoint(0x1f436),
-    branch: String.fromCodePoint(0x1f4cd),
-    date: String.fromCodePoint(0x1f4c5),
-    time: String.fromCodePoint(0x1f552),
-    pet: String.fromCodePoint(0x1f415),
-    name: String.fromCodePoint(0x1f9d1),
-    phone: String.fromCodePoint(0x260e),
-    notes: String.fromCodePoint(0x2728),
-  };
   const whatsappLines = [
     "Hi Cutie 6 Pet! I'd like to confirm my booking:",
     "",
-    `${whatsappIcons.package} Package: ${form.package}`,
-    `${whatsappIcons.petType} Pet Type: ${form.petType}`,
-    `${whatsappIcons.branch} Branch: Kacharakanahalli`,
-    `${whatsappIcons.date} Date: ${dateStr}`,
-    `${whatsappIcons.time} Time: ${form.time}`,
-    `${whatsappIcons.pet} Pet: ${form.petName} (${form.petBreed})`,
-    `${whatsappIcons.name} Name: ${form.ownerName}`,
-    `${whatsappIcons.phone} Phone: ${form.ownerPhone}`,
+    `Package: ${form.package}`,
+    `Pet Type: ${form.petType}`,
+    "Branch: Kacharakanahalli",
+    `Date: ${dateStr}`,
+    `Time: ${form.time}`,
+    `Pet: ${form.petName} (${form.petBreed})`,
+    `Name: ${form.ownerName}`,
+    `Phone: ${form.ownerPhone}`,
   ];
 
   if (form.notes) {
-    whatsappLines.push(`${whatsappIcons.notes} Notes: ${form.notes}`);
+    whatsappLines.push(`Notes: ${form.notes}`);
   }
 
   const whatsappMsg = whatsappLines.join("\n");
@@ -669,7 +658,7 @@ const BookServices = () => {
                       <p className="mb-2 text-sm text-muted-foreground">
                         Continue by confirming your appointment on WhatsApp.
                       </p>
-                      <p className="mb-6 text-sm text-muted-foreground">
+                      <p className="mb-6 text-sm font-semibold text-foreground">
                         Your booking will only be considered valid once it is confirmed on WhatsApp.
                       </p>
                       <div className="flex flex-col justify-center gap-3 sm:flex-row">
