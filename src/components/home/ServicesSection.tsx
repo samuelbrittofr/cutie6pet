@@ -15,7 +15,6 @@ type Service = {
   discountBadge?: string;
   path: string;
   image: string;
-  emoji: string;
 };
 
 const services: Service[] = [
@@ -28,7 +27,6 @@ const services: Service[] = [
     discountBadge: "20% OFF",
     path: "/pricing",
     image: flatDogSmall,
-    emoji: "??",
   },
   {
     icon: Scissors,
@@ -38,7 +36,6 @@ const services: Service[] = [
     originalPrice: 2200,
     path: "/pricing",
     image: flatDogHaircut,
-    emoji: "??",
   },
   {
     icon: Sparkles,
@@ -47,7 +44,6 @@ const services: Service[] = [
     price: 1000,
     path: "/pricing",
     image: flatCatBasic,
-    emoji: "??",
   },
   {
     icon: Heart,
@@ -58,7 +54,6 @@ const services: Service[] = [
     discountBadge: "22% OFF",
     path: "/pricing",
     image: flatDogLarge,
-    emoji: "??",
   },
 ];
 
@@ -86,17 +81,17 @@ const ServicesSection = () => (
             viewport={{ once: true, margin: "-50px" }}
             transition={{ delay: index * 0.1, duration: 0.5 }}
             whileHover={{ y: -5 }}
+            className="h-full"
           >
             <Link
               to={service.path}
-              className="group block bg-card rounded-xl overflow-hidden border border-border hover:border-primary/20 hover:shadow-lg transition-all duration-300 relative"
+              className="group flex h-full flex-col bg-card rounded-xl overflow-hidden border border-border hover:border-primary/20 hover:shadow-lg transition-all duration-300 relative"
             >
               {service.discountBadge && (
                 <span className="absolute top-3 left-3 z-10 bg-amber text-amber-foreground text-[10px] font-bold px-2 py-1 rounded-full shadow-sm">
                   {service.discountBadge}
                 </span>
               )}
-              <span className="absolute top-3 right-3 z-10 text-2xl drop-shadow-md">{service.emoji}</span>
               <div className="h-40 overflow-hidden bg-gradient-to-br from-primary/5 to-accent/5 flex items-center justify-center">
                 <img
                   src={service.image}
@@ -105,7 +100,7 @@ const ServicesSection = () => (
                   loading="lazy"
                 />
               </div>
-              <div className="p-5">
+              <div className="flex flex-1 flex-col p-5">
                 <service.icon className="w-6 h-6 text-primary mb-3" />
                 <h3 className="text-base font-semibold mb-2 text-foreground group-hover:text-primary transition-colors">
                   {service.title}
@@ -113,7 +108,7 @@ const ServicesSection = () => (
                 <p className="text-muted-foreground text-sm mb-4 leading-relaxed line-clamp-2">
                   {service.description}
                 </p>
-                <div className="flex items-center justify-between">
+                <div className="mt-auto flex items-center justify-between">
                   <div className="flex flex-col">
                     <span className="text-primary font-semibold text-sm">
                       From {"\u20B9"}
