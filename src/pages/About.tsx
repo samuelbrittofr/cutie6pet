@@ -4,7 +4,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import aboutLogo from "@/assets/about-logo.png";
 
 const values = [
   { icon: Heart, title: "Love & Patience", desc: "Every pet is treated like our own - with patience, love, and a gentle touch." },
@@ -136,7 +135,7 @@ const About = () => (
 
     <section className="py-20">
       <div className="container max-w-5xl">
-        <div className="grid md:grid-cols-2 gap-12 items-center">
+        <div className="grid gap-12 md:grid-cols-2 md:items-start">
           <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
             <span className="text-primary font-medium text-sm uppercase tracking-wider">Our Story</span>
             <h2 className="text-3xl md:text-4xl font-bold mt-2 mb-6 text-foreground">
@@ -156,15 +155,86 @@ const About = () => (
               <p className="text-sm text-primary mt-2 font-semibold">- The Cutie 6 Pet Team</p>
             </div>
           </motion.div>
-          <motion.div initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
-            <img
-              src={aboutLogo}
-              alt="Cutie 6 Pet logo"
-              className="rounded-2xl shadow-lg w-full object-contain bg-black p-4 aspect-[4/3]"
-              loading="lazy"
-            />
+
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="rounded-2xl border border-border bg-card p-8 shadow-sm"
+          >
+            <span className="text-primary font-medium text-sm uppercase tracking-wider">Visit Us</span>
+            <h2 className="mt-2 text-2xl font-bold text-foreground md:text-3xl">Our Bangalore Grooming Studio</h2>
+            <p className="mt-3 text-muted-foreground">
+              We currently welcome pets at one cosy branch in Kacharakanahalli, with easy directions,
+              all-day service hours, and a warm space made for dogs and cats.
+            </p>
+
+            <div className="mt-6 flex items-start gap-3">
+              <div>
+                <h3 className="text-xl font-bold text-foreground">{location.name}</h3>
+                <span className="mt-1 flex items-center gap-1 text-base font-medium text-amber">
+                  <Star className="h-4 w-4 fill-current" />
+                  {location.rating} ({location.reviews} reviews)
+                </span>
+              </div>
+            </div>
+
+            <div className="mt-6 space-y-3 text-base text-muted-foreground">
+              <p className="flex items-start gap-2">
+                <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-primary" />
+                {location.address}
+              </p>
+              <p className="flex items-center gap-2">
+                <Phone className="h-5 w-5 text-primary" />
+                {location.phone}
+              </p>
+              <p className="flex items-center gap-2">
+                <Mail className="h-5 w-5 text-primary" />
+                {location.email}
+              </p>
+              <p className="flex items-center gap-2">
+                <Clock className="h-5 w-5 text-primary" />
+                {location.hours}
+              </p>
+            </div>
+
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Button asChild>
+                <Link to="/book">Book Appointment</Link>
+              </Button>
+              <Button variant="outline" asChild>
+                <a href={location.mapUrl} target="_blank" rel="noopener noreferrer">
+                  Get Directions
+                </a>
+              </Button>
+            </div>
           </motion.div>
         </div>
+      </div>
+    </section>
+
+    <section className="pb-8">
+      <div className="container max-w-5xl">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm"
+        >
+          <div className="border-b border-border px-6 py-4">
+            <h3 className="text-lg font-semibold text-foreground">Find Us on the Map</h3>
+            <p className="text-sm text-muted-foreground">
+              View our exact branch location before you visit.
+            </p>
+          </div>
+          <iframe
+            title="Cutie 6 Pet location map"
+            src={location.embedUrl}
+            className="h-[360px] w-full border-0"
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+          />
+        </motion.div>
       </div>
     </section>
 
@@ -198,100 +268,6 @@ const About = () => (
               </Card>
             </motion.div>
           ))}
-        </div>
-      </div>
-    </section>
-
-    <section className="border-t border-border bg-secondary/50 py-16">
-      <div className="container max-w-5xl">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mb-12 text-center"
-        >
-          <span className="text-primary font-medium text-sm uppercase tracking-wider">Visit Us</span>
-          <h2 className="mt-2 text-2xl font-bold md:text-3xl">Our Bangalore Grooming Studio</h2>
-          <p className="mx-auto mt-3 max-w-2xl text-muted-foreground">
-            We currently welcome pets at one cosy branch in Kacharakanahalli, with easy directions,
-            all-day service hours, and a warm space made for dogs and cats.
-          </p>
-        </motion.div>
-
-        <div className="grid gap-8 lg:grid-cols-[1.05fr,1fr]">
-          <motion.div
-            initial={{ opacity: 0, x: -24 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="rounded-2xl border border-border bg-card p-8 shadow-sm"
-          >
-            <div className="mb-6 flex items-start gap-5">
-              <img
-                src={aboutLogo}
-                alt="Cutie 6 Pet logo"
-                className="h-20 w-20 shrink-0 rounded-xl object-cover"
-                loading="lazy"
-              />
-              <div>
-                <h3 className="text-xl font-bold text-foreground md:text-2xl">{location.name}</h3>
-                <span className="mt-1 flex items-center gap-1 text-base font-medium text-amber">
-                  <Star className="h-4 w-4 fill-current" />
-                  {location.rating} ({location.reviews} reviews)
-                </span>
-              </div>
-            </div>
-
-            <div className="mb-8 space-y-3 text-base text-muted-foreground">
-              <p className="flex items-start gap-2">
-                <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-primary" />
-                {location.address}
-              </p>
-              <p className="flex items-center gap-2">
-                <Phone className="h-5 w-5 text-primary" />
-                {location.phone}
-              </p>
-              <p className="flex items-center gap-2">
-                <Mail className="h-5 w-5 text-primary" />
-                {location.email}
-              </p>
-              <p className="flex items-center gap-2">
-                <Clock className="h-5 w-5 text-primary" />
-                {location.hours}
-              </p>
-            </div>
-
-            <div className="flex flex-wrap gap-3">
-              <Button asChild>
-                <Link to="/book">Book Appointment</Link>
-              </Button>
-              <Button variant="outline" asChild>
-                <a href={location.mapUrl} target="_blank" rel="noopener noreferrer">
-                  Get Directions
-                </a>
-              </Button>
-            </div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, x: 24 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm"
-          >
-            <div className="border-b border-border px-6 py-4">
-              <h3 className="text-lg font-semibold text-foreground">Find Us on the Map</h3>
-              <p className="text-sm text-muted-foreground">
-                View our exact branch location before you visit.
-              </p>
-            </div>
-            <iframe
-              title="Cutie 6 Pet location map"
-              src={location.embedUrl}
-              className="h-[360px] w-full border-0"
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-            />
-          </motion.div>
         </div>
       </div>
     </section>
