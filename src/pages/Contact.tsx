@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { MapPin, Phone, Mail, Clock, MessageCircle } from "lucide-react";
+import { MapPin, Phone, Mail, Clock, MessageCircle, Check } from "lucide-react";
 import { motion } from "framer-motion";
 
 const WHATSAPP_URL =
@@ -27,14 +27,17 @@ const emptyForm: ContactForm = {
 
 const Contact = () => {
   const [form, setForm] = useState<ContactForm>(emptyForm);
+  const [submitted, setSubmitted] = useState(false);
 
   const handleNameChange = (value: string) => {
     const sanitized = value.replace(/[^A-Za-z\s]/g, "").replace(/\s{2,}/g, " ");
+    setSubmitted(false);
     setForm((current) => ({ ...current, name: sanitized }));
   };
 
   const handlePhoneChange = (value: string) => {
     const digitsOnly = value.replace(/\D/g, "").slice(0, 10);
+    setSubmitted(false);
     setForm((current) => ({ ...current, phone: digitsOnly }));
   };
 
@@ -53,6 +56,7 @@ const Contact = () => {
 
     const whatsappUrl = `https://wa.me/919901887525?text=${encodeURIComponent(lines.join("\n"))}`;
     window.open(whatsappUrl, "_blank", "noopener,noreferrer");
+    setSubmitted(true);
   };
 
   return (
@@ -96,6 +100,22 @@ const Contact = () => {
                 <CardTitle>Send Us a Message</CardTitle>
               </CardHeader>
               <CardContent>
+                {submitted && (
+                  <div className="mb-6 rounded-2xl border border-success/20 bg-success/10 px-4 py-4">
+                    <div className="flex items-start gap-3">
+                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-success/15">
+                        <Check className="h-5 w-5 text-success" />
+                      </div>
+                      <div>
+                        <p className="font-semibold text-foreground">Message Sent!</p>
+                        <p className="text-sm text-muted-foreground">
+                          Your enquiry has been prepared and sent through WhatsApp.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                     <div>
@@ -116,9 +136,10 @@ const Contact = () => {
                         required
                         placeholder="your@email.com"
                         value={form.email}
-                        onChange={(event) =>
-                          setForm((current) => ({ ...current, email: event.target.value }))
-                        }
+                        onChange={(event) => {
+                          setSubmitted(false);
+                          setForm((current) => ({ ...current, email: event.target.value }));
+                        }}
                       />
                     </div>
                   </div>
@@ -143,9 +164,10 @@ const Contact = () => {
                         className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
                         required
                         value={form.topic}
-                        onChange={(event) =>
-                          setForm((current) => ({ ...current, topic: event.target.value }))
-                        }
+                        onChange={(event) => {
+                          setSubmitted(false);
+                          setForm((current) => ({ ...current, topic: event.target.value }));
+                        }}
                       >
                         <option value="">Select topic</option>
                         <option>Booking Inquiry</option>
@@ -164,9 +186,10 @@ const Contact = () => {
                       className="min-h-[120px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
                       placeholder="How can we help?"
                       value={form.message}
-                      onChange={(event) =>
-                        setForm((current) => ({ ...current, message: event.target.value }))
-                      }
+                      onChange={(event) => {
+                        setSubmitted(false);
+                        setForm((current) => ({ ...current, message: event.target.value }));
+                      }}
                     />
                   </div>
                   <Button type="submit" className="rounded-full">
