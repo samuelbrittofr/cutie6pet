@@ -74,6 +74,10 @@ const Header = () => {
           <a href="tel:+919901887525" className="text-base text-muted-foreground hover:text-foreground flex items-center gap-1.5 transition-colors">
             <Phone className="w-4 h-4" /> +91 99018 87525
           </a>
+          <div className="h-8 w-px bg-border/80" />
+          <Button variant="ghost" className="h-11 px-4 text-base text-foreground hover:bg-primary/5 hover:text-primary" asChild>
+            <Link to="/become-a-groomer">Become a Groomer</Link>
+          </Button>
           <Button className="h-11 px-5 text-base bg-primary hover:bg-primary/90 text-primary-foreground" asChild>
             <Link to="/book">Book Now</Link>
           </Button>
@@ -111,6 +115,17 @@ const Header = () => {
                   {link.label}
                 </Link>
               ))}
+              <Link
+                to="/become-a-groomer"
+                className={cn(
+                  "py-2.5 px-3 rounded-lg text-sm font-medium transition-colors",
+                  location.pathname === "/become-a-groomer"
+                    ? "bg-primary/5 text-primary"
+                    : "hover:bg-muted text-muted-foreground"
+                )}
+              >
+                Become a Groomer
+              </Link>
               <div className="pt-3 border-t border-border mt-2">
                 <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground" asChild>
                   <Link to="/book">Book Now</Link>
