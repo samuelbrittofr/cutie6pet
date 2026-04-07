@@ -35,8 +35,8 @@ const Header = () => {
       className={cn(
         "fixed top-0 z-50 w-full transition-all duration-300",
         scrolled
-          ? "bg-card/95 backdrop-blur-md shadow-sm border-b border-border"
-          : "bg-card/80 backdrop-blur-sm"
+          ? "bg-[hsl(340,100%,96%)]/95 backdrop-blur-md shadow-sm border-b border-border"
+          : "bg-[hsl(340,100%,96%)]/85 backdrop-blur-sm"
       )}
     >
       <div className="container flex items-center justify-between h-20">
@@ -94,7 +94,7 @@ const Header = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="lg:hidden bg-card border-t border-border overflow-hidden"
+            className="lg:hidden bg-[hsl(340,100%,96%)] border-t border-border overflow-hidden"
           >
             <nav className="container py-3 flex flex-col gap-1">
               {navLinks.map((link) => (
