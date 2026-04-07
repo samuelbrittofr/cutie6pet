@@ -87,7 +87,7 @@ const BecomeGroomer = () => (
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.12, duration: 0.4 }}
-            className="mb-4 text-center text-xl font-semibold tracking-tight text-foreground md:text-2xl"
+            className="mb-4 text-center text-2xl font-extrabold tracking-tight text-[hsl(336,42%,28%)] drop-shadow-[0_2px_6px_hsl(336_35%_35%/0.22)] md:text-3xl"
           >
             Meet your Grooming Coach
           </motion.p>
@@ -97,7 +97,7 @@ const BecomeGroomer = () => (
             viewport={{ once: true }}
             transition={{ duration: 0.5, ease: "easeOut" }}
             whileHover={{ y: -4 }}
-            className="relative mx-auto max-w-md overflow-hidden rounded-2xl border border-[hsl(342,35%,70%)]/70 bg-gradient-to-br from-[hsl(342,85%,95%)] via-[hsl(28,100%,93%)] to-[hsl(338,60%,90%)] p-3"
+            className="relative mx-auto max-w-md overflow-hidden rounded-2xl border border-[hsl(342,35%,70%)]/70 bg-gradient-to-br from-[hsl(342,85%,95%)] via-[hsl(28,100%,93%)] to-[hsl(338,60%,90%)] p-0.5"
           >
             <div className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-[hsl(24,96%,66%)]/25 blur-2xl" />
             <div className="pointer-events-none absolute -bottom-12 -left-8 h-36 w-36 rounded-full bg-[hsl(338,70%,62%)]/20 blur-2xl" />
@@ -116,7 +116,7 @@ const BecomeGroomer = () => (
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2, duration: 0.4 }}
-            className="mt-5 text-center text-xl font-semibold tracking-tight text-foreground md:text-2xl"
+            className="mt-5 text-center text-3xl font-black tracking-wide text-[hsl(24,96%,42%)] drop-shadow-[0_3px_8px_hsl(24_80%_45%/0.28)] md:text-4xl"
           >
             Mr Suresh S
           </motion.p>
