@@ -13,9 +13,9 @@ const location = {
   hours: "10:00 AM - 8:00 PM (All days)",
   rating: 4.9,
   reviews: 37,
-  mapUrl: "https://maps.google.com/?q=Cutie+6+Pet+Kacharakanahalli+Bangalore",
+  mapUrl: "https://maps.google.com/?q=Cutie+6+Pet+Hair+Grooming+Spot+Bangalore",
   embedUrl:
-    "https://maps.google.com/maps?q=Flat%20No.%201B-1%2C%20Iriss%20North%2C%20No.14%2C%202nd%20Cross%2C%20Kacharakanahalli%2C%20Bengaluru%20560084&z=16&output=embed",
+    "https://maps.google.com/maps?q=Cutie%206%20Pet%20Hair%20Grooming%20Spot%2C%20Bangalore&z=17&output=embed",
 };
 
 const Locations = () => (
