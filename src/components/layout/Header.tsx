@@ -75,7 +75,11 @@ const Header = () => {
             <Phone className="w-4 h-4" /> +91 99018 87525
           </a>
           <div className="h-8 w-px bg-border/80" />
-          <Button variant="ghost" className="h-11 px-4 text-base text-foreground hover:bg-primary/5 hover:text-primary" asChild>
+          <Button
+            variant="outline"
+            className="h-11 px-4 text-base text-foreground border-[hsl(342,25%,58%)] hover:bg-primary/5 hover:text-primary"
+            asChild
+          >
             <Link to="/become-a-groomer">Become a Groomer</Link>
           </Button>
           <Button className="h-11 px-5 text-base bg-primary hover:bg-primary/90 text-primary-foreground" asChild>
