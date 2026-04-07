@@ -39,8 +39,8 @@ const Header = () => {
           : "bg-[hsl(340,100%,96%)]/85 backdrop-blur-sm"
       )}
     >
-      <div className="container flex items-center justify-between h-20">
-        <Link to="/" className="flex items-center gap-2">
+      <div className="container flex h-20 items-center gap-4 xl:gap-6">
+        <Link to="/" className="flex shrink-0 items-center gap-3">
           <div className="flex h-11 w-11 items-center justify-center overflow-hidden rounded-full border border-border/70 bg-card">
             <img
               src={brandLogo}
@@ -48,18 +48,18 @@ const Header = () => {
               className="h-full w-full object-contain object-center scale-[1.08]"
             />
           </div>
-          <span className="text-2xl font-bold tracking-tight text-foreground">
+          <span className="whitespace-nowrap text-2xl font-bold leading-none tracking-tight text-foreground xl:text-[2rem]">
             Cutie <span className="text-primary">6</span> Pet
           </span>
         </Link>
 
-        <nav className="hidden lg:flex items-center gap-6">
+        <nav className="hidden min-w-0 flex-1 items-center justify-center gap-4 lg:flex xl:gap-6">
           {navLinks.map((link) => (
             <Link
               key={link.path}
               to={link.path}
               className={cn(
-                "text-base font-medium transition-colors hover:text-primary",
+                "whitespace-nowrap text-sm font-medium transition-colors hover:text-primary xl:text-base",
                 location.pathname === link.path
                   ? "text-primary"
                   : "text-muted-foreground"
@@ -70,22 +70,32 @@ const Header = () => {
           ))}
         </nav>
 
-        <div className="hidden lg:flex items-center gap-3">
-          <a href="tel:+919901887525" className="text-base text-muted-foreground hover:text-foreground flex items-center gap-1.5 transition-colors">
-            <Phone className="w-4 h-4" /> +91 99018 87525
+        <div className="hidden shrink-0 items-center gap-2 lg:flex xl:gap-3">
+          <a
+            href="tel:+919901887525"
+            className="flex items-center gap-1.5 whitespace-nowrap text-sm text-muted-foreground transition-colors hover:text-foreground xl:text-base"
+          >
+            <Phone className="h-4 w-4" />
+            <span className="hidden xl:inline">+91 99018 87525</span>
+            <span className="xl:hidden">Call</span>
           </a>
-          <div className="h-8 w-px bg-border/80" />
+          <div className="h-7 w-px bg-border/80" />
           <Button
             variant="outline"
-            className="h-11 px-4 text-base text-foreground border-[hsl(342,25%,58%)] hover:bg-primary/5 hover:text-primary"
+            className="h-11 whitespace-nowrap border-[hsl(342,25%,58%)] px-3 text-sm text-foreground hover:bg-primary/5 hover:text-primary xl:px-4 xl:text-base"
             asChild
           >
             <Link to="/become-a-groomer">Become a Groomer</Link>
           </Button>
-          <Button className="h-11 px-5 text-base bg-primary hover:bg-primary/90 text-primary-foreground" asChild>
+          <Button
+            className="h-11 whitespace-nowrap bg-primary px-4 text-sm text-primary-foreground hover:bg-primary/90 xl:px-5 xl:text-base"
+            asChild
+          >
             <Link to="/book">Book Now</Link>
           </Button>
         </div>
+
+        <div className="ml-auto lg:hidden" />
 
         <button
           className="lg:hidden p-2 rounded-md hover:bg-muted transition-colors"
