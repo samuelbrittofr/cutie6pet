@@ -618,7 +618,7 @@ const BookServices = () => {
                         <Check className="h-7 w-7 text-success" aria-hidden="true" />
                       </motion.div>
                       <h3 className="mb-2 text-lg font-bold text-foreground">
-                        Appointment Requested!
+                        Appointment Ready!
                       </h3>
                       <div className="mx-auto mb-6 max-w-sm space-y-1 text-left text-sm text-muted-foreground">
                         <p>
@@ -648,8 +648,11 @@ const BookServices = () => {
                           </p>
                         )}
                       </div>
+                      <p className="mb-2 text-sm text-muted-foreground">
+                        Continue by confirming your appointment on WhatsApp.
+                      </p>
                       <p className="mb-6 text-sm text-muted-foreground">
-                        Confirm your appointment via WhatsApp:
+                        Your booking will only be considered valid once it is confirmed on WhatsApp.
                       </p>
                       <div className="flex flex-col justify-center gap-3 sm:flex-row">
                         <Button className="bg-success text-white hover:bg-success/90" asChild>
