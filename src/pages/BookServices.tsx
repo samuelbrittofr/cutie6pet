@@ -24,6 +24,7 @@ const groomingPackages = [
 ];
 
 const times = ["10:00 AM", "11:00 AM", "12:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM"];
+const lettersOnlyPattern = /^[A-Za-z\s]+$/;
 
 type FormData = {
   package: string;
@@ -36,6 +37,11 @@ type FormData = {
   ownerPhone: string;
   notes: string;
 };
+
+const sanitizeLettersOnly = (value: string) =>
+  value.replace(/[^A-Za-z\s]/g, "").replace(/\s{2,}/g, " ").trimStart();
+
+const sanitizePhoneNumber = (value: string) => value.replace(/\D/g, "").slice(0, 10);
 
 const BookServices = () => {
   const [step, setStep] = useState(0);
@@ -68,16 +74,24 @@ const BookServices = () => {
     const nextErrors: Record<string, string> = {};
 
     if (step === 0 && !form.package) nextErrors.package = "Please select a package.";
+
     if (step === 1) {
       if (!form.date) nextErrors.date = "Please select a date.";
       if (!form.time) nextErrors.time = "Please select a time.";
     }
+
     if (step === 2) {
       if (!form.petName.trim()) nextErrors.petName = "Pet name is required.";
+      else if (!lettersOnlyPattern.test(form.petName.trim())) nextErrors.petName = "Pet name should only contain letters.";
+
       if (!form.petBreed.trim()) nextErrors.petBreed = "Breed is required.";
+      else if (!lettersOnlyPattern.test(form.petBreed.trim())) nextErrors.petBreed = "Breed should only contain letters.";
+
       if (!form.ownerName.trim()) nextErrors.ownerName = "Your name is required.";
+      else if (!lettersOnlyPattern.test(form.ownerName.trim())) nextErrors.ownerName = "Your name should only contain letters.";
+
       if (!form.ownerPhone.trim()) nextErrors.ownerPhone = "Phone number is required.";
-      else if (form.ownerPhone.replace(/\D/g, "").length < 10) nextErrors.ownerPhone = "Enter a valid phone number.";
+      else if (form.ownerPhone.length !== 10) nextErrors.ownerPhone = "Enter a valid 10-digit phone number.";
     }
 
     setErrors(nextErrors);
@@ -85,7 +99,7 @@ const BookServices = () => {
     if (Object.keys(nextErrors).length > 0) {
       toast({
         title: "Please fix the errors",
-        description: "Some required fields are missing.",
+        description: "Some required fields are missing or invalid.",
         variant: "destructive",
       });
       return false;
@@ -106,7 +120,7 @@ const BookServices = () => {
     ) : null;
 
   const dateStr = form.date ? format(form.date, "PPP") : "";
-  const whatsappMsg = `Hi Cutie 6 Pet! I'd like to confirm my booking:\n\nPackage: ${form.package}\nBranch: Kacharakanahalli\nDate: ${dateStr}\nTime: ${form.time}\nPet: ${form.petName} (${form.petBreed})\nName: ${form.ownerName}\nPhone: ${form.ownerPhone}${form.notes ? `\nNotes: ${form.notes}` : ""}`;
+  const whatsappMsg = `Hi Cutie 6 Pet! I'd like to confirm my booking:\n\n📦 Package: ${form.package}\n📍 Branch: Kacharakanahalli\n📅 Date: ${dateStr}\n⏰ Time: ${form.time}\n🐾 Pet: ${form.petName} (${form.petBreed})\n👤 Name: ${form.ownerName}\n📞 Phone: ${form.ownerPhone}${form.notes ? `\n📝 Notes: ${form.notes}` : ""}`;
   const whatsappUrl = `https://wa.me/919901887525?text=${encodeURIComponent(whatsappMsg)}`;
 
   return (
@@ -248,30 +262,62 @@ const BookServices = () => {
                       <div className="grid grid-cols-2 gap-4">
                         <div>
                           <Label htmlFor="pet-name-svc">Pet Name *</Label>
-                          <Input id="pet-name-svc" value={form.petName} onChange={(event) => update("petName", event.target.value)} placeholder="e.g. Bruno" aria-invalid={!!errors.petName} />
+                          <Input
+                            id="pet-name-svc"
+                            value={form.petName}
+                            onChange={(event) => update("petName", sanitizeLettersOnly(event.target.value))}
+                            placeholder="e.g. Bruno"
+                            aria-invalid={!!errors.petName}
+                          />
                           <FieldError field="petName" />
                         </div>
                         <div>
                           <Label htmlFor="pet-breed-svc">Breed *</Label>
-                          <Input id="pet-breed-svc" value={form.petBreed} onChange={(event) => update("petBreed", event.target.value)} placeholder="e.g. Labrador" aria-invalid={!!errors.petBreed} />
+                          <Input
+                            id="pet-breed-svc"
+                            value={form.petBreed}
+                            onChange={(event) => update("petBreed", sanitizeLettersOnly(event.target.value))}
+                            placeholder="e.g. Labrador"
+                            aria-invalid={!!errors.petBreed}
+                          />
                           <FieldError field="petBreed" />
                         </div>
                       </div>
                       <div className="grid grid-cols-2 gap-4">
                         <div>
                           <Label htmlFor="owner-name">Your Name *</Label>
-                          <Input id="owner-name" value={form.ownerName} onChange={(event) => update("ownerName", event.target.value)} placeholder="Your full name" aria-invalid={!!errors.ownerName} />
+                          <Input
+                            id="owner-name"
+                            value={form.ownerName}
+                            onChange={(event) => update("ownerName", sanitizeLettersOnly(event.target.value))}
+                            placeholder="Your full name"
+                            aria-invalid={!!errors.ownerName}
+                          />
                           <FieldError field="ownerName" />
                         </div>
                         <div>
                           <Label htmlFor="owner-phone">Phone Number *</Label>
-                          <Input id="owner-phone" type="tel" value={form.ownerPhone} onChange={(event) => update("ownerPhone", event.target.value)} placeholder="+91 98765 43210" aria-invalid={!!errors.ownerPhone} />
+                          <Input
+                            id="owner-phone"
+                            type="tel"
+                            inputMode="numeric"
+                            maxLength={10}
+                            value={form.ownerPhone}
+                            onChange={(event) => update("ownerPhone", sanitizePhoneNumber(event.target.value))}
+                            placeholder="9876543210"
+                            aria-invalid={!!errors.ownerPhone}
+                          />
                           <FieldError field="ownerPhone" />
                         </div>
                       </div>
                       <div>
-                        <Label htmlFor="pet-notes-svc">Special Notes</Label>
-                        <Input id="pet-notes-svc" value={form.notes} onChange={(event) => update("notes", event.target.value)} placeholder="Allergies, temperament, special requests..." />
+                        <Label htmlFor="pet-notes-svc">Special Notes (optional)</Label>
+                        <Input
+                          id="pet-notes-svc"
+                          value={form.notes}
+                          onChange={(event) => update("notes", event.target.value)}
+                          placeholder="Allergies, temperament, special requests..."
+                        />
                       </div>
                     </div>
                   )}
@@ -314,7 +360,14 @@ const BookServices = () => {
 
                 {step < 3 && (
                   <div className="flex justify-between mt-8">
-                    <Button variant="outline" onClick={() => { setErrors({}); setStep(Math.max(0, step - 1)); }} disabled={step === 0}>
+                    <Button
+                      variant="outline"
+                      onClick={() => {
+                        setErrors({});
+                        setStep(Math.max(0, step - 1));
+                      }}
+                      disabled={step === 0}
+                    >
                       <ArrowLeft className="w-4 h-4 mr-1" /> Back
                     </Button>
                     <Button onClick={handleNext}>
