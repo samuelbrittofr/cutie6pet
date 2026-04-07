@@ -1,10 +1,10 @@
 import { Scissors, Bath, Sparkles, Heart, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import smallDogShihTzu from "@/assets/small-dog-shih-tzu.jpg";
+import flatDogSmall from "@/assets/flat-dog-small.png";
+import flatDogHaircut from "@/assets/flat-dog-haircut.png";
 import flatDogLarge from "@/assets/flat-dog-large.png";
 import flatCatBasic from "@/assets/flat-cat-basic.png";
-import largeDogGolden from "@/assets/large-dog-golden.jpg";
 
 type Service = {
   icon: typeof Bath;
@@ -27,7 +27,7 @@ const services: Service[] = [
     originalPrice: 1500,
     discountBadge: "20% OFF",
     path: "/pricing",
-    image: smallDogShihTzu,
+    image: flatDogSmall,
     emoji: "??",
   },
   {
@@ -37,7 +37,7 @@ const services: Service[] = [
     price: 1800,
     originalPrice: 2200,
     path: "/pricing",
-    image: flatDogLarge,
+    image: flatDogHaircut,
     emoji: "??",
   },
   {
@@ -57,7 +57,7 @@ const services: Service[] = [
     originalPrice: 2500,
     discountBadge: "22% OFF",
     path: "/pricing",
-    image: largeDogGolden,
+    image: flatDogLarge,
     emoji: "??",
   },
 ];

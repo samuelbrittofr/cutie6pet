@@ -7,6 +7,10 @@ import grooming5 from "@/assets/grooming-5.jpg";
 import grooming6 from "@/assets/grooming-6.jpg";
 import smallDogShihTzu from "@/assets/small-dog-shih-tzu.jpg";
 import largeDogGolden from "@/assets/large-dog-golden.jpg";
+import lotterySmallDog from "@/assets/lottery-small-dog.jpg";
+import haircutPackage from "@/assets/haircut-package.jpg";
+import catBasicGrooming from "@/assets/cat-basic-grooming.jpg";
+import catHaircutPackage from "@/assets/cat-haircut-package.jpg";
 
 type ServicePackage = {
   icon: typeof Bath;
@@ -34,7 +38,7 @@ const packages: ServicePackage[] = [
     icon: Sparkles,
     title: "Lottery Small Dog Package",
     price: 1450,
-    image: smallDogShihTzu,
+    image: lotterySmallDog,
     desc: "Light haircut package with shower, blow-dry, nail clipping, sanitizing, eye cleaning, and teeth brushing.",
     features: [
       "Light Haircut",
@@ -63,7 +67,7 @@ const packages: ServicePackage[] = [
     title: "Hair Cut Package",
     price: 1800,
     originalPrice: 2200,
-    image: grooming6,
+    image: haircutPackage,
     desc: "Premium package with full hair styling, haircut, bathing, and complete grooming for a show-ready look.",
     features: [
       "Hair Styling",
@@ -82,7 +86,7 @@ const packages: ServicePackage[] = [
     icon: Sparkles,
     title: "Cat Basic Grooming",
     price: 1000,
-    image: grooming4,
+    image: catBasicGrooming,
     desc: "Gentle grooming for cats - bathing, blow-drying, ear and eye cleaning, nail clipping, and paw cleaning.",
     features: ["Bathing", "Blow-Drying", "Ear Cleaning", "Eye Cleaning", "Nail Clipping", "Paw Cleaning"],
   },
@@ -91,7 +95,7 @@ const packages: ServicePackage[] = [
     title: "Cat Hair Cut Package",
     price: 1500,
     originalPrice: 1800,
-    image: grooming6,
+    image: catHaircutPackage,
     desc: "Premium cat grooming with hair styling, bathing, and complete care for your feline friend.",
     features: ["Hair Styling", "Bathing", "Blow-Drying", "Ear Cleaning", "Eye Cleaning", "Nail Clipping", "Paw Cleaning"],
   },
