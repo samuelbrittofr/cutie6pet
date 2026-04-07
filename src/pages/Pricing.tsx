@@ -37,12 +37,20 @@ const dogPackages: Package[] = [
     price: 1200,
     originalPrice: 1500,
     discountBadge: "20% OFF",
-    features: ["Bathing", "Blow-Drying", "Ear Cleaning", "Eye Cleaning", "Nail Clipping", "Paw Cleaning"],
+    features: [
+      "Bathing",
+      "Blow-Drying",
+      "Ear Cleaning",
+      "Eye Cleaning",
+      "Nail Clipping",
+      "Paw Cleaning",
+    ],
   },
   {
     name: "Lottery Small Dog Package",
     pet: "Dog",
     price: 1450,
+    originalPrice: 1750,
     features: [
       "Light Haircut",
       "Bathing",
@@ -62,7 +70,16 @@ const dogPackages: Package[] = [
     price: 1950,
     originalPrice: 2500,
     discountBadge: "22% OFF",
-    features: ["Bathing", "Blow-Drying", "Ear Cleaning", "Eye Cleaning", "Nail Clipping", "Paw Cleaning", "Combing / Brushing", "Teeth Cleaning"],
+    features: [
+      "Bathing",
+      "Blow-Drying",
+      "Ear Cleaning",
+      "Eye Cleaning",
+      "Nail Clipping",
+      "Paw Cleaning",
+      "Combing / Brushing",
+      "Teeth Cleaning",
+    ],
   },
   {
     name: "Hair Cut Package",
@@ -91,7 +108,14 @@ const catPackages: Package[] = [
     name: "Basic Grooming",
     pet: "Cat",
     price: 1000,
-    features: ["Bathing", "Blow-Drying", "Ear Cleaning", "Eye Cleaning", "Nail Clipping", "Paw Cleaning"],
+    features: [
+      "Bathing",
+      "Blow-Drying",
+      "Ear Cleaning",
+      "Eye Cleaning",
+      "Nail Clipping",
+      "Paw Cleaning",
+    ],
   },
   {
     name: "Hair Cut Package",
@@ -99,14 +123,32 @@ const catPackages: Package[] = [
     price: 1500,
     originalPrice: 1800,
     popular: true,
-    features: ["Bathing", "Blow-Drying", "Ear Cleaning", "Eye Cleaning", "Nail Clipping", "Paw Cleaning", "Hair Styling / Cut"],
+    features: [
+      "Bathing",
+      "Blow-Drying",
+      "Ear Cleaning",
+      "Eye Cleaning",
+      "Nail Clipping",
+      "Paw Cleaning",
+      "Hair Styling / Cut",
+    ],
   },
   {
     name: "Zero Cut Package",
     pet: "Cat",
     price: 1800,
     originalPrice: 2100,
-    features: ["Bathing", "Blow-Drying", "Ear Cleaning", "Eye Cleaning", "Nail Clipping", "Paw Cleaning", "Combing / Brushing", "Teeth Cleaning", "Hair Styling / Cut"],
+    features: [
+      "Bathing",
+      "Blow-Drying",
+      "Ear Cleaning",
+      "Eye Cleaning",
+      "Nail Clipping",
+      "Paw Cleaning",
+      "Combing / Brushing",
+      "Teeth Cleaning",
+      "Hair Styling / Cut",
+    ],
   },
 ];
 
@@ -121,31 +163,44 @@ const PricingCard = ({ pkg, index }: { pkg: Package; index: number }) => (
     }`}
   >
     {pkg.discountBadge && (
-      <span className="absolute -top-3 right-4 bg-amber text-amber-foreground text-xs font-bold px-3 py-1 rounded-full shadow-sm">
+      <span className="absolute -top-3 right-4 rounded-full bg-amber px-3 py-1 text-xs font-bold text-amber-foreground shadow-sm">
         {pkg.discountBadge}
       </span>
     )}
 
     {pkg.popular && (
-      <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground text-xs font-semibold px-4 py-1 rounded-full flex items-center gap-1">
-        <Star className="w-3 h-3 fill-current" /> Most Popular
+      <span className="absolute -top-3 left-1/2 flex -translate-x-1/2 items-center gap-1 rounded-full bg-primary px-4 py-1 text-xs font-semibold text-primary-foreground">
+        <Star className="h-3 w-3 fill-current" /> Most Popular
       </span>
     )}
 
-    <div className="mb-4 min-h-[4.5rem]">
+    <div className="mb-4 min-h-[4.75rem]">
       <h3 className="mb-1 text-lg font-semibold leading-snug text-foreground">{pkg.name}</h3>
       <p className="text-xs text-muted-foreground">{pkg.pet}</p>
     </div>
 
-    <div className="mb-6 flex items-baseline gap-2">
-      <span className="text-3xl font-bold text-foreground">₹{pkg.price.toLocaleString("en-IN")}</span>
-      {pkg.originalPrice && (
-        <>
-          <span className="text-sm text-muted-foreground line-through">₹{pkg.originalPrice.toLocaleString("en-IN")}</span>
-          <span className="text-xs font-medium text-success bg-success/10 px-2 py-0.5 rounded-full">
-            Save ₹{(pkg.originalPrice - pkg.price).toLocaleString("en-IN")}
+    <div className="mb-5 min-h-[5rem]">
+      <div className="flex items-baseline gap-2">
+        <span className="text-3xl font-bold text-foreground">
+          {"\u20B9"}
+          {pkg.price.toLocaleString("en-IN")}
+        </span>
+        {pkg.originalPrice && (
+          <span className="text-sm text-muted-foreground line-through">
+            {"\u20B9"}
+            {pkg.originalPrice.toLocaleString("en-IN")}
           </span>
-        </>
+        )}
+      </div>
+      {pkg.originalPrice ? (
+        <span className="mt-2 inline-flex rounded-full bg-success/10 px-2 py-0.5 text-xs font-medium text-success">
+          Save {"\u20B9"}
+          {(pkg.originalPrice - pkg.price).toLocaleString("en-IN")}
+        </span>
+      ) : (
+        <span className="mt-2 inline-flex select-none px-2 py-0.5 text-xs opacity-0">
+          Save
+        </span>
       )}
     </div>
 
@@ -159,7 +214,11 @@ const PricingCard = ({ pkg, index }: { pkg: Package; index: number }) => (
               included ? "text-foreground" : "text-muted-foreground/50"
             }`}
           >
-            {included ? <Check className="w-4 h-4 text-success shrink-0" /> : <X className="w-4 h-4 shrink-0" />}
+            {included ? (
+              <Check className="h-4 w-4 shrink-0 text-success" />
+            ) : (
+              <X className="h-4 w-4 shrink-0" />
+            )}
             {feature}
           </li>
         );
@@ -167,7 +226,9 @@ const PricingCard = ({ pkg, index }: { pkg: Package; index: number }) => (
     </ul>
 
     <Button
-      className={`mt-auto w-full rounded-lg ${pkg.popular ? "bg-primary hover:bg-primary/90 text-primary-foreground" : ""}`}
+      className={`mt-auto w-full rounded-lg ${
+        pkg.popular ? "bg-primary text-primary-foreground hover:bg-primary/90" : ""
+      }`}
       variant={pkg.popular ? "default" : "outline"}
       asChild
     >
@@ -181,13 +242,13 @@ const Pricing = () => (
     <section className="py-16 md:py-20">
       <div className="container text-center">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-          <span className="inline-block bg-primary/10 text-primary text-xs font-semibold px-3 py-1 rounded-full mb-4 uppercase tracking-wider">
+          <span className="mb-4 inline-block rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-primary">
             Transparent Pricing
           </span>
-          <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-3">
+          <h1 className="mb-3 text-3xl font-bold text-foreground md:text-4xl">
             Grooming Packages & Prices
           </h1>
-          <p className="text-muted-foreground max-w-xl mx-auto">
+          <p className="mx-auto max-w-xl text-muted-foreground">
             Simple, honest pricing. Every package includes love, patience, and a gentle touch. No hidden charges.
           </p>
         </motion.div>
@@ -196,8 +257,8 @@ const Pricing = () => (
 
     <section className="pb-16">
       <div className="container">
-        <h2 className="text-xl font-semibold text-foreground mb-8">Dog Grooming</h2>
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <h2 className="mb-8 text-xl font-semibold text-foreground">Dog Grooming</h2>
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           {dogPackages.map((pkg, index) => (
             <PricingCard key={pkg.name} pkg={pkg} index={index} />
           ))}
@@ -207,8 +268,8 @@ const Pricing = () => (
 
     <section className="pb-16">
       <div className="container">
-        <h2 className="text-xl font-semibold text-foreground mb-8">Cat Grooming</h2>
-        <div className="grid md:grid-cols-3 gap-6">
+        <h2 className="mb-8 text-xl font-semibold text-foreground">Cat Grooming</h2>
+        <div className="grid gap-6 md:grid-cols-3">
           {catPackages.map((pkg, index) => (
             <PricingCard key={pkg.name} pkg={pkg} index={index} />
           ))}
@@ -216,20 +277,20 @@ const Pricing = () => (
       </div>
     </section>
 
-    <section className="py-16 bg-muted">
-      <div className="container text-center max-w-lg">
-        <Sparkles className="w-8 h-8 text-primary mx-auto mb-4" />
-        <h2 className="text-2xl font-bold text-foreground mb-3">Not sure which package?</h2>
-        <p className="text-muted-foreground mb-6 text-sm">
+    <section className="bg-muted py-16">
+      <div className="container max-w-lg text-center">
+        <Sparkles className="mx-auto mb-4 h-8 w-8 text-primary" />
+        <h2 className="mb-3 text-2xl font-bold text-foreground">Not sure which package?</h2>
+        <p className="mb-6 text-sm text-muted-foreground">
           Chat with us on WhatsApp and we'll recommend the perfect grooming plan for your pet.
         </p>
-        <div className="flex flex-col sm:flex-row gap-3 justify-center">
+        <div className="flex flex-col justify-center gap-3 sm:flex-row">
           <Button asChild>
             <Link to="/book">Book Appointment</Link>
           </Button>
           <Button variant="outline" asChild>
             <a
-              href="https://wa.me/919901887525?text=Hey%20Cutie%206%20Pet!%20%F0%9F%90%BE%20I%20need%20help%20choosing%20a%20grooming%20package.%20Could%20you%20guide%20me%3F"
+              href="https://wa.me/919901887525?text=Hey%20Cutie%206%20Pet!%20I%20need%20help%20choosing%20a%20grooming%20package.%20Could%20you%20guide%20me%3F"
               target="_blank"
               rel="noopener noreferrer"
             >
