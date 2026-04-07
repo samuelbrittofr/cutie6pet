@@ -317,15 +317,15 @@ const BookServices = () => {
   const dateStr = form.date ? format(form.date, "PPP") : "";
   const whatsappMsg = `Hi Cutie 6 Pet! I'd like to confirm my booking:
 
-\u{1F4E6} Package: ${form.package}
+\u{1F43E} Package: ${form.package}
 \u{1F436} Pet Type: ${form.petType}
 \u{1F4CD} Branch: Kacharakanahalli
 \u{1F4C5} Date: ${dateStr}
-\u23F0 Time: ${form.time}
-\u{1F43E} Pet: ${form.petName} (${form.petBreed})
-\u{1F464} Name: ${form.ownerName}
-\u{1F4DE} Phone: ${form.ownerPhone}${form.notes ? `
-\u{1F4DD} Notes: ${form.notes}` : ""}`;
+\u{1F552} Time: ${form.time}
+\u{1F415} Pet: ${form.petName} (${form.petBreed})
+\u{1F9D1} Name: ${form.ownerName}
+\u260E Phone: ${form.ownerPhone}${form.notes ? `
+\u2728 Notes: ${form.notes}` : ""}`;
   const whatsappUrl = `https://wa.me/919901887525?text=${encodeURIComponent(whatsappMsg)}`;
 
   return (
@@ -618,7 +618,7 @@ const BookServices = () => {
                         <Check className="h-7 w-7 text-success" aria-hidden="true" />
                       </motion.div>
                       <h3 className="mb-2 text-lg font-bold text-foreground">
-                        Appointment Requested!
+                        Appointment Ready!
                       </h3>
                       <div className="mx-auto mb-6 max-w-sm space-y-1 text-left text-sm text-muted-foreground">
                         <p>
@@ -648,8 +648,11 @@ const BookServices = () => {
                           </p>
                         )}
                       </div>
+                      <p className="mb-2 text-sm text-muted-foreground">
+                        Continue by confirming your appointment on WhatsApp.
+                      </p>
                       <p className="mb-6 text-sm text-muted-foreground">
-                        Confirm your appointment via WhatsApp:
+                        Your booking will only be considered valid once it is confirmed on WhatsApp.
                       </p>
                       <div className="flex flex-col justify-center gap-3 sm:flex-row">
                         <Button className="bg-success text-white hover:bg-success/90" asChild>
