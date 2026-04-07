@@ -14,6 +14,8 @@ const location = {
   rating: 4.9,
   reviews: 37,
   mapUrl: "https://maps.google.com/?q=Cutie+6+Pet+Kacharakanahalli+Bangalore",
+  embedUrl:
+    "https://maps.google.com/maps?q=Flat%20No.%201B-1%2C%20Iriss%20North%2C%20No.14%2C%202nd%20Cross%2C%20Kacharakanahalli%2C%20Bengaluru%20560084&z=16&output=embed",
 };
 
 const Locations = () => (
@@ -78,6 +80,29 @@ const Locations = () => (
                 </a>
               </Button>
             </div>
+          </div>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          className="mt-8"
+        >
+          <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
+            <div className="border-b border-border px-6 py-4">
+              <h3 className="text-lg font-semibold text-foreground">Find Us on the Map</h3>
+              <p className="text-sm text-muted-foreground">
+                View our exact branch location before you visit.
+              </p>
+            </div>
+            <iframe
+              title="Cutie 6 Pet location map"
+              src={location.embedUrl}
+              className="h-[320px] w-full border-0"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
           </div>
         </motion.div>
       </div>
