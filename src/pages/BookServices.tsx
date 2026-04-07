@@ -317,15 +317,15 @@ const BookServices = () => {
   const dateStr = form.date ? format(form.date, "PPP") : "";
   const whatsappMsg = `Hi Cutie 6 Pet! I'd like to confirm my booking:
 
-\u{1F4E6} Package: ${form.package}
+\u{1F43E} Package: ${form.package}
 \u{1F436} Pet Type: ${form.petType}
 \u{1F4CD} Branch: Kacharakanahalli
 \u{1F4C5} Date: ${dateStr}
-\u23F0 Time: ${form.time}
-\u{1F43E} Pet: ${form.petName} (${form.petBreed})
-\u{1F464} Name: ${form.ownerName}
-\u{1F4DE} Phone: ${form.ownerPhone}${form.notes ? `
-\u{1F4DD} Notes: ${form.notes}` : ""}`;
+\u{1F552} Time: ${form.time}
+\u{1F415} Pet: ${form.petName} (${form.petBreed})
+\u{1F9D1} Name: ${form.ownerName}
+\u260E Phone: ${form.ownerPhone}${form.notes ? `
+\u2728 Notes: ${form.notes}` : ""}`;
   const whatsappUrl = `https://wa.me/919901887525?text=${encodeURIComponent(whatsappMsg)}`;
 
   return (
