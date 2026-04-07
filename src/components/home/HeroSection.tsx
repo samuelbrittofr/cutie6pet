@@ -202,14 +202,14 @@ const HeroSection = () => {
             transition={{ delay: 0.8 }}
             className="flex flex-col sm:flex-row gap-3"
           >
-            <Button size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground" asChild>
+            <Button size="lg" className="h-16 px-10 text-lg bg-accent hover:bg-accent/90 text-accent-foreground" asChild>
               <Link to="/book">
                 <Calendar className="w-4 h-4 mr-2" />
                 Book Appointment
               </Link>
             </Button>
 
-            <Button size="lg" variant="outline" className="border-white/30 text-white bg-white/10 hover:bg-white/20" asChild>
+            <Button size="lg" variant="outline" className="h-16 px-10 text-lg border-white/30 text-white bg-white/10 hover:bg-white/20" asChild>
               <Link to="/pricing">View Prices</Link>
             </Button>
           </motion.div>
