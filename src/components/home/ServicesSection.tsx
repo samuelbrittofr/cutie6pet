@@ -32,7 +32,7 @@ const services: Service[] = [
     icon: Scissors,
     title: "Hair Cut Package",
     description: "Full haircut with styling, bathing, blow-drying, ear and eye cleaning, nail clipping, and teeth cleaning.",
-    price: 1800,
+    price: 1799,
     originalPrice: 2200,
     path: "/pricing",
     image: flatDogHaircut,

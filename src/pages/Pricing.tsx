@@ -67,7 +67,7 @@ const dogPackages: Package[] = [
   {
     name: "Hair Cut Package",
     pet: "Dog",
-    price: 1800,
+    price: 1799,
     originalPrice: 2200,
     popular: true,
     features: [
