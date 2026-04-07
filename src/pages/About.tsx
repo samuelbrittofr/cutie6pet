@@ -71,8 +71,8 @@ const floatingIcons: FloatingIcon[] = [
   { Icon: PawPrint, top: "85%", right: "21%", size: 28, delay: 2.2 },
   { Icon: Scissors, top: "24%", left: "30%", size: 29, delay: 2.4 },
   { Icon: Scissors, top: "66%", right: "31%", size: 28, delay: 2.6 },
-  { emoji: "🪮", top: "42%", left: "28%", size: 25, delay: 2.8 },
-  { emoji: "🪮", top: "81%", right: "12%", size: 24, delay: 3.0 },
+  { emoji: "\u{1FAAE}", top: "42%", left: "28%", size: 25, delay: 2.8 },
+  { emoji: "\u{1FAAE}", top: "81%", right: "12%", size: 24, delay: 3.0 },
 ];
 
 const useInView = (threshold = 0.35) => {
@@ -409,3 +409,4 @@ const About = () => (
 );
 
 export default About;
+
