@@ -3,14 +3,57 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { MapPin, Phone, Mail, Clock, Check, MessageCircle } from "lucide-react";
+import { MapPin, Phone, Mail, Clock, MessageCircle } from "lucide-react";
 import { motion } from "framer-motion";
 
 const WHATSAPP_URL =
   "https://wa.me/919901887525?text=Hey%20Cutie%206%20Pet!%20I%27d%20like%20to%20enquire%20about%20your%20pet%20grooming%20services.%20Could%20you%20help%20me%20with%20the%20details%3F";
 
+type ContactForm = {
+  name: string;
+  email: string;
+  phone: string;
+  topic: string;
+  message: string;
+};
+
+const emptyForm: ContactForm = {
+  name: "",
+  email: "",
+  phone: "",
+  topic: "",
+  message: "",
+};
+
 const Contact = () => {
-  const [submitted, setSubmitted] = useState(false);
+  const [form, setForm] = useState<ContactForm>(emptyForm);
+
+  const handleNameChange = (value: string) => {
+    const sanitized = value.replace(/[^A-Za-z\s]/g, "").replace(/\s{2,}/g, " ");
+    setForm((current) => ({ ...current, name: sanitized }));
+  };
+
+  const handlePhoneChange = (value: string) => {
+    const digitsOnly = value.replace(/\D/g, "").slice(0, 10);
+    setForm((current) => ({ ...current, phone: digitsOnly }));
+  };
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const lines = [
+      "Hi Cutie 6 Pet! I'd like to send an enquiry:",
+      "",
+      `Name: ${form.name}`,
+      `Email: ${form.email}`,
+      `Phone: ${form.phone || "Not provided"}`,
+      `Topic: ${form.topic}`,
+      `Message: ${form.message}`,
+    ];
+
+    const whatsappUrl = `https://wa.me/919901887525?text=${encodeURIComponent(lines.join("\n"))}`;
+    window.open(whatsappUrl, "_blank", "noopener,noreferrer");
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -53,58 +96,83 @@ const Contact = () => {
                 <CardTitle>Send Us a Message</CardTitle>
               </CardHeader>
               <CardContent>
-                {submitted ? (
-                  <div className="text-center py-12">
-                    <div className="w-16 h-16 bg-success/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <Check className="w-8 h-8 text-success" />
-                    </div>
-                    <h3 className="text-xl font-bold mb-2">Message Sent!</h3>
-                    <p className="text-muted-foreground">
-                      We&apos;ll get back to you soon. You can also reach us on WhatsApp for a quicker response!
-                    </p>
-                  </div>
-                ) : (
-                  <form onSubmit={(event) => { event.preventDefault(); setSubmitted(true); }} className="space-y-4">
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <Label>Name *</Label>
-                        <Input required placeholder="Your name" />
-                      </div>
-                      <div>
-                        <Label>Email *</Label>
-                        <Input type="email" required placeholder="your@email.com" />
-                      </div>
-                    </div>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <Label>Phone</Label>
-                        <Input type="tel" placeholder="+91 98765 43210" />
-                      </div>
-                      <div>
-                        <Label>Topic *</Label>
-                        <select className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm" required>
-                          <option value="">Select topic</option>
-                          <option>Booking Inquiry</option>
-                          <option>Pricing</option>
-                          <option>General Question</option>
-                          <option>Feedback</option>
-                          <option>Other</option>
-                        </select>
-                      </div>
-                    </div>
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                     <div>
-                      <Label>Message *</Label>
-                      <textarea
+                      <Label htmlFor="contact-name">Name *</Label>
+                      <Input
+                        id="contact-name"
                         required
-                        className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm min-h-[120px]"
-                        placeholder="How can we help?"
+                        placeholder="Your name"
+                        value={form.name}
+                        onChange={(event) => handleNameChange(event.target.value)}
                       />
                     </div>
-                    <Button type="submit" className="rounded-full">
-                      Send Message
-                    </Button>
-                  </form>
-                )}
+                    <div>
+                      <Label htmlFor="contact-email">Email *</Label>
+                      <Input
+                        id="contact-email"
+                        type="email"
+                        required
+                        placeholder="your@email.com"
+                        value={form.email}
+                        onChange={(event) =>
+                          setForm((current) => ({ ...current, email: event.target.value }))
+                        }
+                      />
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                    <div>
+                      <Label htmlFor="contact-phone">Phone</Label>
+                      <Input
+                        id="contact-phone"
+                        type="tel"
+                        inputMode="numeric"
+                        pattern="[0-9]{10}"
+                        maxLength={10}
+                        placeholder="9876543210"
+                        value={form.phone}
+                        onChange={(event) => handlePhoneChange(event.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="contact-topic">Topic *</Label>
+                      <select
+                        id="contact-topic"
+                        className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                        required
+                        value={form.topic}
+                        onChange={(event) =>
+                          setForm((current) => ({ ...current, topic: event.target.value }))
+                        }
+                      >
+                        <option value="">Select topic</option>
+                        <option>Booking Inquiry</option>
+                        <option>Pricing</option>
+                        <option>General Question</option>
+                        <option>Feedback</option>
+                        <option>Other</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div>
+                    <Label htmlFor="contact-message">Message *</Label>
+                    <textarea
+                      id="contact-message"
+                      required
+                      className="min-h-[120px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                      placeholder="How can we help?"
+                      value={form.message}
+                      onChange={(event) =>
+                        setForm((current) => ({ ...current, message: event.target.value }))
+                      }
+                    />
+                  </div>
+                  <Button type="submit" className="rounded-full">
+                    Send Message
+                  </Button>
+                </form>
               </CardContent>
             </Card>
           </div>
