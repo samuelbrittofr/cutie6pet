@@ -17,8 +17,8 @@ const About = () => (
     <section className="bg-gradient-hero py-16 md:py-24">
       <div className="container text-center">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-          <h1 className="text-3xl md:text-5xl font-bold text-primary-foreground mb-4">About Cutie 6 Pet</h1>
-          <p className="text-primary-foreground/80 text-lg max-w-2xl mx-auto">
+          <h1 className="text-3xl md:text-5xl font-bold text-foreground mb-4">About Cutie 6 Pet</h1>
+          <p className="text-foreground/80 text-lg max-w-2xl mx-auto">
             Born in Bangalore out of pure love for furry companions.
           </p>
         </motion.div>
