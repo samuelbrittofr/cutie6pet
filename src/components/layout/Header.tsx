@@ -79,13 +79,6 @@ const Header = () => {
           </a>
           <div className="hidden h-7 w-px bg-border/80 2xl:block" />
           <Button
-            variant="outline"
-            className="h-11 whitespace-nowrap border-[hsl(342,25%,58%)] px-3 text-sm text-foreground hover:bg-primary/5 hover:text-primary xl:px-4 xl:text-base"
-            asChild
-          >
-            <Link to="/become-a-groomer">Become a Groomer</Link>
-          </Button>
-          <Button
             className="h-11 whitespace-nowrap bg-primary px-4 text-sm text-primary-foreground hover:bg-primary/90 xl:px-5 xl:text-base"
             asChild
           >
@@ -127,17 +120,6 @@ const Header = () => {
                   {link.label}
                 </Link>
               ))}
-              <Link
-                to="/become-a-groomer"
-                className={cn(
-                  "py-2.5 px-3 rounded-lg text-sm font-medium transition-colors",
-                  location.pathname === "/become-a-groomer"
-                    ? "bg-primary/5 text-primary"
-                    : "hover:bg-muted text-muted-foreground"
-                )}
-              >
-                Become a Groomer
-              </Link>
               <div className="pt-3 border-t border-border mt-2">
                 <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground" asChild>
                   <Link to="/book">Book Now</Link>
