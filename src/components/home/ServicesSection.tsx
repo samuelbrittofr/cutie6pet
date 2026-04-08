@@ -41,7 +41,7 @@ const services: Service[] = [
     icon: Sparkles,
     title: "Cat Grooming",
     description: "Specialized grooming for cats - gentle handling, bathing, trimming, and paw care.",
-    price: 1000,
+    price: 999,
     path: "/pricing",
     image: flatCatBasic,
   },

@@ -86,7 +86,7 @@ const packages: ServicePackage[] = [
   {
     icon: Sparkles,
     title: "Cat Basic Grooming",
-    price: 1000,
+    price: 999,
     image: catBasicGrooming,
     desc: "Gentle grooming for cats - bathing, blow-drying, ear and eye cleaning, nail clipping, and paw cleaning.",
     features: ["Bathing", "Blow-Drying", "Ear Cleaning", "Eye Cleaning", "Nail Clipping", "Paw Cleaning"],
@@ -94,7 +94,7 @@ const packages: ServicePackage[] = [
   {
     icon: Scissors,
     title: "Cat Hair Cut Package",
-    price: 1500,
+    price: 1499,
     originalPrice: 1800,
     image: catHaircutPackage,
     desc: "Premium cat grooming with hair styling, bathing, and complete care for your feline friend.",
@@ -103,7 +103,7 @@ const packages: ServicePackage[] = [
   {
     icon: Scissors,
     title: "Cat Zero Cut Package",
-    price: 1800,
+    price: 1799,
     originalPrice: 2100,
     image: catZeroCutPackage,
     desc: "Full cat grooming with trimming, bathing, and all grooming essentials for a neat, clean look.",

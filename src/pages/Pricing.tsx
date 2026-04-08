@@ -107,7 +107,7 @@ const catPackages: Package[] = [
   {
     name: "Basic Grooming",
     pet: "Cat",
-    price: 1000,
+    price: 999,
     features: [
       "Bathing",
       "Blow-Drying",
@@ -120,7 +120,7 @@ const catPackages: Package[] = [
   {
     name: "Hair Cut Package",
     pet: "Cat",
-    price: 1500,
+    price: 1499,
     originalPrice: 1800,
     popular: true,
     features: [
@@ -136,7 +136,7 @@ const catPackages: Package[] = [
   {
     name: "Zero Cut Package",
     pet: "Cat",
-    price: 1800,
+    price: 1799,
     originalPrice: 2100,
     features: [
       "Bathing",
