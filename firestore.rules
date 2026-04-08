@@ -1,0 +1,45 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    match /slots/{slotId} {
+      allow read: if true;
+
+      allow create: if request.resource.data.keys().hasOnly([
+        'bookingId',
+        'dateKey',
+        'time',
+        'status',
+        'updatedAt'
+      ]) && request.resource.data.status == 'pending';
+
+      allow update, delete: if isSignedIn();
+    }
+
+    match /bookings/{bookingId} {
+      allow create: if request.resource.data.keys().hasOnly([
+        'packageName',
+        'packagePrice',
+        'petType',
+        'dateKey',
+        'dateLabel',
+        'time',
+        'petName',
+        'petBreed',
+        'ownerName',
+        'ownerPhone',
+        'notes',
+        'branch',
+        'status',
+        'createdAt',
+        'updatedAt'
+      ]) && request.resource.data.status == 'pending';
+
+      allow read, update: if isSignedIn();
+    }
+  }
+}

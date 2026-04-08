@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -25,6 +25,12 @@ import { motion } from "framer-motion";
 import { addMonths, format, startOfDay } from "date-fns";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
+import {
+  createBooking,
+  subscribeToTakenSlots,
+  toDateKey,
+  toDateLabel,
+} from "@/lib/bookings";
 
 const steps = ["Package", "Date & Time", "Your Details", "Confirmation"];
 
@@ -100,14 +106,7 @@ const allDogBreeds = [
   "Other",
 ];
 
-const smallDogBreeds = [
-  "Beagle",
-  "Shih Tzu",
-  "Pomeranian",
-  "Pug",
-  "Dachshund",
-  "Other",
-];
+const smallDogBreeds = ["Beagle", "Shih Tzu", "Pomeranian", "Pug", "Dachshund", "Other"];
 
 const largeDogBreeds = [
   "Labrador",
@@ -180,6 +179,10 @@ const sanitizePhoneNumber = (value: string) => value.replace(/\D/g, "").slice(0,
 const BookServices = () => {
   const [step, setStep] = useState(0);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [takenTimes, setTakenTimes] = useState<Set<string>>(new Set());
+  const [loadingSlots, setLoadingSlots] = useState(false);
+  const [creatingBooking, setCreatingBooking] = useState(false);
+  const [bookingCreated, setBookingCreated] = useState(false);
   const [form, setForm] = useState<FormData>({
     package: "",
     date: undefined,
@@ -204,21 +207,14 @@ const BookServices = () => {
       ),
     [form.package, form.petType],
   );
+
   const breedOptions = useMemo(() => {
-    if (form.petType === "Cat") {
-      return catBreeds;
-    }
-
-    if (selectedPackage?.breedScope === "small") {
-      return smallDogBreeds;
-    }
-
-    if (selectedPackage?.breedScope === "large") {
-      return largeDogBreeds;
-    }
-
+    if (form.petType === "Cat") return catBreeds;
+    if (selectedPackage?.breedScope === "small") return smallDogBreeds;
+    if (selectedPackage?.breedScope === "large") return largeDogBreeds;
     return allDogBreeds;
   }, [form.petType, selectedPackage]);
+
   const breedHelperText = useMemo(() => {
     if (form.petType === "Cat") {
       return "Only cat breeds are shown for cat grooming packages.";
@@ -234,11 +230,40 @@ const BookServices = () => {
 
     return "Choose your dog's breed from the dropdown. If you don't see it, select Other.";
   }, [form.petType, selectedPackage]);
+
   const dogPackages = groomingPackages.filter((pkg) => pkg.petType === "Dog");
   const catPackages = groomingPackages.filter((pkg) => pkg.petType === "Cat");
 
+  useEffect(() => {
+    if (!form.date) {
+      setTakenTimes(new Set());
+      setLoadingSlots(false);
+      return;
+    }
+
+    setLoadingSlots(true);
+    const unsubscribe = subscribeToTakenSlots(toDateKey(form.date), (nextTakenTimes) => {
+      setTakenTimes(nextTakenTimes);
+      setLoadingSlots(false);
+    });
+
+    return unsubscribe;
+  }, [form.date]);
+
+  useEffect(() => {
+    if (form.time && takenTimes.has(form.time)) {
+      setForm((current) => ({ ...current, time: "" }));
+      toast({
+        title: "Slot updated",
+        description: "That time just became unavailable. Please choose another slot.",
+        variant: "destructive",
+      });
+    }
+  }, [form.time, takenTimes, toast]);
+
   const update = <K extends keyof FormData>(key: K, value: FormData[K]) => {
     setForm((current) => ({ ...current, [key]: value }));
+    setBookingCreated(false);
 
     if (errors[key]) {
       setErrors((prev) => {
@@ -259,6 +284,9 @@ const BookServices = () => {
     if (step === 1) {
       if (!form.date) nextErrors.date = "Please select a date.";
       if (!form.time) nextErrors.time = "Please select a time.";
+      if (form.time && takenTimes.has(form.time)) {
+        nextErrors.time = "This slot has already been taken.";
+      }
     }
 
     if (step === 2) {
@@ -307,6 +335,70 @@ const BookServices = () => {
     }
   };
 
+  const handleBookingConfirm = async () => {
+    if (!form.date || !selectedPackage) return;
+
+    setCreatingBooking(true);
+
+    const dateStr = toDateLabel(form.date);
+    const whatsappLines = [
+      "Hi Cutie 6 Pet! I'd like to confirm my booking:",
+      "",
+      `Package: ${form.package}`,
+      `Pet Type: ${form.petType}`,
+      "Branch: Kacharakanahalli",
+      `Date: ${dateStr}`,
+      `Time: ${form.time}`,
+      `Pet: ${form.petName} (${form.petBreed})`,
+      `Name: ${form.ownerName}`,
+      `Phone: ${form.ownerPhone}`,
+    ];
+
+    if (form.notes) {
+      whatsappLines.push(`Notes: ${form.notes}`);
+    }
+
+    try {
+      await createBooking({
+        packageName: form.package,
+        packagePrice: selectedPackage.price,
+        petType: form.petType,
+        dateKey: toDateKey(form.date),
+        dateLabel: dateStr,
+        time: form.time,
+        petName: form.petName,
+        petBreed: form.petBreed,
+        ownerName: form.ownerName,
+        ownerPhone: form.ownerPhone,
+        notes: form.notes,
+        branch: "Kacharakanahalli",
+      });
+
+      setBookingCreated(true);
+      const whatsappUrl = `https://wa.me/919901887525?text=${encodeURIComponent(
+        whatsappLines.join("\n"),
+      )}`;
+      window.open(whatsappUrl, "_blank", "noopener,noreferrer");
+      toast({
+        title: "Slot reserved",
+        description:
+          "This slot is now blocked in the booking system. The owner can confirm or cancel it in the admin dashboard.",
+      });
+    } catch (error) {
+      toast({
+        title: "Slot unavailable",
+        description:
+          error instanceof Error
+            ? error.message
+            : "That slot was just taken. Please pick another time.",
+        variant: "destructive",
+      });
+      setStep(1);
+    } finally {
+      setCreatingBooking(false);
+    }
+  };
+
   const FieldError = ({ field }: { field: string }) =>
     errors[field] ? (
       <p className="mt-1 text-sm text-destructive" role="alert">
@@ -315,25 +407,6 @@ const BookServices = () => {
     ) : null;
 
   const dateStr = form.date ? format(form.date, "PPP") : "";
-  const whatsappLines = [
-    "Hi Cutie 6 Pet! I'd like to confirm my booking:",
-    "",
-    `Package: ${form.package}`,
-    `Pet Type: ${form.petType}`,
-    "Branch: Kacharakanahalli",
-    `Date: ${dateStr}`,
-    `Time: ${form.time}`,
-    `Pet: ${form.petName} (${form.petBreed})`,
-    `Name: ${form.ownerName}`,
-    `Phone: ${form.ownerPhone}`,
-  ];
-
-  if (form.notes) {
-    whatsappLines.push(`Notes: ${form.notes}`);
-  }
-
-  const whatsappMsg = whatsappLines.join("\n");
-  const whatsappUrl = `https://wa.me/919901887525?text=${encodeURIComponent(whatsappMsg)}`;
 
   return (
     <div className="min-h-screen bg-background">
@@ -411,7 +484,9 @@ const BookServices = () => {
                         ].map((group) => (
                           <div key={group.title} className="space-y-3">
                             <div>
-                              <h3 className="text-sm font-semibold text-foreground">{group.title}</h3>
+                              <h3 className="text-sm font-semibold text-foreground">
+                                {group.title}
+                              </h3>
                               <p className="text-xs text-muted-foreground">
                                 Pick the right package so the breed list and pricing stay accurate.
                               </p>
@@ -424,6 +499,7 @@ const BookServices = () => {
                                 return (
                                   <button
                                     key={`${pkg.petType}-${pkg.name}`}
+                                    type="button"
                                     onClick={() => {
                                       update("package", pkg.name);
                                       update("petType", pkg.petType);
@@ -438,8 +514,13 @@ const BookServices = () => {
                                         : "border-border hover:border-muted-foreground/30",
                                     )}
                                   >
-                                    <PawPrint className="mb-1 h-4 w-4 text-primary" aria-hidden="true" />
-                                    <p className="text-sm font-medium text-foreground">{pkg.name}</p>
+                                    <PawPrint
+                                      className="mb-1 h-4 w-4 text-primary"
+                                      aria-hidden="true"
+                                    />
+                                    <p className="text-sm font-medium text-foreground">
+                                      {pkg.name}
+                                    </p>
                                     <p className="text-xs text-muted-foreground">
                                       {pkg.price} · {pkg.petType}
                                     </p>
@@ -475,7 +556,10 @@ const BookServices = () => {
                             <Calendar
                               mode="single"
                               selected={form.date}
-                              onSelect={(date) => update("date", date)}
+                              onSelect={(date) => {
+                                update("date", date);
+                                update("time", "");
+                              }}
                               disabled={(date) => date < today || date > maxBookingDate}
                               initialFocus
                               className="pointer-events-auto p-3"
@@ -483,29 +567,53 @@ const BookServices = () => {
                           </PopoverContent>
                         </Popover>
                         <p className="mt-2 text-xs text-muted-foreground">
-                          Appointments can be booked from today up to {format(maxBookingDate, "PPP")}.
+                          Appointments can be booked from today up to{" "}
+                          {format(maxBookingDate, "PPP")}.
                         </p>
                         <FieldError field="date" />
                       </div>
 
                       <div>
                         <Label className="mb-2 block">Select Time *</Label>
+                        {loadingSlots && (
+                          <p className="mb-2 text-xs text-muted-foreground">
+                            Checking live slot availability...
+                          </p>
+                        )}
                         <div className="grid grid-cols-4 gap-2" role="group">
-                          {times.map((time) => (
-                            <button
-                              key={time}
-                              onClick={() => update("time", time)}
-                              aria-pressed={form.time === time}
-                              className={cn(
-                                "rounded-lg border px-3 py-2.5 text-xs font-medium transition-all",
-                                form.time === time
-                                  ? "border-primary bg-primary/5 text-primary ring-1 ring-primary/30"
-                                  : "border-border text-foreground hover:border-muted-foreground/30",
-                              )}
-                            >
-                              {time}
-                            </button>
-                          ))}
+                          {times.map((time) => {
+                            const isTaken = takenTimes.has(time);
+
+                            return (
+                              <button
+                                key={time}
+                                type="button"
+                                disabled={isTaken}
+                                onClick={() => update("time", time)}
+                                aria-pressed={form.time === time}
+                                className={cn(
+                                  "rounded-lg border px-3 py-2.5 text-xs font-medium transition-all",
+                                  form.time === time
+                                    ? "border-primary bg-primary/5 text-primary ring-1 ring-primary/30"
+                                    : isTaken
+                                      ? "cursor-not-allowed border-red-300 bg-red-50 text-red-700"
+                                      : "border-emerald-300 bg-emerald-50 text-emerald-700 hover:border-emerald-400",
+                                )}
+                              >
+                                {time}
+                              </button>
+                            );
+                          })}
+                        </div>
+                        <div className="mt-3 flex flex-wrap gap-3 text-xs text-muted-foreground">
+                          <span className="flex items-center gap-2">
+                            <span className="h-3 w-3 rounded-full bg-emerald-400" />
+                            Available
+                          </span>
+                          <span className="flex items-center gap-2">
+                            <span className="h-3 w-3 rounded-full bg-red-400" />
+                            Taken
+                          </span>
                         </div>
                         <FieldError field="time" />
                       </div>
@@ -661,12 +769,23 @@ const BookServices = () => {
                       <p className="mb-6 text-sm font-semibold text-foreground">
                         Your booking will only be considered valid once it is confirmed on WhatsApp.
                       </p>
+                      {bookingCreated && (
+                        <p className="mb-4 text-sm font-medium text-emerald-700">
+                          This slot has been reserved in the system.
+                        </p>
+                      )}
                       <div className="flex flex-col justify-center gap-3 sm:flex-row">
-                        <Button className="bg-success text-white hover:bg-success/90" asChild>
-                          <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
-                            <MessageCircle className="mr-2 h-4 w-4" />
-                            Confirm on WhatsApp
-                          </a>
+                        <Button
+                          className="bg-success text-white hover:bg-success/90"
+                          onClick={handleBookingConfirm}
+                          disabled={creatingBooking || bookingCreated}
+                        >
+                          <MessageCircle className="mr-2 h-4 w-4" />
+                          {bookingCreated
+                            ? "Slot Reserved"
+                            : creatingBooking
+                              ? "Reserving Slot..."
+                              : "Confirm on WhatsApp"}
                         </Button>
                         <Button variant="outline" asChild>
                           <Link to="/">Back to Home</Link>
