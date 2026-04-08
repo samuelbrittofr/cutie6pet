@@ -9,6 +9,7 @@ const Services = lazy(() => import("./pages/Services"));
 const Pricing = lazy(() => import("./pages/Pricing"));
 const BookServices = lazy(() => import("./pages/BookServices"));
 const AdminBookings = lazy(() => import("./pages/AdminBookings"));
+const OwnerLogin = lazy(() => import("./pages/OwnerLogin"));
 const About = lazy(() => import("./pages/About"));
 const Contact = lazy(() => import("./pages/Contact"));
 const NotFound = lazy(() => import("./pages/NotFound"));
@@ -26,6 +27,7 @@ const App = () => (
             <Route path="/pricing" element={<Pricing />} />
             <Route path="/book" element={<BookServices />} />
             <Route path="/admin" element={<AdminBookings />} />
+            <Route path="/owner-login" element={<OwnerLogin />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="*" element={<NotFound />} />

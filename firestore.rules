@@ -2,6 +2,14 @@ rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
+    function isApprovedAdmin() {
+      return request.auth != null
+        && request.auth.token.email != null
+        && request.auth.token.email in [
+          'dxrkphxnk@gmail.com'
+        ];
+    }
+
     function isSignedIn() {
       return request.auth != null;
     }
@@ -17,7 +25,7 @@ service cloud.firestore {
         'updatedAt'
       ]) && request.resource.data.status == 'pending';
 
-      allow update, delete: if isSignedIn();
+      allow update, delete: if isApprovedAdmin();
     }
 
     match /bookings/{bookingId} {
@@ -39,7 +47,7 @@ service cloud.firestore {
         'updatedAt'
       ]) && request.resource.data.status == 'pending';
 
-      allow read, update: if isSignedIn();
+      allow read, update: if isApprovedAdmin();
     }
   }
 }

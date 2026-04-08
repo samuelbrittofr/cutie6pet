@@ -1,10 +1,13 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Phone } from "lucide-react";
+import { Menu, X, Phone, ShieldCheck } from "lucide-react";
+import { onAuthStateChanged, type User } from "firebase/auth";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
 import brandLogo from "@/assets/logocutiepet.png";
+import { auth } from "@/lib/firebase";
+import { isAllowedAdminEmail } from "@/lib/admin";
 
 const navLinks = [
   { label: "Home", path: "/" },
@@ -17,6 +20,7 @@ const navLinks = [
 const Header = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
   const location = useLocation();
 
   useEffect(() => {
@@ -28,6 +32,16 @@ const Header = () => {
   useEffect(() => {
     setMobileOpen(false);
   }, [location.pathname]);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (nextUser) => {
+      setUser(nextUser);
+    });
+
+    return unsubscribe;
+  }, []);
+
+  const canAccessAdmin = isAllowedAdminEmail(user?.email);
 
   return (
     <header
@@ -84,6 +98,14 @@ const Header = () => {
           >
             <Link to="/book">Book Now</Link>
           </Button>
+          {canAccessAdmin && (
+            <Button variant="outline" className="h-11 whitespace-nowrap px-4 text-sm xl:text-base" asChild>
+              <Link to="/admin">
+                <ShieldCheck className="mr-2 h-4 w-4" />
+                Admin
+              </Link>
+            </Button>
+          )}
         </div>
 
         <div className="ml-auto lg:hidden" />
@@ -120,6 +142,19 @@ const Header = () => {
                   {link.label}
                 </Link>
               ))}
+              {canAccessAdmin && (
+                <Link
+                  to="/admin"
+                  className={cn(
+                    "py-2.5 px-3 rounded-lg text-sm font-medium transition-colors",
+                    location.pathname === "/admin"
+                      ? "bg-primary/5 text-primary"
+                      : "hover:bg-muted text-muted-foreground"
+                  )}
+                >
+                  Admin
+                </Link>
+              )}
               <div className="pt-3 border-t border-border mt-2">
                 <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground" asChild>
                   <Link to="/book">Book Now</Link>

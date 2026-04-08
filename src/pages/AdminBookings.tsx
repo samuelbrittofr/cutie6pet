@@ -1,15 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
-import {
-  onAuthStateChanged,
-  signInWithEmailAndPassword,
-  signOut,
-  type User,
-} from "firebase/auth";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { onAuthStateChanged, signOut, type User } from "firebase/auth";
+import { Navigate } from "react-router-dom";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { BadgeCheck, CalendarDays, LogOut, Phone, ShieldCheck } from "lucide-react";
+import { BadgeCheck, CalendarDays, LogOut, Phone } from "lucide-react";
 import { motion } from "framer-motion";
 import { auth } from "@/lib/firebase";
 import {
@@ -20,6 +14,7 @@ import {
   type BookingRecord,
 } from "@/lib/bookings";
 import { useToast } from "@/hooks/use-toast";
+import { isAllowedAdminEmail } from "@/lib/admin";
 
 const statusClasses: Record<string, string> = {
   pending: "bg-amber-100 text-amber-800",
@@ -32,9 +27,6 @@ const AdminBookings = () => {
   const [user, setUser] = useState<User | null>(null);
   const [loadingAuth, setLoadingAuth] = useState(true);
   const [bookings, setBookings] = useState<BookingRecord[]>([]);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [authLoading, setAuthLoading] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -47,7 +39,7 @@ const AdminBookings = () => {
   }, []);
 
   useEffect(() => {
-    if (!user) return;
+    if (!user || !isAllowedAdminEmail(user.email)) return;
     return subscribeToBookings(setBookings);
   }, [user]);
 
@@ -56,28 +48,13 @@ const AdminBookings = () => {
     const cancelled = bookings.filter((booking) => booking.status === "cancelled");
     return { upcoming, cancelled };
   }, [bookings]);
+  const canAccessAdmin = isAllowedAdminEmail(user?.email);
 
-  const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setAuthLoading(true);
-
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
-      toast({
-        title: "Signed in",
-        description: "You can now manage bookings and slots.",
-      });
-    } catch (error) {
-      toast({
-        title: "Login failed",
-        description:
-          error instanceof Error ? error.message : "Please check your email and password.",
-        variant: "destructive",
-      });
-    } finally {
-      setAuthLoading(false);
+  useEffect(() => {
+    if (!loadingAuth && user && !canAccessAdmin) {
+      signOut(auth);
     }
-  };
+  }, [canAccessAdmin, loadingAuth, user]);
 
   const handleAction = async (
     action: "confirm" | "cancel" | "complete",
@@ -113,61 +90,8 @@ const AdminBookings = () => {
     return <div className="min-h-screen bg-background" />;
   }
 
-  if (!user) {
-    return (
-      <div className="min-h-screen bg-background">
-        <section className="border-b border-border bg-gradient-hero py-14 md:py-18">
-          <div className="container text-center">
-            <h1 className="text-3xl font-bold text-foreground md:text-5xl">Owner Admin</h1>
-            <p className="mx-auto mt-3 max-w-xl text-foreground/85">
-              Sign in to confirm bookings, cancel no-shows, and reopen slots for customers.
-            </p>
-          </div>
-        </section>
-
-        <section className="py-16">
-          <div className="container max-w-md">
-            <Card className="border shadow-sm">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <ShieldCheck className="h-5 w-5 text-primary" />
-                  Secure Owner Login
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <form onSubmit={handleLogin} className="space-y-4">
-                  <div>
-                    <Label htmlFor="admin-email">Email</Label>
-                    <Input
-                      id="admin-email"
-                      type="email"
-                      value={email}
-                      onChange={(event) => setEmail(event.target.value)}
-                      placeholder="owner@email.com"
-                      required
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="admin-password">Password</Label>
-                    <Input
-                      id="admin-password"
-                      type="password"
-                      value={password}
-                      onChange={(event) => setPassword(event.target.value)}
-                      placeholder="Your password"
-                      required
-                    />
-                  </div>
-                  <Button type="submit" className="w-full" disabled={authLoading}>
-                    {authLoading ? "Signing in..." : "Sign In"}
-                  </Button>
-                </form>
-              </CardContent>
-            </Card>
-          </div>
-        </section>
-      </div>
-    );
+  if (!user || !canAccessAdmin) {
+    return <Navigate to="/" replace />;
   }
 
   return (
@@ -322,4 +246,3 @@ const AdminBookings = () => {
 };
 
 export default AdminBookings;
-
