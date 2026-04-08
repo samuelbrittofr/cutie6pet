@@ -71,11 +71,11 @@ const Header = () => {
 
         <div className="hidden shrink-0 items-center gap-2 lg:flex xl:gap-3">
           <a
-            href="tel:+919901887525"
+            href="tel:+918147046518"
             className="hidden items-center gap-1.5 whitespace-nowrap text-sm text-muted-foreground transition-colors hover:text-foreground 2xl:flex 2xl:text-base"
           >
             <Phone className="h-4 w-4" />
-            <span>+91 99018 87525</span>
+            <span>+91 81470 46518</span>
           </a>
           <div className="hidden h-7 w-px bg-border/80 2xl:block" />
           <Button

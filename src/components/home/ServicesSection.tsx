@@ -22,7 +22,7 @@ const services: Service[] = [
     icon: Bath,
     title: "Basic Grooming",
     description: "Bathing, blow-drying, ear cleaning, eye cleaning, nail clipping, and paw cleaning.",
-    price: 1200,
+    price: 1199,
     originalPrice: 1500,
     discountBadge: "20% OFF",
     path: "/pricing",

@@ -28,7 +28,7 @@ const packages: ServicePackage[] = [
   {
     icon: Bath,
     title: "Small Breed Package",
-    price: 1200,
+    price: 1199,
     originalPrice: 1500,
     discountBadge: "20% OFF",
     image: smallDogShihTzu,

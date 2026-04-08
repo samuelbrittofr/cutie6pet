@@ -58,7 +58,7 @@ type FormData = {
 };
 
 const groomingPackages: GroomingPackage[] = [
-  { name: "Small Breed", price: "Rs. 1,200", petType: "Dog", breedScope: "small" },
+  { name: "Small Breed", price: "Rs. 1,199", petType: "Dog", breedScope: "small" },
   {
     name: "Lottery Small Dog Package",
     price: "Rs. 1,450",
