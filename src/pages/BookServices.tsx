@@ -375,7 +375,7 @@ const BookServices = () => {
       });
 
       setBookingCreated(true);
-      const whatsappUrl = `https://wa.me/919901887525?text=${encodeURIComponent(
+      const whatsappUrl = `https://wa.me/918147046518?text=${encodeURIComponent(
         whatsappLines.join("\n"),
       )}`;
       window.open(whatsappUrl, "_blank", "noopener,noreferrer");

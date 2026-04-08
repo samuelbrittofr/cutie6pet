@@ -55,7 +55,7 @@ const location = {
   name: "Cutie 6 Pet Hair Grooming Spot",
   address:
     "Flat No. 1B-1, Iriss North, No.14, 2nd Cross, Kacharakanahalli, Bengaluru 560084",
-  phone: "+91 99018 87525",
+  phone: "+91 81470 46518",
   email: "cutie6pet@gmail.com",
   hours: "10:00 AM - 8:00 PM (All days)",
   rating: 4.9,

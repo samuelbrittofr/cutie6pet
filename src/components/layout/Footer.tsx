@@ -54,7 +54,7 @@ const Footer = () => (
                 Flat No. 1B-1, Iriss North, No.14, 2nd Cross, Kacharakanahalli, Bengaluru 560084
               </p>
               <p className="flex items-center gap-2">
-                <Phone className="h-4 w-4" /> +91 99018 87525
+                <Phone className="h-4 w-4" /> +91 81470 46518
               </p>
               <p className="flex items-center gap-2">
                 <Mail className="h-4 w-4" /> cutie6pet@gmail.com

@@ -290,7 +290,7 @@ const Pricing = () => (
           </Button>
           <Button variant="outline" asChild>
             <a
-              href="https://wa.me/919901887525?text=Hey%20Cutie%206%20Pet!%20I%20need%20help%20choosing%20a%20grooming%20package.%20Could%20you%20guide%20me%3F"
+              href="https://wa.me/918147046518?text=Hey%20Cutie%206%20Pet!%20I%20need%20help%20choosing%20a%20grooming%20package.%20Could%20you%20guide%20me%3F"
               target="_blank"
               rel="noopener noreferrer"
             >

@@ -7,7 +7,7 @@ import { MapPin, Phone, Mail, Clock, MessageCircle, Check } from "lucide-react";
 import { motion } from "framer-motion";
 
 const WHATSAPP_URL =
-  "https://wa.me/919901887525?text=Hey%20Cutie%206%20Pet!%20I%27d%20like%20to%20enquire%20about%20your%20pet%20grooming%20services.%20Could%20you%20help%20me%20with%20the%20details%3F";
+  "https://wa.me/918147046518?text=Hey%20Cutie%206%20Pet!%20I%27d%20like%20to%20enquire%20about%20your%20pet%20grooming%20services.%20Could%20you%20help%20me%20with%20the%20details%3F";
 
 type ContactForm = {
   name: string;
@@ -54,7 +54,7 @@ const Contact = () => {
       `Message: ${form.message}`,
     ];
 
-    const whatsappUrl = `https://wa.me/919901887525?text=${encodeURIComponent(lines.join("\n"))}`;
+    const whatsappUrl = `https://wa.me/918147046518?text=${encodeURIComponent(lines.join("\n"))}`;
     window.open(whatsappUrl, "_blank", "noopener,noreferrer");
     setSubmitted(true);
   };
@@ -216,7 +216,7 @@ const Contact = () => {
                   <Phone className="w-5 h-5 text-primary shrink-0 mt-0.5" />
                   <div>
                     <p className="font-medium text-sm">Phone</p>
-                    <p className="text-sm text-muted-foreground">+91 99018 87525</p>
+                    <p className="text-sm text-muted-foreground">+91 81470 46518</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
